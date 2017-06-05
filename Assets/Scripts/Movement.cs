@@ -6,13 +6,17 @@ public class Movement : MonoBehaviour {
 
     private float speed;
     public VirtualJoysticks movementStick;
+    //private const string EVENT_TOUCH_AQUIRED = "event_touch_aquired";
 
-    void Start()
+
+
+    private void Start()
     {
         speed = 0.05f;
+        //Events.Listen(EVENT_ACHEIVEMENT, TouchIsHappening);
     }
     
-	void Update ()
+	private void Update ()
     {
         if (movementStick.InputDirection.x * movementStick.InputDirection.x >
             movementStick.InputDirection.z * movementStick.InputDirection.z)
@@ -25,4 +29,10 @@ public class Movement : MonoBehaviour {
         }
         
     }
+
+
+    //private void TouchIsHappening()
+    //{
+    //    Debug.Log("Event " + EVENT_TOUCH_AQUIRED + " is activated");
+    //}
 }

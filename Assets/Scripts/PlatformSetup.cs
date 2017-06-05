@@ -13,11 +13,11 @@ public class PlatformSetup : MonoBehaviour
 
     private void Awake()
     {
-#if STANDALONE // Any standalone platform (Win, Unix, Mac)
+#if UNITY_STANDALONE // Any standalone platform (Win, Unix, Mac)
 
 
 
-#elif ANDROID // Any android device
+#elif UNITY_ANDROID // Any android device
 
 
 #else
