@@ -15,25 +15,25 @@ Platform assembly: D:\CyberGameCafe\ServerTest_Data\Managed\UnityEngine.UI.dll (
 Loading D:\CyberGameCafe\ServerTest_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
 Platform assembly: D:\CyberGameCafe\ServerTest_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
 Loading D:\CyberGameCafe\ServerTest_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
-- Completed reload, in  0.036 seconds
+- Completed reload, in  0.033 seconds
 Platform assembly: D:\CyberGameCafe\ServerTest_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: D:\CyberGameCafe\ServerTest_Data\Managed\System.dll (this message is harmless)
 desktop: 1920x1080 60Hz; virtual: 3840x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
-UnloadTime: 0.911323 ms
+UnloadTime: 1.044131 ms
 Running as server. Player ID is 0.
  
 (Filename:  Line: 2528)
 
 Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.325408 ms
+UnloadTime: 0.231661 ms
 
-Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 261.
-Total: 0.199211 ms (FindLiveObjects: 0.012319 ms CreateObjectMapping: 0.010215 ms MarkObjects: 0.172469 ms  DeleteObjects: 0.003004 ms)
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 267.
+Total: 0.094948 ms (FindLiveObjects: 0.008413 ms CreateObjectMapping: 0.010215 ms MarkObjects: 0.073014 ms  DeleteObjects: 0.002403 ms)
 
-New connection established (164.11.111.82:50455)
+New connection established (164.11.111.82:63121)
  
 (Filename:  Line: 2528)
 
@@ -49,134 +49,12 @@ Sent initalization to player 1
  
 (Filename:  Line: 2528)
 
-A client has disconnected from this server. Player ID 1, IP 164.11.111.82:50455
+A client has disconnected from this server. Player ID 1, IP 164.11.111.82:63121
  
 (Filename:  Line: 2528)
-
-New connection established (164.11.111.82:50607)
- 
-(Filename:  Line: 2528)
-
-Network protocol version -2130706432 connected
- 
-(Filename:  Line: 2538)
-
-Allocated 2 batches of size 50 for player 2
- 
-(Filename:  Line: 2538)
-
-Sent initalization to player 2
- 
-(Filename:  Line: 2528)
-
-A client has disconnected from this server. Player ID 2, IP 164.11.111.82:50607
- 
-(Filename:  Line: 2528)
-
-Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.202516 ms
-
-Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 262.
-Total: 0.152638 ms (FindLiveObjects: 0.016525 ms CreateObjectMapping: 0.012018 ms MarkObjects: 0.119586 ms  DeleteObjects: 0.003305 ms)
-
-Running as server. Player ID is 0.
- 
-(Filename:  Line: 2528)
-
-Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.183887 ms
-
-Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 261.
-Total: 0.112976 ms (FindLiveObjects: 0.009915 ms CreateObjectMapping: 0.010816 ms MarkObjects: 0.089239 ms  DeleteObjects: 0.002103 ms)
-
-New connection established (164.11.111.82:50608)
- 
-(Filename:  Line: 2528)
-
-Network protocol version -2130706432 connected
- 
-(Filename:  Line: 2538)
-
-Allocated 2 batches of size 50 for player 1
- 
-(Filename:  Line: 2538)
-
-Sent initalization to player 1
- 
-(Filename:  Line: 2528)
-
-A client has disconnected from this server. Player ID 1, IP 164.11.111.82:50608
- 
-(Filename:  Line: 2528)
-
-New connection established (164.11.111.82:50552)
- 
-(Filename:  Line: 2528)
-
-Network protocol version -2130706432 connected
- 
-(Filename:  Line: 2538)
-
-Allocated 2 batches of size 50 for player 2
- 
-(Filename:  Line: 2538)
-
-Sent initalization to player 2
- 
-(Filename:  Line: 2528)
-
-A client has disconnected from this server. Player ID 2, IP 164.11.111.82:50552
- 
-(Filename:  Line: 2528)
-
-New connection established (164.11.111.82:50553)
- 
-(Filename:  Line: 2528)
-
-Network protocol version -2130706432 connected
- 
-(Filename:  Line: 2538)
-
-Allocated 2 batches of size 50 for player 3
- 
-(Filename:  Line: 2538)
-
-Sent initalization to player 3
- 
-(Filename:  Line: 2528)
-
-A client has disconnected from this server. Player ID 3, IP 164.11.111.82:50553
- 
-(Filename:  Line: 2528)
-
-New connection established (164.11.111.82:50554)
- 
-(Filename:  Line: 2528)
-
-Network protocol version -2130706432 connected
- 
-(Filename:  Line: 2538)
-
-Allocated 2 batches of size 50 for player 4
- 
-(Filename:  Line: 2538)
-
-Sent initalization to player 4
- 
-(Filename:  Line: 2528)
-
-A client has disconnected from this server. Player ID 4, IP 164.11.111.82:50554
- 
-(Filename:  Line: 2528)
-
-Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.263211 ms
-
-Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 262.
-Total: 0.147830 ms (FindLiveObjects: 0.038760 ms CreateObjectMapping: 0.027342 ms MarkObjects: 0.076619 ms  DeleteObjects: 0.002103 ms)
 
 Setting up 4 worker threads for Enlighten.
-  Thread -> id: 341c -> priority: 1 
-  Thread -> id: 1fa8 -> priority: 1 
-  Thread -> id: 14c8 -> priority: 1 
-  Thread -> id: 1d64 -> priority: 1 
+  Thread -> id: 1dd4 -> priority: 1 
+  Thread -> id: 2b58 -> priority: 1 
+  Thread -> id: 1b50 -> priority: 1 
+  Thread -> id: 3494 -> priority: 1 

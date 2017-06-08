@@ -36,6 +36,9 @@ public class VirtualJoysticks : MonoBehaviour, IDragHandler, IPointerUpHandler, 
             joystickImage.rectTransform.anchoredPosition =
                 new Vector3(InputDirection.x * (bgImage.rectTransform.sizeDelta.x / 3),
                 InputDirection.z * (bgImage.rectTransform.sizeDelta.y / 3));
+
+
+            //Events.Send(EVENT_ACHEIVMENT);
         }
     }
     

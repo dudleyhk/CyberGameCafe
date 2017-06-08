@@ -9,7 +9,6 @@ public class ServerGUI : MonoBehaviour
     {
         for (int i = 0; i < Network.connections.Length; i++)
         {
-            //get the score from the client
             GUI.Label(new Rect(0, 30 + (i * 25), 120, 25), "Player " + (i + 1) + " Score: 0");
         }
         
