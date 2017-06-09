@@ -17,11 +17,7 @@ public class Movement : MonoBehaviour {
         //Events.Listen(EVENT_ACHEIVEMENT, TouchIsHappening);
     }
     
-<<<<<<< HEAD:Assets/Scripts/ClientScripts/Movement.cs
 	void FixedUpdate ()
-=======
-	private void Update ()
->>>>>>> dcc88fbde769e5047b3b0032f9756f9345ae4eb3:Assets/Scripts/Movement.cs
     {
         if (movementStick.InputDirection.x * movementStick.InputDirection.x >
             movementStick.InputDirection.z * movementStick.InputDirection.z)
