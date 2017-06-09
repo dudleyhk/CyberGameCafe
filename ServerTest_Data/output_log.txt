@@ -1,0 +1,60 @@
+Initialize engine version: 5.6.1f1 (2860b30f0b54)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce GTX 1060 6GB (ID=0x1c03)
+    Vendor:   NVIDIA
+    VRAM:     3072 MB
+    Driver:   21.21.13.7306
+Begin MonoManager ReloadAssembly
+Platform assembly: D:\CyberGameCafe\ServerTest_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading D:\CyberGameCafe\ServerTest_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: D:\CyberGameCafe\ServerTest_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading D:\CyberGameCafe\ServerTest_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: D:\CyberGameCafe\ServerTest_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading D:\CyberGameCafe\ServerTest_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: D:\CyberGameCafe\ServerTest_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading D:\CyberGameCafe\ServerTest_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+- Completed reload, in  0.033 seconds
+Platform assembly: D:\CyberGameCafe\ServerTest_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: D:\CyberGameCafe\ServerTest_Data\Managed\System.dll (this message is harmless)
+desktop: 1920x1080 60Hz; virtual: 3840x1080 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 1.044131 ms
+Running as server. Player ID is 0.
+ 
+(Filename:  Line: 2528)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.231661 ms
+
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 267.
+Total: 0.094948 ms (FindLiveObjects: 0.008413 ms CreateObjectMapping: 0.010215 ms MarkObjects: 0.073014 ms  DeleteObjects: 0.002403 ms)
+
+New connection established (164.11.111.82:63121)
+ 
+(Filename:  Line: 2528)
+
+Network protocol version 0 connected
+ 
+(Filename:  Line: 2538)
+
+Allocated 2 batches of size 50 for player 1
+ 
+(Filename:  Line: 2538)
+
+Sent initalization to player 1
+ 
+(Filename:  Line: 2528)
+
+A client has disconnected from this server. Player ID 1, IP 164.11.111.82:63121
+ 
+(Filename:  Line: 2528)
+
+Setting up 4 worker threads for Enlighten.
+  Thread -> id: 1dd4 -> priority: 1 
+  Thread -> id: 2b58 -> priority: 1 
+  Thread -> id: 1b50 -> priority: 1 
+  Thread -> id: 3494 -> priority: 1 
