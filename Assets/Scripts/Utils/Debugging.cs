@@ -5,6 +5,7 @@ using UnityEngine;
 public class Debugging : MonoBehaviour
 {
     public GameObject debugSphere = null;
+    public GameObject debugCube   = null;
 
 
     private static Debugging instance = null;
@@ -22,16 +23,23 @@ public class Debugging : MonoBehaviour
 
 
 
-    public void PlaceDebugSpheres(Vector2[] array)
+    public void PlaceDebugSpheres(Vector2[] array, int i)
     {
         foreach (var position in array)
         {
-            PlaceDebugSphere(position);
+            PlaceDebugSphere(position, i);
         }
     }
-    public void PlaceDebugSphere(Vector3 position)
+    public void PlaceDebugSphere(Vector3 position, int i)
     {
-        GameObject debugSphereClone = Instantiate(debugSphere);
-        debugSphereClone.transform.position = position;
+        GameObject clone = Instantiate(debugSphere);
+        clone.name = "debugSphereClone_" + i.ToString();
+        clone.transform.position = position;
+    }
+    public void PlaceDebugCube(Vector3 position, int i)
+    {
+        GameObject clone = Instantiate(debugCube);
+        clone.name = "debugCubeClone_" + i.ToString();
+        clone.transform.position = position;
     }
 }

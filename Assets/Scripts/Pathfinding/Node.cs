@@ -10,17 +10,22 @@ using UnityEngine;
 
 public class Node : MonoBehaviour
 {
-    public Node    ParentNode  { get; internal set; }
-    public Vector2 Coordinates { get; internal set; }
-    public bool    Weight      { get; internal set; }
+    public Node      ParentNode  { get; internal set; }
+    public Vector2[] Coordinates { get; internal set; }
+    public bool      Weight      { get; internal set; }
 
     // Create Node;
-    public Node(Vector2 coordinates, Node parentNode)
-    {
-        this.ParentNode  = parentNode;
-        this.Coordinates = coordinates;
+    //public Node(Vector2 coordinates, Node parentNode)
+    //{
+    //    this.ParentNode  = parentNode;
+    //    this.Coordinates = coordinates;
 
-        CalculateWeight();
+    //    CalculateWeight();
+    //}
+
+    public Node(Vector2[] coordinates)
+    {
+        Coordinates = coordinates;
     }
 
 

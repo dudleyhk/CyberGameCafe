@@ -1,11 +1,13 @@
 fileFormatVersion: 2
 guid: 5343291747fc5c44c9a13b85c6bfb44d
-timeCreated: 1497045902
+timeCreated: 1497093551
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
   defaultReferences:
   - debugSphere: {fileID: 1323719249293850, guid: cce4b3064ed8cb34e9b5764978b3a915,
+      type: 2}
+  - debugCube: {fileID: 1135657367099810, guid: 6f44b19de9438fa4cacf0d2fd1e9c1e5,
       type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
