@@ -55,57 +55,77 @@ public class GridManager : MonoBehaviour
 
     private void InitVertexPositions()
     {
-        float xPos = mapMinPoint.x;
-        float yPos = mapMinPoint.y;
+        // float xPos = mapMinPoint.x;
+        // float yPos = mapMinPoint.y;
+        // int i = 0;
+        // for (int y = 0; y <= nodesUp; y++)
+        // {
+            // xPos = mapMinPoint.x;
+            // for (int x = 0; x <= nodesAcross; x++)
+            // {
+                // vertexPositions[i] = new Vector2(xPos, yPos);
+                // xPos += nodeWidth;
+                // Debugging.Instance.PlaceDebugSphere(vertexPositions[i], i);
+                // i++;
+            // }
+            // yPos += nodeHeight;
+         //}
 
-        int i = 0;
-        for (int y = 0; y <= nodesUp; y++)
+        float currentX = mapMinPoint.x;
+        float currentY = mapMinPoint.y;
+
+        for (uint i = 0; i < nodesUp; i++)
         {
-            xPos = mapMinPoint.x;
-            for (int x = 0; x <= nodesAcross; x++)
+            currentX = mapMinPoint.x;
+            for(uint j = 0; j < nodesAcross; j++)
             {
-                vertexPositions[i] = new Vector2(xPos, yPos);
-                xPos += nodeWidth;
-                Debugging.Instance.PlaceDebugSphere(vertexPositions[i], i);
-                i++;
-            }
-            yPos += nodeHeight;
+                float TRx = currentX + nodeWidth;
+                float TRy = currentY + nodeHeight;
+                Vector2 topRight = new Vector2(TRx, TRy);
 
+                float Cx = topRight.x - (nodeWidth / 2);
+                float Cy = topRight.y - (nodeHeight / 2);
+                Vector2 centre = new Vector2(Cx, Cy);
+
+                Debug.Log(centre);
+                gridNodes.Add(new Node(centre));
+            }
+            currentY += nodeHeight;
         }
     }
 
     private void CreateNodes()
     {
-        int newNodesUp = nodesUp + 1;
-        int newNodesAcross = nodesAcross + 1;
+        //int newNodesUp = nodesUp + 1;
+        //int newNodesAcross = nodesAcross + 1;
 
-        int i = 0;
-        for (int y = 0; y <= nodesUp; y++)
-        {
-            for (int x = 0; x <= nodesAcross; x++)
-            {
-                if (i == (y * newNodesAcross) + (newNodesAcross - 1))
-                {
-                    // These are the right hand vertices which can be discounted
-                    Debugging.Instance.PlaceDebugCube(vertexPositions[i], i);
-                    i++;
-                    continue;
-                }
-                if(i >= (newNodesUp * newNodesAcross) - newNodesAcross)
-                {
-                    // These are the top vertices which can be discounted
-                    Debugging.Instance.PlaceDebugCube(vertexPositions[i], i);
-                    i++;
-                    continue;
-                }
+        //int i = 0;
+        //for (int y = 0; y <= nodesUp; y++)
+        //{
+        //    for (int x = 0; x <= nodesAcross; x++)
+        //    {
+        //        if (i == (y * newNodesAcross) + (newNodesAcross - 1))
+        //        {
+        //            // These are the right hand vertices which can be discounted
+        //            Debugging.Instance.PlaceDebugCube(vertexPositions[i], i);
+        //            i++;
+        //            continue;
+        //        }
+        //        if(i >= (newNodesUp * newNodesAcross) - newNodesAcross)
+        //        {
+        //            // These are the top vertices which can be discounted
+        //            Debugging.Instance.PlaceDebugCube(vertexPositions[i], i);
+        //            i++;
+        //            continue;
+        //        }
 
-                gridNodes.Add(new Node(null));
-                gridNodes[i].Coordinates[0] = vertexPositions[i];
-                gridNodes[i].Coordinates[1] = vertexPositions[i + 1];
-                gridNodes[i].Coordinates[2] = vertexPositions[i + nodesAcross + 1];
-                gridNodes[i].Coordinates[3] = vertexPositions[i + nodesUp + 2];
-                i++;
-            }
-        }
+        //        gridNodes.Add(new Node(null));
+        //        gridNodes[i].Coordinates[0] = vertexPositions[i];
+        //        gridNodes[i].Coordinates[1] = vertexPositions[i + 1];
+        //        gridNodes[i].Coordinates[2] = vertexPositions[i + nodesAcross + 1];
+        //        gridNodes[i].Coordinates[3] = vertexPositions[i + nodesUp + 2];
+        //        i++;
+           // }
+        // }
     }
 } 

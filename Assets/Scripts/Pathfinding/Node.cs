@@ -11,7 +11,7 @@ using UnityEngine;
 public class Node : MonoBehaviour
 {
     public Node      ParentNode  { get; internal set; }
-    public Vector2[] Coordinates { get; internal set; }
+    public Vector2   Centre      { get; internal set; }
     public bool      Weight      { get; internal set; }
 
     // Create Node;
@@ -23,9 +23,9 @@ public class Node : MonoBehaviour
     //    CalculateWeight();
     //}
 
-    public Node(Vector2[] coordinates)
+    public Node(Vector2 centre)
     {
-        Coordinates = coordinates;
+        Centre = centre;
     }
 
 
