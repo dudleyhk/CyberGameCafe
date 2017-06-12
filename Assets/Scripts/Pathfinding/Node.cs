@@ -11,10 +11,10 @@ public class Node
     public Node      ParentNode  { get; internal set; }
     public Vector3   Centre      { get; internal set; }
     public int       Weight      { get; internal set; }
-    public uint      ID          { get; internal set; }
+    public int       ID          { get; internal set; }
 
 
-    public Node(Vector3 centre, uint nodeID)
+    public Node(Vector3 centre, int nodeID)
     {
         ID = nodeID;
         Centre = centre;

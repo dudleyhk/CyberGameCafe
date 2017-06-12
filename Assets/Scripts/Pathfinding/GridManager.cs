@@ -107,6 +107,7 @@ public class GridManager : MonoBehaviour
     private void Start()
     {
         CreateNodes();
+        AStar.Search(0);
     }
 
 
@@ -125,7 +126,7 @@ public class GridManager : MonoBehaviour
             currentX = mapMinPoint.x;
             for(uint j = 0; j < nodesAcross; j++)
             {
-                uint nodeIdx = (uint)(i * nodesAcross + j);
+                int nodeIdx = (int)(i * nodesAcross + j);
 
                 float TRx = currentX + nodeWidth;
                 float TRy = currentY + nodeHeight;
@@ -136,7 +137,7 @@ public class GridManager : MonoBehaviour
                 float Cz = mapMinPoint.z + nodeDepth;
                 Vector3 centre = new Vector3(Cx, Cy, Cz);
 
-                Debugging.Instance.PlaceDebugSphere(centre, (int)nodeIdx);
+                Debugging.Instance.PlaceDebugSphere(centre, nodeIdx);
 
                 gridNodes.Add(new Node(centre, nodeIdx));
 
