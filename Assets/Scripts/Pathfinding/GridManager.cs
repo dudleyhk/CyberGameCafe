@@ -23,6 +23,72 @@ public class GridManager : MonoBehaviour
 
 
 
+    private static GridManager _instance = null;
+    public static GridManager Instance
+    {
+        get
+        {
+            if (!_instance)
+            {
+                var gridManager = GameObject.FindObjectOfType<GridManager>();
+                _instance = gridManager;
+            }
+            return _instance;
+        }
+        
+    }
+
+
+    enum SpriteWeights
+    {
+        None,
+        Static
+    }
+
+
+
+    /// <summary>
+    /// Return the enum value for the type of sprite which has been hit. 
+    /// </summary>
+    /// <param name="tag"></param>
+    /// <returns></returns>
+    /// 
+    public int GetWeight(string tag)
+    {
+        switch (tag)
+        {
+            case "StaticSprite":
+                return System.Convert.ToInt32(SpriteWeights.Static);
+        }
+        return System.Convert.ToInt32(SpriteWeights.None);
+    }
+
+    /// <summary>
+    /// If the list isn't empty and if the gridNode at ID is valid return the specified gridNode,
+    ///     other wise return null.
+    /// </summary>
+    /// <param name="ID"></param>
+    /// <returns></returns>
+    public Node GetNode(uint ID)
+    {
+        if (gridNodes.Count <= 0)
+            return null;
+        return gridNodes.Contains(gridNodes[(int)ID]) ? gridNodes[(int)ID] : null;
+    }
+
+
+    public uint GetNodesUp()
+    {
+        return nodesUp;
+    }
+
+
+    public uint GetNodesAcross()
+    {
+        return nodesAcross;
+    }
+
+
     private void Awake()
     {
         // INIT MAP ATTRIBUTES
@@ -59,6 +125,8 @@ public class GridManager : MonoBehaviour
             currentX = mapMinPoint.x;
             for(uint j = 0; j < nodesAcross; j++)
             {
+                uint nodeIdx = (uint)(i * nodesAcross + j);
+
                 float TRx = currentX + nodeWidth;
                 float TRy = currentY + nodeHeight;
                 Vector2 topRight = new Vector2(TRx, TRy);
@@ -68,9 +136,9 @@ public class GridManager : MonoBehaviour
                 float Cz = mapMinPoint.z + nodeDepth;
                 Vector3 centre = new Vector3(Cx, Cy, Cz);
 
-                Debugging.Instance.PlaceDebugSphere(centre, (int)(i * nodesAcross + j));
+                Debugging.Instance.PlaceDebugSphere(centre, (int)nodeIdx);
 
-                gridNodes.Add(new Node(centre));
+                gridNodes.Add(new Node(centre, nodeIdx));
 
                 currentX += nodeWidth;
             }

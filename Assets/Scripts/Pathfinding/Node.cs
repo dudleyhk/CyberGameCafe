@@ -11,18 +11,14 @@ public class Node
     public Node      ParentNode  { get; internal set; }
     public Vector3   Centre      { get; internal set; }
     public int       Weight      { get; internal set; }
+    public uint      ID          { get; internal set; }
 
 
-    enum WeightType
+    public Node(Vector3 centre, uint nodeID)
     {
-        None,
-        Static
-    }
-
-
-    public Node(Vector3 centre)
-    {
+        ID = nodeID;
         Centre = centre;
+
         CalculateWeight();
     }
 
@@ -41,24 +37,10 @@ public class Node
         RaycastHit2D[] infoArray = Physics2D.RaycastAll(Centre, rayDirection, 5.0f);
         foreach(var hitInfo in infoArray)
         {
-            Weight = GetWeight(hitInfo.transform.tag);
+            Weight = GridManager.Instance.GetWeight(hitInfo.transform.tag);
         }
     }
 
 
-    /// <summary>
-    /// Return the enum value for the type of sprite which has been hit. 
-    /// </summary>
-    /// <param name="tag"></param>
-    /// <returns></returns>
-    private int GetWeight(string tag)
-    {
-        switch(tag)
-        {
-            case "StaticSprite":
-                return System.Convert.ToInt32(WeightType.Static);
-        }
-        return System.Convert.ToInt32(WeightType.None);
-        
-    }
+
 }
