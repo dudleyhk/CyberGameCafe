@@ -5,9 +5,9 @@ using UnityEngine;
 public class AStar : MonoBehaviour
 {
     private static List<Node> openList = new List<Node>();
-    private List<Node> closedList = new List<Node>();
-    private static int nodesAcross = 0;
-    private static int nodesUp = 0;
+    private static List<Node> closedList = new List<Node>();
+    private static ushort nodesAcross = 0;
+    private static ushort nodesUp = 0;
 
 
     // http://www.policyalmanac.org/games/aStarTutorial.htm
@@ -15,8 +15,8 @@ public class AStar : MonoBehaviour
 
     private void Awake()
     {
-        nodesAcross = (int)GridManager.Instance.GetNodesAcross();
-        nodesUp     = (int)GridManager.Instance.GetNodesUp();
+        nodesAcross = GridManager.Instance.GetNodesAcross();
+        nodesUp     = GridManager.Instance.GetNodesUp();
     }
 
 
@@ -26,6 +26,7 @@ public class AStar : MonoBehaviour
         openList.Add(startNode);
 
         AddAdjascentNodes(startNode);
+        AddToClosedList(startNode);
     }
 
 
@@ -42,44 +43,49 @@ public class AStar : MonoBehaviour
         int downRight = -1;
 
 
+		//Debug.Log("UP: " + ( ID <= (nodesAcross * nodesUp) - nodesAcross));
         if (ID <= (nodesAcross * nodesUp) - nodesAcross)
         {
             up = ID + nodesAcross;
-            Debugging.Instance.PlaceDebugCube(GridManager.Instance.GetNode((uint)up).Centre, 1);
+            AddToOpenList(up);
         }
 
+		//Debug.Log("DOWN: " + (ID > nodesAcross));
         if (ID > nodesAcross)
         {
             down = ID - nodesAcross;
-            Debugging.Instance.PlaceDebugCube(GridManager.Instance.GetNode((uint)down).Centre, 7);
+            AddToOpenList(down);
         }
 
-        if (ID % nodesAcross == 0)
+       // Debug.Log("Left: " + (ID % nodesAcross > 0));
+        if (ID % nodesAcross > 0)
         {
             left = ID - 1;
-            Debugging.Instance.PlaceDebugCube(GridManager.Instance.GetNode((uint)left).Centre, 4);
+           AddToOpenList(left);
         }
+        
 
         int y = (ID / nodesUp);
-        if (ID == (y * nodesAcross) + (nodesAcross - 1))
+        //Debug.Log("RIGHT: " + (ID != (y * nodesAcross) + (nodesAcross - 1)));
+        if (ID != (y * nodesAcross) + (nodesAcross - 1))
         {
             right = ID + 1;
-            Debugging.Instance.PlaceDebugCube(GridManager.Instance.GetNode((uint)right).Centre, 5);
+            AddToOpenList(right);
         }
 
 
-        if(up > -1)
+        if (up > -1)
         {
             if(left > -1)
             {
-                upLeft = up + left;
-                Debugging.Instance.PlaceDebugCube(GridManager.Instance.GetNode((uint)upLeft).Centre, 1);
+                upLeft = up - 1;
+                AddToOpenList(upLeft);
+
             }
             if(right > -1)
             {
-                upRight = up + right;
-                Debugging.Instance.PlaceDebugCube(GridManager.Instance.GetNode((uint)upRight).Centre, 3);
-
+                upRight = up + 1;
+                AddToOpenList(upRight);
             }
         }
 
@@ -87,29 +93,67 @@ public class AStar : MonoBehaviour
         {
             if (left > -1)
             {
-                downLeft = down + left;
-                Debugging.Instance.PlaceDebugCube(GridManager.Instance.GetNode((uint)downLeft).Centre, 6);
+                downLeft = down - 1;
+                AddToOpenList(downLeft);
+
             }
             if(right > -1)
             {
-                downRight = down + right;
-                Debugging.Instance.PlaceDebugCube(GridManager.Instance.GetNode((uint)downRight).Centre, 8);
+                downRight = down + 1;
+                AddToOpenList(downRight);
             }
         }
-        
-       
-       
 
 
 
-       Debug.Log("BASEID: "    + ID);
-       Debug.Log("UP: "        + up);
-       Debug.Log("DOWN: "      + down);
-       Debug.Log("LEFT: "      + left);
-       Debug.Log("RIGHT: "     + right);
-       Debug.Log("UPRIGHT: "   + upRight);
-       Debug.Log("UPLEFT: "    + upLeft);
-       Debug.Log("DOWNRIGHT: " + downRight);
-       Debug.Log("DOWNLEFT: "  + downLeft);
+
+     // Debugging.Instance.PlaceDebugCube(GridManager.Instance.GetNode((uint)upLeft).Centre, 1);
+     // Debugging.Instance.PlaceDebugCube(GridManager.Instance.GetNode((uint)up).Centre, 2);
+     // Debugging.Instance.PlaceDebugCube(GridManager.Instance.GetNode((uint)upRight).Centre, 3);
+     // Debugging.Instance.PlaceDebugCube(GridManager.Instance.GetNode((uint)left).Centre, 4);
+     // Debugging.Instance.PlaceDebugCube(GridManager.Instance.GetNode((uint)right).Centre, 5);
+     // Debugging.Instance.PlaceDebugCube(GridManager.Instance.GetNode((uint)downLeft).Centre, 6);
+     // Debugging.Instance.PlaceDebugCube(GridManager.Instance.GetNode((uint)down).Centre, 7);
+     // Debugging.Instance.PlaceDebugCube(GridManager.Instance.GetNode((uint)downRight).Centre, 8);
+
+
+      //Debug.Log("BASEID: "    + ID);
+      //Debug.Log("UP: "        + up);
+      //Debug.Log("DOWN: "      + down);
+      //Debug.Log("LEFT: "      + left);
+      //Debug.Log("RIGHT: "     + right);
+      //Debug.Log("UPRIGHT: "   + upRight);
+      //Debug.Log("UPLEFT: "    + upLeft);
+      //Debug.Log("DOWNRIGHT: " + downRight);
+      //Debug.Log("DOWNLEFT: "  + downLeft);
+    }
+
+
+    /// <summary>
+    /// Check the weight to see if its covered. 
+    /// </summary>
+    /// <param name="ID"></param>
+    private static void AddToOpenList(int ID)
+    {
+        uint uID = (uint)ID;
+
+        if(GridManager.Instance.GetNode(uID).Weight > 0)
+        {
+            openList.Add(GridManager.Instance.GetNode(uID));
+        }
+    }
+
+    /// <summary>
+    /// Sanity check the node being passed in and remove it from the openlist and 
+    ///    add it to the closed list. 
+    /// </summary>
+    /// <param name="node"></param>
+    private static void AddToClosedList(Node node)
+    {
+        if (node.Equals(null))        return;
+        if (!openList.Contains(node)) return;
+
+        openList.Remove(node);
+        closedList.Add(node);
     }
 }

@@ -77,13 +77,13 @@ public class GridManager : MonoBehaviour
     }
 
 
-    public uint GetNodesUp()
+    public ushort GetNodesUp()
     {
         return nodesUp;
     }
 
 
-    public uint GetNodesAcross()
+    public ushort GetNodesAcross()
     {
         return nodesAcross;
     }
@@ -107,7 +107,7 @@ public class GridManager : MonoBehaviour
     private void Start()
     {
         CreateNodes();
-        AStar.Search(0);
+        AStar.Search(59);
     }
 
 
