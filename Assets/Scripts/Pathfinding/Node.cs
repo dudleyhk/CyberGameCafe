@@ -12,12 +12,14 @@ public class Node
     public Vector3   Centre      { get; internal set; }
     public int       Weight      { get; internal set; }
     public int       ID          { get; internal set; }
+    public Node      Parent      { get; set; }
 
 
-    public Node(Vector3 centre, int nodeID)
+    public Node(Vector3 centre, int nodeID, Node parent)
     {
         ID = nodeID;
         Centre = centre;
+        Parent = parent;
 
         CalculateWeight();
     }

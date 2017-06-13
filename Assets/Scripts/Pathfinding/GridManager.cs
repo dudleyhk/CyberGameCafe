@@ -139,7 +139,7 @@ public class GridManager : MonoBehaviour
 
                 Debugging.Instance.PlaceDebugSphere(centre, nodeIdx);
 
-                gridNodes.Add(new Node(centre, nodeIdx));
+                gridNodes.Add(new Node(centre, nodeIdx, null));
 
                 currentX += nodeWidth;
             }

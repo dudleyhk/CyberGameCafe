@@ -12,7 +12,9 @@ public class AStar : MonoBehaviour
 
     // http://www.policyalmanac.org/games/aStarTutorial.htm
 
-
+    // F = G + H 
+    // H : value for the DISTANCE a node is from the end (this includes weighted nodes)
+    // G : The cost value it takes to get to this node (in the example diagonals cost slightly more).
     private void Awake()
     {
         nodesAcross = GridManager.Instance.GetNodesAcross();
@@ -30,9 +32,9 @@ public class AStar : MonoBehaviour
     }
 
 
-    private static void AddAdjascentNodes(Node baseNode)
+    private static void AddAdjascentNodes(Node parentNode)
     {
-        int ID = baseNode.ID;
+        int ID = parentNode.ID;
         int up    = -1;
         int down  = -1;
         int left  = -1;
@@ -47,21 +49,21 @@ public class AStar : MonoBehaviour
         if (ID <= (nodesAcross * nodesUp) - nodesAcross)
         {
             up = ID + nodesAcross;
-            AddToOpenList(up);
+            AddToOpenList(up, parentNode);
         }
 
 		//Debug.Log("DOWN: " + (ID > nodesAcross));
         if (ID > nodesAcross)
         {
             down = ID - nodesAcross;
-            AddToOpenList(down);
+            AddToOpenList(down, parentNode);
         }
 
        // Debug.Log("Left: " + (ID % nodesAcross > 0));
         if (ID % nodesAcross > 0)
         {
             left = ID - 1;
-           AddToOpenList(left);
+           AddToOpenList(left, parentNode);
         }
         
 
@@ -70,7 +72,7 @@ public class AStar : MonoBehaviour
         if (ID != (y * nodesAcross) + (nodesAcross - 1))
         {
             right = ID + 1;
-            AddToOpenList(right);
+            AddToOpenList(right, parentNode);
         }
 
 
@@ -79,13 +81,13 @@ public class AStar : MonoBehaviour
             if(left > -1)
             {
                 upLeft = up - 1;
-                AddToOpenList(upLeft);
+                AddToOpenList(upLeft, parentNode);
 
             }
             if(right > -1)
             {
                 upRight = up + 1;
-                AddToOpenList(upRight);
+                AddToOpenList(upRight, parentNode);
             }
         }
 
@@ -94,13 +96,13 @@ public class AStar : MonoBehaviour
             if (left > -1)
             {
                 downLeft = down - 1;
-                AddToOpenList(downLeft);
+                AddToOpenList(downLeft, parentNode);
 
             }
             if(right > -1)
             {
                 downRight = down + 1;
-                AddToOpenList(downRight);
+                AddToOpenList(downRight, parentNode);
             }
         }
 
@@ -130,16 +132,22 @@ public class AStar : MonoBehaviour
 
 
     /// <summary>
-    /// Check the weight to see if its covered. 
+    /// Check the weight to see if its covered by a sprite and check if a parent node 
+    ///     is passed in. 
     /// </summary>
     /// <param name="ID"></param>
-    private static void AddToOpenList(int ID)
+    private static void AddToOpenList(int ID, Node parentNode)
     {
         uint uID = (uint)ID;
+        Node node = GridManager.Instance.GetNode(uID);
 
-        if(GridManager.Instance.GetNode(uID).Weight > 0)
+        if(node.Weight > 0)
         {
-            openList.Add(GridManager.Instance.GetNode(uID));
+            if(!parentNode.Equals(null))
+            {
+                node.Parent = parentNode;
+            }
+            openList.Add(node);
         }
     }
 
