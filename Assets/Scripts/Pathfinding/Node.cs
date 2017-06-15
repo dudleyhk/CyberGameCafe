@@ -2,31 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Weight = GridManager.SpriteWeight;
 
 /// <summary>
 /// Nodes are a part of the underlying invisible grid.
 /// </summary>
 public class Node
 {
-    public Vector3   Centre      { get; internal set; }
-    public int       Weight      { get; internal set; }
-    public int       ID          { get; internal set; }
     public Node      Parent      { get; set; }
-	
-	// Calculate these two values when the node is set up.
-	public uint      DistanceToTarget {get;internal set;}
-	public uint      Cost             {get; internal set;}
+    public Vector3   Centre      { get; internal set; }
+    public Weight    Weight      { get; internal set; }
+    public int       ID          { get; internal set; }
+    public int       TotalValue  { get; set; }
+    public int       Distance    { get; set; }
+    public int       Cost        { get; set; }
 
 
-    public Node(Vector3 centre, int nodeID, Node parent, uint cost)
+    public Node(Vector3 centre, int nodeID, Node parent)
     {
         ID     = nodeID;
         Centre = centre;
         Parent = parent;
-		Cost   = cost;
+
+        Cost = 0;
+        Distance = 0;
+        TotalValue = 0;
 
         CalculateWeight();
-		CalculateDistance();
     }
 
     /// <summary>
@@ -47,23 +49,4 @@ public class Node
             Weight = GridManager.Instance.GetWeight(hitInfo.transform.tag);
         }
     }
-
-	
-	private void CalculateDistance()
-	{
-		
-		
-	}
-	
-	
-	private void CalculateCost()
-	{
-		// This can be calculated by getting where the parent is in relation to this node.
-		// use parent.ID;
-		
-		
-		
-	}
-
-
 }

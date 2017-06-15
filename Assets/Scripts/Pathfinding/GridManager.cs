@@ -39,10 +39,10 @@ public class GridManager : MonoBehaviour
     }
 
 
-    enum SpriteWeights
+    public enum SpriteWeight
     {
-        None,
-        Static
+        None = 0,
+        Static = 1
     }
 
 
@@ -53,14 +53,14 @@ public class GridManager : MonoBehaviour
     /// <param name="tag"></param>
     /// <returns></returns>
     /// 
-    public int GetWeight(string tag)
+    public SpriteWeight GetWeight(string tag)
     {
         switch (tag)
         {
             case "StaticSprite":
-                return (int)SpriteWeights.Static;
+                return SpriteWeight.Static;
         }
-        return (int)SpriteWeights.None;
+        return SpriteWeight.None;
     }
 
     /// <summary>
@@ -69,11 +69,11 @@ public class GridManager : MonoBehaviour
     /// </summary>
     /// <param name="ID"></param>
     /// <returns></returns>
-    public Node GetNode(uint ID)
+    public Node GetNode(int ID)
     {
         if (gridNodes.Count <= 0)
             return null;
-        return gridNodes.Contains(gridNodes[(int)ID]) ? gridNodes[(int)ID] : null;
+        return gridNodes.Contains(gridNodes[ID]) ? gridNodes[ID] : null;
     }
 
 
@@ -107,7 +107,7 @@ public class GridManager : MonoBehaviour
     private void Start()
     {
         CreateNodes();
-        AStar.Search(0, 59);
+        AStar.Search(59, 41);
     }
 
 
@@ -139,7 +139,7 @@ public class GridManager : MonoBehaviour
 
                 Debugging.Instance.PlaceDebugSphere(centre, nodeIdx);
 
-                gridNodes.Add(new Node(centre, nodeIdx, null, 0));
+                gridNodes.Add(new Node(centre, nodeIdx, null));
 
                 currentX += nodeWidth;
             }
