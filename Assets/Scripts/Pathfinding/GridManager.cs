@@ -58,9 +58,9 @@ public class GridManager : MonoBehaviour
         switch (tag)
         {
             case "StaticSprite":
-                return System.Convert.ToInt32(SpriteWeights.Static);
+                return (int)SpriteWeights.Static;
         }
-        return System.Convert.ToInt32(SpriteWeights.None);
+        return (int)SpriteWeights.None;
     }
 
     /// <summary>
@@ -107,7 +107,7 @@ public class GridManager : MonoBehaviour
     private void Start()
     {
         CreateNodes();
-        AStar.Search(59);
+        AStar.Search(0, 59);
     }
 
 
@@ -139,7 +139,7 @@ public class GridManager : MonoBehaviour
 
                 Debugging.Instance.PlaceDebugSphere(centre, nodeIdx);
 
-                gridNodes.Add(new Node(centre, nodeIdx, null));
+                gridNodes.Add(new Node(centre, nodeIdx, null, 0));
 
                 currentX += nodeWidth;
             }

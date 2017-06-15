@@ -8,20 +8,25 @@ using UnityEngine;
 /// </summary>
 public class Node
 {
-    public Node      ParentNode  { get; internal set; }
     public Vector3   Centre      { get; internal set; }
     public int       Weight      { get; internal set; }
     public int       ID          { get; internal set; }
     public Node      Parent      { get; set; }
+	
+	// Calculate these two values when the node is set up.
+	public uint      DistanceToTarget {get;internal set;}
+	public uint      Cost             {get; internal set;}
 
 
-    public Node(Vector3 centre, int nodeID, Node parent)
+    public Node(Vector3 centre, int nodeID, Node parent, uint cost)
     {
-        ID = nodeID;
+        ID     = nodeID;
         Centre = centre;
         Parent = parent;
+		Cost   = cost;
 
         CalculateWeight();
+		CalculateDistance();
     }
 
     /// <summary>
@@ -43,6 +48,22 @@ public class Node
         }
     }
 
+	
+	private void CalculateDistance()
+	{
+		
+		
+	}
+	
+	
+	private void CalculateCost()
+	{
+		// This can be calculated by getting where the parent is in relation to this node.
+		// use parent.ID;
+		
+		
+		
+	}
 
 
 }

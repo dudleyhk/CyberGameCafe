@@ -8,6 +8,10 @@ public class AStar : MonoBehaviour
     private static List<Node> closedList = new List<Node>();
     private static ushort nodesAcross = 0;
     private static ushort nodesUp = 0;
+	
+	public static uint  diagonalCost = 14;
+	public static uint  orthogonalCost = 10;
+    public static uint  targetNodeID = 0;
 
 
     // http://www.policyalmanac.org/games/aStarTutorial.htm
@@ -22,13 +26,22 @@ public class AStar : MonoBehaviour
     }
 
 
-    public static void Search(uint nodeID)
+    public static bool Search(uint nodeID, uint targetID)
     {
         Node startNode = GridManager.Instance.GetNode(nodeID);
+
+        if (startNode.Equals(null))
+        {
+            Debug.Log("Node ID invalid");
+            return false;
+        }
+        targetNodeID = targetID;
         openList.Add(startNode);
 
         AddAdjascentNodes(startNode);
         AddToClosedList(startNode);
+
+        return true;
     }
 
 
@@ -49,21 +62,21 @@ public class AStar : MonoBehaviour
         if (ID <= (nodesAcross * nodesUp) - nodesAcross)
         {
             up = ID + nodesAcross;
-            AddToOpenList(up, parentNode);
+            AddToOpenList(up, parentNode, orthogonalCost);
         }
 
 		//Debug.Log("DOWN: " + (ID > nodesAcross));
         if (ID > nodesAcross)
         {
             down = ID - nodesAcross;
-            AddToOpenList(down, parentNode);
+            AddToOpenList(down, parentNode, orthogonalCost);
         }
 
        // Debug.Log("Left: " + (ID % nodesAcross > 0));
         if (ID % nodesAcross > 0)
         {
             left = ID - 1;
-           AddToOpenList(left, parentNode);
+           AddToOpenList(left, parentNode, orthogonalCost);
         }
         
 
@@ -72,7 +85,7 @@ public class AStar : MonoBehaviour
         if (ID != (y * nodesAcross) + (nodesAcross - 1))
         {
             right = ID + 1;
-            AddToOpenList(right, parentNode);
+            AddToOpenList(right, parentNode, diagonalCost);
         }
 
 
@@ -81,13 +94,13 @@ public class AStar : MonoBehaviour
             if(left > -1)
             {
                 upLeft = up - 1;
-                AddToOpenList(upLeft, parentNode);
+                AddToOpenList(upLeft, parentNode, diagonalCost);
 
             }
             if(right > -1)
             {
                 upRight = up + 1;
-                AddToOpenList(upRight, parentNode);
+                AddToOpenList(upRight, parentNode, diagonalCost);
             }
         }
 
@@ -96,13 +109,13 @@ public class AStar : MonoBehaviour
             if (left > -1)
             {
                 downLeft = down - 1;
-                AddToOpenList(downLeft, parentNode);
+                AddToOpenList(downLeft, parentNode, diagonalCost);
 
             }
             if(right > -1)
             {
                 downRight = down + 1;
-                AddToOpenList(downRight, parentNode);
+                AddToOpenList(downRight, parentNode, diagonalCost);
             }
         }
 
@@ -136,12 +149,16 @@ public class AStar : MonoBehaviour
     ///     is passed in. 
     /// </summary>
     /// <param name="ID"></param>
-    private static void AddToOpenList(int ID, Node parentNode)
+    private static void AddToOpenList(int ID, Node parentNode, uint cost)
     {
         uint uID = (uint)ID;
-        Node node = GridManager.Instance.GetNode(uID);
 
-        if(node.Weight > 0)
+        Node node = GridManager.Instance.GetNode(uID);
+        if (node.Equals(null)) return;
+
+        SetCostAndDistance(node, cost);
+
+        if (node.Weight > 0)
         {
             if(!parentNode.Equals(null))
             {
@@ -163,5 +180,22 @@ public class AStar : MonoBehaviour
 
         openList.Remove(node);
         closedList.Add(node);
+    }
+
+
+    private static void SetCostAndDistance(Node currentNode, uint cost)
+    {
+        int distanceCost = 0;
+
+        // Calculate how many nodes away we are from the target
+        distanceCost = currentNode.ID - (int)targetNodeID;    /// THIS NEEDS TO BE SLGHTLY CLEVERER. AT THE MOMENT IT RUNS THROUGH EACH NUMBER WHERE AS WE NEED TO SEE HOW MANY ROW/COLUMNS IT IS AWAY 
+        if(distanceCost < 0)
+        {
+            // multiple by -1 to get the positive version.
+           distanceCost = distanceCost * -1;
+        }
+
+        currentNode.Cost = cost;
+        currentNode.DistanceToTarget = (uint)distanceCost;
     }
 }
