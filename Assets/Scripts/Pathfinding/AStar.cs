@@ -4,15 +4,32 @@ using UnityEngine;
 
 public class AStar : MonoBehaviour
 {
-    private static List<Node> openList = new List<Node>();
-    private static List<Node> closedList = new List<Node>();
-    private static Node currentNode = null;
-    private static int targetNodeID = 0;
-    private static ushort nodesAcross = 0;
-    private static ushort nodesUp = 0;
-	public static int  diagonalCost = 14;
-	public static int  orthogonalCost = 10;
-    public static bool routeFound = false;
+    private List<Node> openList = new List<Node>();
+    private List<Node> closedList = new List<Node>();
+    private Node currentNode = null;
+    private int targetNodeID = 0;
+    private ushort nodesAcross = 0;
+    private ushort nodesUp = 0;
+	public int  diagonalCost = 14;
+	public int  orthogonalCost = 10;
+    public bool routeFound = false;
+
+
+
+
+    private static AStar _instance = null;
+    public static AStar Instance
+    {
+        get
+        {
+            if(!_instance)
+            {
+                var aStar = FindObjectOfType<AStar>();
+                _instance = aStar;
+            }
+            return _instance;
+        }
+    }
 
 
 
@@ -25,11 +42,14 @@ public class AStar : MonoBehaviour
     {
         nodesAcross = GridManager.Instance.GetNodesAcross();
         nodesUp     = GridManager.Instance.GetNodesUp();
+        
     }
 
 
-    public static bool Search(int nodeID, int targetID)
+    public bool Search(int nodeID, int targetID)
     {
+        bool exitFlag = false; 
+
         currentNode = GridManager.Instance.GetNode(nodeID);
         targetNodeID = targetID;
 
@@ -40,23 +60,35 @@ public class AStar : MonoBehaviour
         }
         openList.Add(currentNode);
 
+        StartCoroutine(SearchLoop(currentNode, exitFlag));
+        if(exitFlag)
+        {
+            return false;
+        }        return true;
+    }
+
+    private IEnumerator SearchLoop(Node node, bool exitFlag)
+    {
+        int iter = 0;
         while (!routeFound)
         {
             SelectNewParent();
             AddToClosedList(currentNode);
-            AddAdjascentNodes(currentNode);
+            CheckSurroundingNodes(currentNode);
 
-            if(!CheckForPath())
+            if (!CheckForPath())
             {
                 Debug.Log("Path not found.");
-                return false;
+                exitFlag = false;
             }
+
+            Debug.Log("Loop cycle " + iter++);
         }
-        return true;
+        Debug.Log("Exit Loop");
+        yield break;
     }
 
-
-    private static void AddAdjascentNodes(Node node)
+    private void CheckSurroundingNodes(Node node)
     {
         List<KeyValuePair<int, int>> adjascentNodes = GetAdjascentIDs(node.ID);
         foreach(KeyValuePair<int, int> n in adjascentNodes)
@@ -196,7 +228,7 @@ public class AStar : MonoBehaviour
     //}
 
 
-    private static List<KeyValuePair<int, int>> GetAdjascentIDs(int parentID)
+    private List<KeyValuePair<int, int>> GetAdjascentIDs(int parentID)
     {
         List<KeyValuePair<int, int>> IDList = new List<KeyValuePair<int, int>>();
         int ID = currentNode.ID;
@@ -268,7 +300,7 @@ public class AStar : MonoBehaviour
     ///    add it to the closed list. 
     /// </summary>
     /// <param name="node"></param>
-    private static void AddToClosedList(Node node)
+    private void AddToClosedList(Node node)
     {
         if (node.Equals(null))        return;
         if (!openList.Contains(node)) return;
@@ -284,7 +316,7 @@ public class AStar : MonoBehaviour
     /// </summary>
     /// <param name="node"></param>
     /// <param name="cost"></param>
-    private static void SetCostAndDistance(Node node, int cost)
+    private void SetCostAndDistance(Node node, int cost)
     {                
         int currentNodeY = (node.ID / nodesAcross);
         int currentNodeX = (node.ID % nodesAcross);
@@ -302,7 +334,7 @@ public class AStar : MonoBehaviour
     }
 
 
-    private static void SelectNewParent()
+    private void SelectNewParent()
     {
         Node parentNode = openList[0];
         
@@ -315,12 +347,12 @@ public class AStar : MonoBehaviour
             }
         }
 
-        Debug.Log("New parent MoveCostP: " + parentNode.TotalValue);
+        Debug.Log("New parent MoveCost: " + parentNode.TotalValue);
     }
 
 
 
-    private static bool CheckForPath()
+    private bool CheckForPath()
     {
         foreach (Node node in closedList)
         {
