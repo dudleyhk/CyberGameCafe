@@ -62,6 +62,13 @@ public class AStar : MonoBehaviour
             Debug.Log("Start or Target Node ID invalid");
             return false;
         }
+
+        if (GridManager.Instance.GetNode(targetID).Weight == GridManager.SpriteWeight.Static)
+        {
+            Debug.Log("Target is covered");
+            return false;
+        }
+
         openList.Add(startNode);
         StartCoroutine(SearchLoop());
         return true;
@@ -74,23 +81,20 @@ public class AStar : MonoBehaviour
     /// <returns></returns>
     private IEnumerator SearchLoop()
     {
-        int iter = 0;
         while (!routeFound)
         {
-            Debug.Log("LOOP BEGIN");
-            Debug.Log("Number of elements on the openList: " + openList.Count);
+            //Debug.Log("LOOP BEGIN");
+            //Debug.Log("Number of elements on the openList: " + openList.Count);
 
             Node currentNode = SelectNewParent();
 
             AddToClosedList(currentNode);
             CheckSurroundingNodes(currentNode);
             routeFound = CheckForPath();
-            
 
-            iter++;
             yield return null;
         }
-        Debug.Log("Search complete. Number of cycles: " + iter);
+        Debug.Log("Search complete.");
         yield return true;
     }
 
@@ -100,10 +104,9 @@ public class AStar : MonoBehaviour
     /// <param name="node"></param>
     private void CheckSurroundingNodes(Node node)
     {
-        Debug.Log("CHECKING SURROUNDING NODES");
+        //Debug.Log("CHECKING SURROUNDING NODES");
         List<KeyValuePair<int, int>> adjascentNodes = GetAdjascentIDs(node.ID);
-        Debug.Log("Parent Node " + node.ID);
-        Debug.Log("Number of adjascnet nodes " + adjascentNodes.Count);
+       // Debug.Log("Parent Node " + node.ID);
 
         foreach(KeyValuePair<int, int> n in adjascentNodes)
         {
@@ -126,38 +129,44 @@ public class AStar : MonoBehaviour
                 SetCostAndDistance(adjascentNode, n.Value);
                 openList.Add(adjascentNode);
 
-                Debug.Log("Adding node " + adjascentNode.ID + " to openList");
-                Debug.Log("Adjascent node being checked " + adjascentNode.ID + 
-                    ", parentNode " + adjascentNode.Parent.ID      + 
-                    ", moveCost "  + adjascentNode.Cost            + 
-                    ", distance  " + adjascentNode.Distance        + 
-                    " and total "  + adjascentNode.TotalValue);
+                //Debug.Log("Adding node " + adjascentNode.ID + " to openList");
+               // Debug.Log("Adjascent node being checked " + adjascentNode.ID + 
+                //    ", parentNode " + adjascentNode.Parent.ID      + 
+                //    ", moveCost "  + adjascentNode.Cost            + 
+                //    ", distance  " + adjascentNode.Distance        + 
+                //    " and total "  + adjascentNode.TotalValue);
             }
             else
             {
-                Debug.Log("Node is added to list.. Checking for better path");
-                // Check to see if changing the parent would create a better path.
-                int testCost = n.Value + node.Cost;
-
-                Debug.Log("Adjascent Value: " + n.Value);
-                Debug.Log("Node Cost: " + node.Cost);
-                Debug.Log("Test Value: " + testCost);
-                Debug.Log("Current node cost: " + node.Cost);
+               // Debug.Log("Node " + adjascentNode.ID + " is added to list.. Checking for better path");
+                
+                // Add the parent movecost to the potencial move cost if this direction was used. 
+                int testCost = node.Cost + n.Value;
+                int currentCost = node.Cost + adjascentNode.Cost;
 
 
-                if(testCost < node.Cost)
+                //Debug.Log("Parent node (" + node.ID + ") movement cost: " + node.Cost);
+                //Debug.Log("New node movement cost: " + n.Value);
+                //Debug.Log("Test move cost: " + testCost);
+
+
+               // Debug.Log("Is " + testCost  + " < " + currentCost + "?");
+
+                // if the test cost is less than the current adjascent movecost
+                if(testCost < currentCost)
                 {
                     // Change the parent and re-calc Cost and Dist. 
                     adjascentNode.Parent = node;
-                    SetCostAndDistance(adjascentNode, n.Value);
+                    adjascentNode.Cost = testCost;
+                    adjascentNode.TotalValue = adjascentNode.Distance + adjascentNode.Cost;
 
 
-                    Debug.Log("Updating Adjascent node to better path");
-                    Debug.Log("Adjascent node being checked " + adjascentNode.ID +
-                        ", parentNode " + adjascentNode.Parent +
-                        ", moveCost " + adjascentNode.Cost +
-                        ", distance  " + adjascentNode.Distance +
-                        " and total " + adjascentNode.TotalValue);
+                   // Debug.Log("Updating Adjascent node to better path");
+                   // Debug.Log("Adjascent node being checked " + adjascentNode.ID +
+                   //     ", parentNode " + adjascentNode.Parent.ID +
+                   //     ", moveCost " + adjascentNode.Cost +
+                   //     ", distance  " + adjascentNode.Distance +
+                   //     " and total " + adjascentNode.TotalValue);
                 }
             }
         }
@@ -181,8 +190,7 @@ public class AStar : MonoBehaviour
         bool rightFlag = false;
 
 
-
-        if (ID <= (nodesAcross * nodesUp) - nodesAcross)
+        if (ID < (nodesAcross * nodesUp) - nodesAcross)
         {
             IDList.Add(new KeyValuePair<int,int>(ID + nodesAcross, orthogonalCost)); // UP
             upFlag = true;
@@ -244,11 +252,12 @@ public class AStar : MonoBehaviour
     /// <param name="node"></param>
     private void AddToClosedList(Node node)
     {
-        Debug.Log("ADD TO THE CLOSED LIST");
+       // Debug.Log("ADD TO THE CLOSED LIST");
         if (node.Equals(null))        return;
         if (!openList.Contains(node)) return;
 
-        Debug.Log("Add node " + node.ID + " to the closedList");
+        //Debug.Log("Add node " + node.ID + " to the closedList");
+        Debugging.Instance.PlaceDebugCube(node.Centre, node.ID);
 
         openList.Remove(node);
         closedList.Add(node);
@@ -272,10 +281,10 @@ public class AStar : MonoBehaviour
         int differenceY = Mathf.Abs(targetNodeY - currentNodeY);
         int distanceCost = differenceX + differenceY;
 
-        node.Cost     = node.Cost + cost;
+        node.Cost     = node.Parent.Cost + cost;
         node.Distance = distanceCost;
 
-        node.TotalValue = cost + distanceCost;
+        node.TotalValue = node.Cost + node.Distance;
     }
 
 
@@ -285,35 +294,21 @@ public class AStar : MonoBehaviour
     /// <returns></returns>
     private Node SelectNewParent()
     {
-        Debug.Log("SELECT A NEW PARENT");
+        //Debug.Log("SELECT A NEW PARENT");
 
-        // reorganise the openList so the lowest values are at the beginning. 
-        openList.Sort(delegate(Node a, Node b)
+        int minTotalValue = openList[0].TotalValue;
+        Node parent = null;
+
+        foreach (var node in openList)
         {
-            return a.TotalValue.CompareTo(b.TotalValue);
-        });
-        return openList[0];
-
-
-
-
-
-        //Node parentNode = openList[0];
-        //// Find node with the lowest MoveCost
-        //foreach (Node node in openList)
-        //{
-        //    Debug.Log("Total values " + node.TotalValue);
-            
-        //    //Debug.Log("Checking node number " + node.ID + " against current parentNode " + parentNode.ID);
-        //    //if(node.TotalValue < parentNode.TotalValue)
-        //    //{
-        //    //    Debug.Log("Node " + node.ID + " has a TotalValue of " + node.TotalValue + " which is lower than the parents value of " + parentNode.TotalValue);
-        //    //    parentNode = node;
-        //    //    Debug.Log("ParentID is now: " + parentNode.ID);
-        //    //}
-        //}
-        //return parentNode;
-        ////Debug.Log("New parent ID " + parentNode.ID + " with a MoveCost: " + parentNode.TotalValue);
+            if(node.TotalValue <= minTotalValue)
+            {
+                minTotalValue = node.TotalValue;
+                parent = node;
+            }
+        }
+       // Debug.Log("New Parent Node " + parent.ID);
+        return parent;
     }
 
 
@@ -323,8 +318,8 @@ public class AStar : MonoBehaviour
     /// <returns></returns>
     private bool CheckForPath()
     {
-        Debug.Log("CHECK FOR PATH");
-        Debug.Log("Number of elements in the closed list : " + closedList.Count);
+        //Debug.Log("CHECK FOR PATH");
+       // Debug.Log("Number of elements in the closed list : " + closedList.Count);
         foreach (Node node in closedList)
         {
             // check if target has been added to the closed list. 
@@ -345,24 +340,38 @@ public class AStar : MonoBehaviour
         return false;
     }
 
-
+    /// <summary>
+    /// Find the path starting at the targetNode. Add each element starting at the 
+    ///     startNode to the PathList. 
+    /// </summary>
+    /// <param name="targetNode"></param>
     private void CreatePath(Node targetNode)
     {
         Node node = targetNode;
-        path.Add(node);
+        Node[] pathBackwards = new Node[closedList.Count];
 
         // add the target node to the list.
-        while (true)
+        int idx = 0;
+        while(true)
         {
-            Debug.Log("Adding node " + node.ID + " to the list");
+            //Debug.Log("Adding node " + node.ID + " to the list at position " + idx);
+            pathBackwards[idx] = node;
 
             if (node.Parent == null)
                 break;
 
             node = node.Parent;
+            idx++;
+        }
 
-            if (node.Parent != null)
-                Debug.Log("Node " + node.ID + " parent node is " + node.Parent.ID);
+        for(int i = idx; i >= 0; i--)
+        {
+            path.Add(pathBackwards[i]);
+        }
+
+        for (int i = 0; i < idx; i++)
+        {
+            Debug.Log("Path " + i + " is " + path[i].ID);
         }
     }
 }

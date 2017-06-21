@@ -107,7 +107,7 @@ public class GridManager : MonoBehaviour
     private void Start()
     {
         CreateNodes();
-        AStar.Instance.Search(59, 41);
+        AStar.Instance.Search(10, 45);
     }
 
 

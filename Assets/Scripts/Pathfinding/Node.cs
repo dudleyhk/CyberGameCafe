@@ -13,10 +13,22 @@ public class Node
     public Vector3   Centre      { get; internal set; }
     public Weight    Weight      { get; internal set; }
     public int       ID          { get; internal set; }
-    public int       TotalValue  { get; set; }
-    public int       Distance    { get; set; }
-    public int       Cost        { get; set; }
 
+
+    /// <summary>
+    /// The distance the node is from the target Node. 
+    /// </summary>
+    public int Distance { get; set; }
+
+    /// <summary>
+    /// Directional cost. Cost value set based on which direction is is from its parent. 
+    /// </summary>
+    public int Cost { get; set; }
+
+    /// <summary>
+    /// The Distance + Cost.
+    /// </summary>
+    public int TotalValue { get; set; }
 
     public Node(Vector3 centre, int nodeID, Node parent)
     {
