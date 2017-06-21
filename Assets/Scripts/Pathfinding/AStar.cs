@@ -70,7 +70,7 @@ public class AStar : MonoBehaviour
         }
 
         openList.Add(startNode);
-        StartCoroutine(SearchLoop());
+        StartCoroutine(SearchLoop());            
         return true;
     }
 
@@ -94,6 +94,7 @@ public class AStar : MonoBehaviour
 
             yield return null;
         }
+        NPCMovement.Instance.BeingTravels(path);
         Debug.Log("Search complete.");
         yield return true;
     }
