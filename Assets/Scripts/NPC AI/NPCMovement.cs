@@ -49,67 +49,18 @@ public class NPCMovement : MonoBehaviour
 
     public void BeingTravels(List<Node> path)
     {
-        currentPath = path;
+         currentPath = path;
+
         currentNode = currentPath[0];
 
-        // FOR DEBUGGING
+        // FOR DEBUGGING this could be used for all objects when the game is loading to snap all characters to the closest Node.Centre
         tranform.position = currentNode.Centre;
 
-        // move to next node. 
-        // Vector2 dir = currentNode.Centre - currentPath[1].Centre;
-
-
-        CurrentDirection = GetDirection(currentPath[1]);
-        Debug.Log("From Node " + currentNode.ID + " to node " + currentPath[1].ID + " the current direction is " + CurrentDirection);
-        switch(CurrentDirection)
-        {
-            case Direction.UP:
-                currentDir = Vector3.up;
-                break;
-            case Direction.UP_LEFT:
-                currentDir = Vector3.up + Vector3.left;
-                break;
-            case Direction.UP_RIGHT:
-                currentDir = Vector3.up + Vector3.right;
-                break;
-            case Direction.DOWN:
-                currentDir = Vector3.down;
-                break;
-            case Direction.DOWN_LEFT:
-                currentDir = Vector3.down + Vector3.left;
-                break;
-            case Direction.DOWN_RIGHT:
-                currentDir = Vector3.down + Vector3.right;
-                break;
-            case Direction.RIGHT:
-                currentDir = Vector3.right;
-                break;
-            case Direction.LEFT:
-                currentDir = Vector3.left;
-                break;
-
-            default:
-                Debug.Log("No current direction");
-                break;
-        }
-
-        StartCoroutine(Move());
-        
-
-       // tranform.GetComponent<Rigidbody2D>().AddForce(currentDir * Time.deltaTime);
-      //tranform.GetComponent<Rigidbody2D>().MovePosition(tranform.position + currentDir * Time.deltaTime);
+        StartCoroutine(CompletePath());
 
     }
 
-    private IEnumerator Move()
-    {
-        while (true)
-        {
-            transform.position += currentDir * Time.deltaTime;
-            Debug.Log(tranform.position);
-            yield return null;
-        }
-    }
+
 
 
     /// <summary>
@@ -125,7 +76,7 @@ public class NPCMovement : MonoBehaviour
         bool leftFlag = false;
         bool rightFlag = false;
 
-        Debug.Log("current centre: " + currentNode.Centre + " next node centre: " + nextNode.Centre);
+        //Debug.Log("current centre: " + currentNode.Centre + " next node centre: " + nextNode.Centre);
         if(currentNode.Centre.x > nextNode.Centre.x)
         {
             leftFlag = true;
@@ -177,4 +128,82 @@ public class NPCMovement : MonoBehaviour
         return direction;
     }
 
+
+    private void SetDirectionVec(Direction dir)
+    {
+        float nodeWidth = GridManager.Instance.nodeWidth;
+        float nodeHeight = GridManager.Instance.nodeHeight;
+
+        Vector3 up    = new Vector3(0f, nodeHeight,  0f);
+        Vector3 down  = new Vector3(0f, -nodeHeight, 0f);
+        Vector3 right = new Vector3(nodeWidth,  0f, 0f);
+        Vector3 left  = new Vector3(-nodeWidth, 0f, 0f);
+
+
+        switch (dir)
+        {
+            case Direction.UP:
+                currentDir = up;
+                break;
+            case Direction.UP_LEFT:
+                currentDir = up + left;
+                break;
+            case Direction.UP_RIGHT:
+                currentDir = up + right;
+                break;
+            case Direction.DOWN:
+                currentDir = down;
+                break;
+            case Direction.DOWN_LEFT:
+                currentDir = down + left;
+                break;
+            case Direction.DOWN_RIGHT:
+                currentDir = down + right;
+                break;
+            case Direction.RIGHT:
+                currentDir = right;
+                break;
+            case Direction.LEFT:
+                currentDir = left;
+                break;
+
+            default:
+                Debug.Log("No current direction");
+                break;
+        }
+    }
+
+
+    private IEnumerator CompletePath()
+    {
+        int idx = 0;
+        //Debug.Log("path size: " + currentPath.Count);
+        while(currentNode.ID != currentPath[currentPath.Count - 1].ID)
+        {
+            if ((idx + 1) < currentPath.Count)
+            {
+                //Debug.Log("IDX + 1 or " + (idx + 1) + " is less than " + currentPath.Count);
+                CurrentDirection = GetDirection(currentPath[idx + 1]);
+                SetDirectionVec(CurrentDirection);
+
+               // Debug.Log("Is " + this.tranform.position + " == " + currentPath[idx + 1].Centre + "?");
+                if ((Mathf.Abs(this.tranform.position.x - currentPath[idx + 1].Centre.x) <= 0.05f) &&
+                    (Mathf.Abs(this.tranform.position.y - currentPath[idx + 1].Centre.y) <= 0.05f))
+                {
+                    idx++;
+                   // Debug.Log("Current path index " + idx);
+                }
+            }
+
+
+
+
+            transform.position += currentDir * Time.deltaTime;
+            currentNode = currentPath[idx];
+            //Debug.Log("From Node " + currentNode.ID + " to node " + currentPath[idx + 1].ID + " the current direction is " + CurrentDirection);
+           // Debug.Log("Moving vector position: " + tranform.position);
+            yield return null;
+        } 
+        yield return true;
+    }
 }

@@ -57,7 +57,7 @@ public class AStar : MonoBehaviour
         Debug.Log("Start node id: " + nodeID);
         Debug.Log("Target node id: " + targetID);
 
-        if (startNode.Equals(null) || GridManager.Instance.GetNode(targetNodeID).Equals(null))
+        if (startNode == null || GridManager.Instance.GetNode(targetNodeID) == null)
         {
             Debug.Log("Start or Target Node ID invalid");
             return false;
@@ -258,7 +258,7 @@ public class AStar : MonoBehaviour
         if (!openList.Contains(node)) return;
 
         //Debug.Log("Add node " + node.ID + " to the closedList");
-        Debugging.Instance.PlaceDebugCube(node.Centre, node.ID);
+        
 
         openList.Remove(node);
         closedList.Add(node);
@@ -370,8 +370,9 @@ public class AStar : MonoBehaviour
             path.Add(pathBackwards[i]);
         }
 
-        for (int i = 0; i < idx; i++)
+        for (int i = 0; i <= idx; i++)
         {
+            Debugging.Instance.PlaceDebugCube(path[i].Centre, path[i].ID);
             Debug.Log("Path " + i + " is " + path[i].ID);
         }
     }

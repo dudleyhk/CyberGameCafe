@@ -73,7 +73,12 @@ public class GridManager : MonoBehaviour
     {
         if (gridNodes.Count <= 0)
             return null;
-        return gridNodes.Contains(gridNodes[ID]) ? gridNodes[ID] : null;
+
+        if (ID > (nodesAcross * nodesUp) || ID < 0)
+            return null;
+
+
+        return gridNodes[ID];
     }
 
 
@@ -107,7 +112,7 @@ public class GridManager : MonoBehaviour
     private void Start()
     {
         CreateNodes();
-        AStar.Instance.Search(10, 45);
+        AStar.Instance.Search(0, 3);
     }
 
 
