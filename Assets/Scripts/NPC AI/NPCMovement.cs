@@ -195,9 +195,6 @@ public class NPCMovement : MonoBehaviour
                 }
             }
 
-
-
-
             transform.position += currentDir * Time.deltaTime;
             currentNode = currentPath[idx];
             //Debug.Log("From Node " + currentNode.ID + " to node " + currentPath[idx + 1].ID + " the current direction is " + CurrentDirection);

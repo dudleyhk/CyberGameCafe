@@ -112,7 +112,7 @@ public class GridManager : MonoBehaviour
     private void Start()
     {
         CreateNodes();
-        AStar.Instance.Search(0, 3);
+        AStar.Instance.Search(0, 263);
     }
 
 
