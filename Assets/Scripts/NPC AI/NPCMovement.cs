@@ -195,8 +195,14 @@ public class NPCMovement : MonoBehaviour
                 }
             }
 
+
+            // while GridManager.Instance.GetNode(currentNode.ID).Parent.Occupied == false
+            //
             transform.position += currentDir * Time.deltaTime;
+            //
+
             currentNode = currentPath[idx];
+            // GridManager.Instance.GetNode(currentNode.ID).Occupied = true;
             //Debug.Log("From Node " + currentNode.ID + " to node " + currentPath[idx + 1].ID + " the current direction is " + CurrentDirection);
            // Debug.Log("Moving vector position: " + tranform.position);
             yield return null;

@@ -21,6 +21,9 @@ public class GridManager : MonoBehaviour
     public ushort nodesUp = 0;
     public ushort nodeDepth = 5;
 
+    public ushort startNode = 0;
+    public ushort destinationNode = 263;
+
 
 
     private static GridManager _instance = null;
@@ -112,7 +115,7 @@ public class GridManager : MonoBehaviour
     private void Start()
     {
         CreateNodes();
-        AStar.Instance.Search(0, 263);
+        AStar.Instance.Search(startNode, destinationNode);
     }
 
 
