@@ -5,20 +5,19 @@ using UnityEngine.Networking;
 
 public class GUIManager : MonoBehaviour
 {
-    public NetworkManager manager = null;
+    private NetworkManager manager = null;
+    private GameObject networkManager;
     public GameObject gameController;
-   // private NetworkManager manager;
     private Canvas mainCanvas;
     private string roomCode = "";
 
     void Start()
     {
         mainCanvas = FindObjectOfType<Canvas>();
-        // networkManager = GameObject.FindGameObjectWithTag("NetworkManager");
-        // manager = networkManager.GetComponent<NetworkManager>();
-        // manager.networkAddress = Network.player.ipAddress;
+        networkManager = GameObject.FindGameObjectWithTag("NetworkManager");
+        manager = networkManager.GetComponent<NetworkManager>();
         manager.networkAddress = Network.player.ipAddress;
-        Debug.Log("Manager IP Address: "  + manager.networkAddress);
+        Debug.Log("Manager IP Address: " + manager.networkAddress);
 
     }
 
