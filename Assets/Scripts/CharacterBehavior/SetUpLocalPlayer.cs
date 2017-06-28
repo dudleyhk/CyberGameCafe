@@ -42,8 +42,8 @@ public class SetUpLocalPlayer : NetworkBehaviour
         {
             //generate character appearance
             Debug.Log("Calling genereate");
-            Cmd_Generate();
-
+            generate();
+            CmdsendDataToServer(uniqueNumber);
 
             //turn on movement script
             GetComponent<Movement>().enabled = true;
@@ -55,8 +55,8 @@ public class SetUpLocalPlayer : NetworkBehaviour
         GetComponent<SpawnCharacter>().renderPlayer(body, top, legs, eyes, hair, skinC, topC, legsC, shoesC, hairC);
     }
 
-    // [Command]
-    public void Cmd_Generate()
+
+    public void generate()
     {
         Debug.Log("Generate is being called");
         hair = uniqueNumber[1] % 5;
@@ -77,6 +77,33 @@ public class SetUpLocalPlayer : NetworkBehaviour
         legsC = new Color(uNum[12], uNum[13], uNum[14], 1);
         shoesC = new Color(uNum[15], uNum[16], uNum[17], 1);
         hairC = new Color(uNum[18], uNum[19], uNum[20], 1);
+    }
+
+    [Command]
+    void CmdsendDataToServer(int[] uniqueNumber)
+    {
+        Debug.Log("sending generate to server");
+
+        hair = uniqueNumber[1] % 5;
+        top = uniqueNumber[2] % 4;
+        legs = uniqueNumber[3] % 2;
+        eyes = uniqueNumber[4] % 5;
+        body = uniqueNumber[5] % 4;
+
+        float[] uNum = new float[40];
+        for (int i = 6; i < 21; i++)
+        {
+            uniqueNumber[i] = (uniqueNumber[i] == 0) ? 10 : uniqueNumber[i];
+            uNum[i] = 1.0f / uniqueNumber[i];
+        }
+
+        skinC = new Color(uNum[6], uNum[7], uNum[8], 1);
+        topC = new Color(uNum[9], uNum[10], uNum[11], 1);
+        legsC = new Color(uNum[12], uNum[13], uNum[14], 1);
+        shoesC = new Color(uNum[15], uNum[16], uNum[17], 1);
+        hairC = new Color(uNum[18], uNum[19], uNum[20], 1);
+
+        GetComponent<SpawnCharacter>().renderPlayer(body, top, legs, eyes, hair, skinC, topC, legsC, shoesC, hairC);
     }
 
     void uniqueIdentifierToNumber(string uniqueIdentifier)
