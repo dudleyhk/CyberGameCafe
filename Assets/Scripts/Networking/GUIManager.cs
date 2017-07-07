@@ -43,7 +43,7 @@ public class GUIManager : MonoBehaviour
                 //begin the server
                 manager.StartServer();
                 //set the camera size for the server
-                GetComponent<Camera>().orthographicSize = 30;
+                GetComponent<Camera>().orthographicSize = 27;
             }
         }
         else
