@@ -7,12 +7,13 @@ using Weight = GridManager.SpriteWeight;
 /// <summary>
 /// Nodes are a part of the underlying invisible grid.
 /// </summary>
-public class Node
+public class Node : MonoBehaviour
 {
     public Node      Parent      { get; set; }
     public Vector3   Centre      { get; internal set; }
     public Weight    Weight      { get; internal set; }
     public int       ID          { get; internal set; }
+
 
 
     /// <summary>
@@ -30,18 +31,30 @@ public class Node
     /// </summary>
     public int TotalValue { get; set; }
 
-    public Node(Vector3 centre, int nodeID, Node parent)
+
+    /// <summary>
+    /// If Occupied another player cannot move into it.
+    /// </summary>
+    private bool _occupied = false;
+
+
+
+
+    public void Init(Vector3 centre, int nodeID, Node parent)
     {
         ID     = nodeID;
         Centre = centre;
         Parent = parent;
 
-        Cost = 0;
-        Distance = 0;
+        Cost       = 0;
+        Distance   = 0;
         TotalValue = 0;
+
 
         CalculateWeight();
     }
+
+
 
     /// <summary>
     /// Calculate a weight for each node based on if any sprites are over that node. 
@@ -59,6 +72,29 @@ public class Node
         foreach(var hitInfo in infoArray)
         {
             Weight = GridManager.Instance.GetWeight(hitInfo.transform.tag);
+        }
+    }
+
+
+
+    public bool Occupied
+    {
+        get
+        {
+            return _occupied;
+        }
+
+        set
+        {
+            _occupied = value;
+            if(_occupied)
+            {
+                print("Node " + ID + " is occupied.");
+            }
+            else
+            {
+                print("Node " + ID + " is now unoccupied.");
+            } 
         }
     }
 }

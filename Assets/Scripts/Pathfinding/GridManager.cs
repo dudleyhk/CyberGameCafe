@@ -8,8 +8,9 @@ using UnityEngine;
 // cut the terrain into equal squares which are the same size as the character. 
 public class GridManager : MonoBehaviour
 {
-    private List<Node> gridNodes = null;
     private Renderer mapRenderer = null;
+    public List<Node> gridNodes = new List<Node>();
+    public GameObject nodePrefab = null;
     public GameObject map = null;
     public Vector3 mapMinPoint = Vector3.zero;
     public float mapHeight = 0.0f;
@@ -20,9 +21,6 @@ public class GridManager : MonoBehaviour
     public ushort nodesAcross = 0;
     public ushort nodesUp = 0;
     public ushort nodeDepth = 5;
-
-    public ushort startNode = 0;
-    public ushort destinationNode = 263;
 
 
 
@@ -106,18 +104,11 @@ public class GridManager : MonoBehaviour
         mapMinPoint = mapRenderer.bounds.min;
 
         // INIT NODE ATTRIBUTES
-        gridNodes = new List<Node>();
         nodeWidth = (float)mapWidth / nodesAcross;
         nodeHeight = (float)mapHeight / nodesUp;
-    }
 
-
-    private void Start()
-    {
         CreateNodes();
-        AStar.Instance.Search(startNode, destinationNode);
     }
-
 
 
     /// <summary>
@@ -145,10 +136,24 @@ public class GridManager : MonoBehaviour
                 float Cz = mapMinPoint.z + nodeDepth;
                 Vector3 centre = new Vector3(Cx, Cy, Cz);
 
-                Debugging.Instance.PlaceDebugSphere(centre, nodeIdx);
+               // Debugging.Instance.PlaceDebugSphere(centre, nodeIdx);
 
-                gridNodes.Add(new Node(centre, nodeIdx, null));
+                // Create a new node and initialise it. 
+                Node node = Instantiate(nodePrefab, this.transform).GetComponent<Node>();
+                node.Init(centre, nodeIdx, null);
+                node.transform.position = centre;
 
+                // Set scale of the node object.
+                Vector3 nodeScale = node.transform.localScale;
+                nodeScale.x = nodeWidth;
+                nodeScale.y = nodeHeight;
+                node.transform.localScale = nodeScale;
+
+
+                // Add it to the list.
+                gridNodes.Add(node);
+
+                // Move to next node along. 
                 currentX += nodeWidth;
             }
             currentY += nodeHeight;

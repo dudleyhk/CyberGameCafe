@@ -8,8 +8,8 @@ public class NPCMovement : MonoBehaviour
 {
     private List<Node> currentPath = null;
     private Node currentNode = null;
-    private Transform tranform = null;
     public  Vector3 currentDir = Vector3.zero;
+    
 
     public static Direction CurrentDirection { get; internal set; }
 
@@ -28,33 +28,22 @@ public class NPCMovement : MonoBehaviour
     }
 
 
-    // This script wont be a singleton later in developemtn
-    private static NPCMovement _instance = null;
-    public static NPCMovement Instance
-    {
-        get
-        {
-            if (!_instance)
-            {
-                var mover = FindObjectOfType<NPCMovement>();
-                _instance = mover;
-            }
-            return _instance;
-        }
-    }
+
     private void Awake()
     {
-        tranform = this.transform;
+       // tranform = this.transform;
     }
+
+
 
     public void BeingTravels(List<Node> path)
     {
-         currentPath = path;
+        currentPath = path;
 
         currentNode = currentPath[0];
 
         // FOR DEBUGGING this could be used for all objects when the game is loading to snap all characters to the closest Node.Centre
-        tranform.position = currentNode.Centre;
+        this.transform.position = currentNode.Centre;
 
         StartCoroutine(CompletePath());
 
@@ -174,39 +163,70 @@ public class NPCMovement : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// Run this loop until the last ID has been hit.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator CompletePath()
     {
         int idx = 0;
-        //Debug.Log("path size: " + currentPath.Count);
         while(currentNode.ID != currentPath[currentPath.Count - 1].ID)
         {
+            Node nextNode = currentPath[idx + 1];
             if ((idx + 1) < currentPath.Count)
             {
-                //Debug.Log("IDX + 1 or " + (idx + 1) + " is less than " + currentPath.Count);
-                CurrentDirection = GetDirection(currentPath[idx + 1]);
+                // Check if the next node is occupied
+                if(NodeOccupied(nextNode))
+                {
+                                     
+
+                }
+
+
+                // Get Direction of nextNode.
+                CurrentDirection = GetDirection(nextNode);
                 SetDirectionVec(CurrentDirection);
 
-               // Debug.Log("Is " + this.tranform.position + " == " + currentPath[idx + 1].Centre + "?");
-                if ((Mathf.Abs(this.tranform.position.x - currentPath[idx + 1].Centre.x) <= 0.05f) &&
-                    (Mathf.Abs(this.tranform.position.y - currentPath[idx + 1].Centre.y) <= 0.05f))
+                // If the player is very close to the nextNode, increment Node counter (idx).
+                if ((Mathf.Abs(this.transform.position.x - nextNode.Centre.x) <= 0.05f) &&
+                    (Mathf.Abs(this.transform.position.y - nextNode.Centre.y) <= 0.05f))
                 {
+                    // This may be too close but can be altered later.
+                    nextNode.Occupied = true;
                     idx++;
-                   // Debug.Log("Current path index " + idx);
                 }
+                nextNode.Occupied = false;
             }
 
 
-            // while GridManager.Instance.GetNode(currentNode.ID).Parent.Occupied == false
-            //
+            // Move
             transform.position += currentDir * Time.deltaTime;
-            //
 
+            // Set current new Node. 
             currentNode = currentPath[idx];
-            // GridManager.Instance.GetNode(currentNode.ID).Occupied = true;
+
+
+            //GridManager.Instance.GetNode(currentNode.ID).Occupied = true;
             //Debug.Log("From Node " + currentNode.ID + " to node " + currentPath[idx + 1].ID + " the current direction is " + CurrentDirection);
            // Debug.Log("Moving vector position: " + tranform.position);
             yield return null;
         } 
         yield return true;
+    }
+
+
+
+    /// <summary>
+    /// Pass in the next node and check if it is occupied. 
+    /// </summary>
+    /// <param name="node"></param>
+    /// <returns></returns>
+    private bool NodeOccupied(Node node)
+    {
+        if(node.Occupied)
+        {
+            // either, change the current state to wait and disregard this path. Or Wait for X seconds before continuing.
+        }
+        return false;
     }
 }

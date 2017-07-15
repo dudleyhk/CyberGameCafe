@@ -6,7 +6,7 @@ public class AStar : MonoBehaviour
 {
     private List<Node> openList = new List<Node>();
     private List<Node> closedList = new List<Node>();
-    private List<Node> path = new List<Node>();
+    public List<Node> path = new List<Node>();
 
     private int targetNodeID = 0;
     private ushort nodesAcross = 0;
@@ -40,7 +40,6 @@ public class AStar : MonoBehaviour
     {
         nodesAcross = GridManager.Instance.GetNodesAcross();
         nodesUp     = GridManager.Instance.GetNodesUp();
-        
     }
 
     /// <summary>
@@ -94,7 +93,6 @@ public class AStar : MonoBehaviour
 
             yield return null;
         }
-        NPCMovement.Instance.BeingTravels(path);
         Debug.Log("Search complete.");
         yield return true;
     }
