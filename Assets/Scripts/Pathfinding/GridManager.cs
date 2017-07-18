@@ -22,6 +22,7 @@ public class GridManager : MonoBehaviour
     public float  _nodeHeight = 0.0f;
     public ushort _nodesAcross = 0;
     public ushort _nodesUp = 0;
+    public ushort _totalNodes = 0;
     public ushort nodeDepth_debugging = 5;
 
 
@@ -72,6 +73,18 @@ public class GridManager : MonoBehaviour
             _nodeHeight = value;
         }
     }
+    public ushort TotalNodes
+    {
+        get
+        {
+            return _totalNodes;
+        }
+
+        set
+        {
+            _totalNodes = value;
+        }
+    }
 
 
     private static GridManager _instance = null;
@@ -103,6 +116,8 @@ public class GridManager : MonoBehaviour
         NodeWidth = (float)mapWidth / NodesAcross;
         NodeHeight = (float)mapHeight / NodesUp;
 
+        int total = (int)NodesUp * NodesAcross;
+        TotalNodes = (ushort)total;
 
         BuildGrid();
     }

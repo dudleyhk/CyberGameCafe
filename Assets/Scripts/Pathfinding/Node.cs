@@ -86,11 +86,11 @@ public class Node : MonoBehaviour
             _occupied = value;
             if(_occupied)
             {
-                print("Node " + ID + " is occupied.");
+                //print("Node " + ID + " is occupied.");
             }
             else
             {
-                print("Node " + ID + " is now unoccupied.");
+                //print("Node " + ID + " is now unoccupied.");
             } 
         }
     }

@@ -14,7 +14,16 @@ public class NPCBehaviour : MonoBehaviour
     public NPCTravelState    npcTravelState = null;
     public NPCSocialiseState npcSocialState = null;
 
+    public Player player = null;
+    public NPCMovement npcMovement = null;
+
     public bool inState = false;
+
+
+    public List<Node> currentPath = null;
+    public bool randTargetFound = false;
+    public bool travelling      = false;
+    public int randTargetNodeID = -1;
 
     // Call AStart.Search to create the shortest path. 
     // Call the Characters NPCMovement.BeingTravels() to start the movement cycle.  NPCMovement.BeingTravels(path);
@@ -50,8 +59,80 @@ public class NPCBehaviour : MonoBehaviour
     {
         // TODO: Get the currentNodeID which the npc has been spawned at. 
 
-        StartCoroutine(NPCStateMachine());   
+        //StartCoroutine(NPCStateMachine());   
     }
+
+
+    public void Update()
+    {
+        switch (currentState)
+        {
+            case State.Wait:
+                Waiting();
+                break;
+
+            case State.Travel:
+                Travel();
+                break;
+        }
+    }
+
+
+    /// <summary>
+    /// Basic waiting functionality. Pick a random target and find the path for it. 
+    /// </summary>
+    private void Waiting()
+    {
+        print("Random no. is " + randTargetFound);
+
+        // This gets locked when a random value is received and unlocked if the ID 
+        //   doesn't work. 
+        if (!randTargetFound)
+        {
+            randTargetNodeID = Random.Range(0, GridManager.Instance.TotalNodes);
+            randTargetFound = true;
+
+
+            print("finding random target");
+            print("Target of " + randTargetNodeID + " found");
+        }
+
+        // If this function returns false there has been an error regarding the targetID
+        //  and another needs to be received.
+        if(!AStar.Instance.Search(player.spawnNodeID, randTargetNodeID))
+        {
+            randTargetFound = false;
+            print("Astar has had trouble with the rand value");
+            print("A new one will be aquired");
+        }
+
+
+        // A path has been found
+        if(AStar.Instance.Path.Count > 0)
+        {
+            currentPath = AStar.Instance.Path;
+            AStar.Instance.Path = null;
+            randTargetFound = false;
+
+            currentState = State.Travel;
+        }
+    }
+
+
+
+    /// <summary>
+    /// simple travelling
+    /// </summary>
+    private void Travel()
+    {
+        if (npcMovement.JourneyToTarget(currentPath))
+        {
+            print("Finished journey.. find path again");
+            currentState = State.Wait;
+        }
+    }
+
+
 
 
 
@@ -97,23 +178,6 @@ public class NPCBehaviour : MonoBehaviour
                     {
                         print("instance no: " + i++);
                         StartCoroutine(TravelState(flag =>
-                        {
-                            if (flag)
-                            {
-                                inState = false;
-                            }
-                            else
-                            {
-                                inState = true;
-                            }
-                        }));
-                    }
-                    break;
-
-                case State.Socialise:
-                    if (!inState)
-                    {
-                        StartCoroutine(SocialiseState(flag =>
                         {
                             if (flag)
                             {
@@ -176,24 +240,4 @@ public class NPCBehaviour : MonoBehaviour
         stateComplete(true);
         yield return true;
     }
-
-
-    private IEnumerator SocialiseState(System.Action<bool> stateComplete)
-    {
-        // run state loop
-        while (true)
-        {
-            //	Pick from events to talk about. 
-            //	Do some other sort of socialising checks?
-            //	Determine if they should leave the socialising state.
-
-
-            stateComplete(false);
-            yield return null;
-        }
-        stateComplete(true);
-        yield return true;
-    }
-
-
 }

@@ -13,8 +13,9 @@ public class AStar : MonoBehaviour
     private ushort nodesUp = 0;
 	public int  diagonalCost = 14;
 	public int  orthogonalCost = 10;
-    public bool routeIsFound = false;
 
+    public bool searchInProgress = false;
+    public bool initSearch = false;
 
 
     private static AStar _instance = null;
@@ -35,7 +36,17 @@ public class AStar : MonoBehaviour
     {
         get
         {
+            print("AStar path has a count of " + _path.Count);
             return _path;
+        }
+
+        set
+        {
+            if(value == null)
+            {
+                print("Path being set to null");
+            }
+            _path = value;
         }
     }
 
@@ -55,44 +66,80 @@ public class AStar : MonoBehaviour
     /// </summary>
     /// <param name="nodeID"></param>
     /// <param name="targetID"></param>
-    /// <returns></returns>
+    /// <returns>Returns false if there has been an error regarding the targetID</returns>
     public bool Search(int nodeID, int targetID)
     {
-        Node startNode = GridManager.Instance.GetNode(nodeID);
-        targetNodeID = targetID;
-
-        Debug.Log("Start node id: " + nodeID);
-        Debug.Log("Target node id: " + targetID);
-
-        if (startNode == null || GridManager.Instance.GetNode(targetNodeID) == null)
+        if(!InitSearch(nodeID, targetID))
         {
-            Debug.Log("Start or Target Node ID invalid");
             return false;
         }
 
-        if (GridManager.Instance.GetNode(targetID).Weight == GridManager.SpriteWeight.Static)
+
+        Node currentNode = SelectNewParent();
+        AddToClosedList(currentNode);
+        CheckSurroundingNodes(currentNode);
+        CheckForPath();
+
+        return true;
+
+
+        /*         // if(!searchInit)
+        //if (!searchInProgress && _path == null)
+        //{
+        //    searchInProgress = true;
+        //    Node startNode = GridManager.Instance.GetNode(nodeID);
+        //    targetNodeID = targetID;
+        //    Debug.Log("Start node id: " + nodeID);
+        //    Debug.Log("Target node id: " + targetID);
+        //    if (startNode == null || GridManager.Instance.GetNode(targetNodeID) == null)
+        //    {
+        //        Debug.Log("Start or Target Node ID invalid");
+        //        return false;
+        //    }
+        //    if (GridManager.Instance.GetNode(targetID).Weight == GridManager.SpriteWeight.Static)
+        //    {
+        //        Debug.Log("Target is covered");
+        //        return false;
+        //    }
+        //    openList.Add(startNode);
+        //    //}
+        //    StartCoroutine(SearchLoop(completed =>
+        //    {
+        //        if (completed)
+        //        {
+        //            searchInProgress = false;
+        //        }
+        //    }));
+        //}                  
+        //return true;
+        */
+    }
+
+    private bool InitSearch(int nodeID, int targetID)
+    {
+        if (!initSearch)
         {
-            Debug.Log("Target is covered");
-            return false;
+            Node startNode = GridManager.Instance.GetNode(nodeID);
+            targetNodeID = targetID;
+
+            Debug.Log("Start node id: " + nodeID);
+            Debug.Log("Target node id: " + targetID);
+
+            if (startNode == null || GridManager.Instance.GetNode(targetNodeID) == null)
+            {
+                Debug.Log("Start or Target Node ID invalid");
+                return false;
+            }
+
+            if (GridManager.Instance.GetNode(targetID).Weight == GridManager.SpriteWeight.Static)
+            {
+                Debug.Log("Target is covered");
+                return false;
+            }
+            openList.Add(startNode);
+            initSearch = true;
         }
-
-        openList.Add(startNode);
-
-        // neeed to use action lambda here 
-        StartCoroutine(SearchLoop(completed =>
-        {
-            if (completed)
-            {
-                routeIsFound = true;
-            }
-            else
-            {
-                routeIsFound = false;
-            }
-        }));
-        
-                  
-        return routeIsFound;
+        return true;
     }
 
     /// <summary>
@@ -102,6 +149,7 @@ public class AStar : MonoBehaviour
     /// <returns></returns>
     private IEnumerator SearchLoop(System.Action<bool> completed)
     {
+        
         while (true)
         {
             //Debug.Log("LOOP BEGIN");
@@ -113,6 +161,7 @@ public class AStar : MonoBehaviour
             CheckSurroundingNodes(currentNode);
             if(CheckForPath())
             {
+                // return true;
                 break;
             }
 
@@ -121,7 +170,6 @@ public class AStar : MonoBehaviour
         }
 
         completed(true);
-        Debug.Log("Search complete.");
         yield return true;
     }
 

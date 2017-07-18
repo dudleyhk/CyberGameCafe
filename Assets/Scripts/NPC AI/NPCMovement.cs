@@ -11,6 +11,7 @@ public class NPCMovement : MonoBehaviour
     public int currentNodeID = 0;
     public  Vector3 currentDir = Vector3.zero;
     public Transform parentTransform = null;
+    public bool travellingBegun = false;
     public bool pathComplete = false;
     public Direction CurrentDirection { get; internal set; }
 
@@ -46,30 +47,30 @@ public class NPCMovement : MonoBehaviour
 
 
 
-    public bool BeingTravels(List<Node> path)
+    public bool JourneyToTarget(List<Node> path)
     {
-       Debug.Assert(path.Count <= 0);
+        if(path.Count <= 0)
+        {
+            print("nothing in the path list");
+        }
 
-
-        currentPath = path;
-        currentNode = currentPath[0];
+        if (!travellingBegun)
+        {
+            currentPath = path;
+            currentNode = currentPath[0];
+            travellingBegun = true;
+        }
 
         // FOR DEBUGGING this could be used for all objects when the game is loading to snap all characters to the closest Node.Centre
-        parentTransform.position = currentNode.Centre;
-        
-        StartCoroutine(CompletePath(flag => 
-        {
-            if(flag)
-            {
-                pathComplete = true;
-            }
-            else
-            {
-                pathComplete = false;
-            }
-        }));
+       // parentTransform.position = currentNode.Centre;
 
-        return pathComplete;
+        if(CompletePath())
+        {
+            travellingBegun = false;
+            return true;
+        }
+
+        return false;
     }
 
 
@@ -195,10 +196,10 @@ public class NPCMovement : MonoBehaviour
     /// Run this loop until the last ID has been hit.
     /// </summary>
     /// <returns></returns>
-    private IEnumerator CompletePath(System.Action<bool> flag)
+    private bool CompletePath()
     {
         int idx = 0;
-        while(currentNode.ID != currentPath[currentPath.Count - 1].ID)
+        if(currentNode.ID != currentPath[currentPath.Count - 1].ID)
         {
             Node nextNode = currentPath[idx + 1];
             if ((idx + 1) < currentPath.Count)
@@ -238,11 +239,12 @@ public class NPCMovement : MonoBehaviour
             //GridManager.Instance.GetNode(currentNode.ID).Occupied = true;
             //Debug.Log("From Node " + currentNode.ID + " to node " + currentPath[idx + 1].ID + " the current direction is " + CurrentDirection);
             // Debug.Log("Moving vector position: " + tranform.position);
-            flag(false);
-            yield return null;
+            return false;
+            //yield return null;
         }
-        flag(true);
-        yield return true;
+        return true;
+        //flag(true);
+        //yield return true;
     }
 
 

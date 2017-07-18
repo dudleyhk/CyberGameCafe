@@ -13,10 +13,10 @@ public class NPCTravelState : MonoBehaviour
 
     public State Travelling()
     {
-        if(npcMovement.BeingTravels(AStar.Instance.Path))
-        {
-            return State.Wait;
-        }
+        //if(npcMovement.BeingTravels(AStar.Instance.Path))
+        //{
+        //    return State.Wait;
+        //}
 
         // Analyse the characters they walk by to determine if they should stop. this might return State.Socialise. 
 
