@@ -7,11 +7,13 @@ using UnityEngine;
 public class NPCMovement : MonoBehaviour
 {
     private List<Node> currentPath = null;
-    private Node currentNode = null;
+    public  Node currentNode = null;
+    public int currentNodeID = 0;
     public  Vector3 currentDir = Vector3.zero;
-    
+    public Transform parentTransform = null;
+    public bool pathComplete = false;
+    public Direction CurrentDirection { get; internal set; }
 
-    public static Direction CurrentDirection { get; internal set; }
 
 
     public enum Direction
@@ -29,24 +31,45 @@ public class NPCMovement : MonoBehaviour
 
 
 
-    private void Awake()
+    public int CurrentNodeID
     {
-       // tranform = this.transform;
+        get
+        {
+            return currentNodeID;
+        }
+
+        set
+        {
+            currentNodeID = value;
+        }
     }
 
 
 
-    public void BeingTravels(List<Node> path)
+    public bool BeingTravels(List<Node> path)
     {
-        currentPath = path;
+       Debug.Assert(path.Count <= 0);
 
+
+        currentPath = path;
         currentNode = currentPath[0];
 
         // FOR DEBUGGING this could be used for all objects when the game is loading to snap all characters to the closest Node.Centre
-        this.transform.position = currentNode.Centre;
+        parentTransform.position = currentNode.Centre;
+        
+        StartCoroutine(CompletePath(flag => 
+        {
+            if(flag)
+            {
+                pathComplete = true;
+            }
+            else
+            {
+                pathComplete = false;
+            }
+        }));
 
-        StartCoroutine(CompletePath());
-
+        return pathComplete;
     }
 
 
@@ -118,10 +141,15 @@ public class NPCMovement : MonoBehaviour
     }
 
 
+
+    /// <summary>
+    /// Use the current Direction to create a new Vector3 Direction. 
+    /// </summary>
+    /// <param name="dir"></param>
     private void SetDirectionVec(Direction dir)
     {
-        float nodeWidth = GridManager.Instance.nodeWidth;
-        float nodeHeight = GridManager.Instance.nodeHeight;
+        float nodeWidth = GridManager.Instance.NodeWidth;
+        float nodeHeight = GridManager.Instance.NodeHeight;
 
         Vector3 up    = new Vector3(0f, nodeHeight,  0f);
         Vector3 down  = new Vector3(0f, -nodeHeight, 0f);
@@ -167,7 +195,7 @@ public class NPCMovement : MonoBehaviour
     /// Run this loop until the last ID has been hit.
     /// </summary>
     /// <returns></returns>
-    private IEnumerator CompletePath()
+    private IEnumerator CompletePath(System.Action<bool> flag)
     {
         int idx = 0;
         while(currentNode.ID != currentPath[currentPath.Count - 1].ID)
@@ -188,8 +216,8 @@ public class NPCMovement : MonoBehaviour
                 SetDirectionVec(CurrentDirection);
 
                 // If the player is very close to the nextNode, increment Node counter (idx).
-                if ((Mathf.Abs(this.transform.position.x - nextNode.Centre.x) <= 0.05f) &&
-                    (Mathf.Abs(this.transform.position.y - nextNode.Centre.y) <= 0.05f))
+                if ((Mathf.Abs(parentTransform.position.x - nextNode.Centre.x) <= 0.05f) &&
+                    (Mathf.Abs(parentTransform.position.y - nextNode.Centre.y) <= 0.05f))
                 {
                     // This may be too close but can be altered later.
                     nextNode.Occupied = true;
@@ -200,17 +228,20 @@ public class NPCMovement : MonoBehaviour
 
 
             // Move
-            transform.position += currentDir * Time.deltaTime;
+            parentTransform.position += currentDir * Time.deltaTime;
 
             // Set current new Node. 
             currentNode = currentPath[idx];
+            CurrentNodeID = currentNode.ID;
 
 
             //GridManager.Instance.GetNode(currentNode.ID).Occupied = true;
             //Debug.Log("From Node " + currentNode.ID + " to node " + currentPath[idx + 1].ID + " the current direction is " + CurrentDirection);
-           // Debug.Log("Moving vector position: " + tranform.position);
+            // Debug.Log("Moving vector position: " + tranform.position);
+            flag(false);
             yield return null;
-        } 
+        }
+        flag(true);
         yield return true;
     }
 

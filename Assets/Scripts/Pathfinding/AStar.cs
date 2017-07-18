@@ -6,14 +6,14 @@ public class AStar : MonoBehaviour
 {
     private List<Node> openList = new List<Node>();
     private List<Node> closedList = new List<Node>();
-    public List<Node> path = new List<Node>();
+    public List<Node> _path = new List<Node>();
 
     private int targetNodeID = 0;
     private ushort nodesAcross = 0;
     private ushort nodesUp = 0;
 	public int  diagonalCost = 14;
 	public int  orthogonalCost = 10;
-    public bool routeFound = false;
+    public bool routeIsFound = false;
 
 
 
@@ -31,6 +31,14 @@ public class AStar : MonoBehaviour
         }
     }
 
+    public List<Node> Path
+    {
+        get
+        {
+            return _path;
+        }
+    }
+
     // http://www.policyalmanac.org/games/aStarTutorial.htm
 
     // F = G + H 
@@ -38,8 +46,8 @@ public class AStar : MonoBehaviour
     // G : The cost value it takes to get to this node (in the example diagonals cost slightly more).
     private void Awake()
     {
-        nodesAcross = GridManager.Instance.GetNodesAcross();
-        nodesUp     = GridManager.Instance.GetNodesUp();
+        nodesAcross = GridManager.Instance.NodesAcross;
+        nodesUp     = GridManager.Instance.NodesUp;
     }
 
     /// <summary>
@@ -69,8 +77,22 @@ public class AStar : MonoBehaviour
         }
 
         openList.Add(startNode);
-        StartCoroutine(SearchLoop());            
-        return true;
+
+        // neeed to use action lambda here 
+        StartCoroutine(SearchLoop(completed =>
+        {
+            if (completed)
+            {
+                routeIsFound = true;
+            }
+            else
+            {
+                routeIsFound = false;
+            }
+        }));
+        
+                  
+        return routeIsFound;
     }
 
     /// <summary>
@@ -78,9 +100,9 @@ public class AStar : MonoBehaviour
     /// </summary>
     /// <param name="node"></param>
     /// <returns></returns>
-    private IEnumerator SearchLoop()
+    private IEnumerator SearchLoop(System.Action<bool> completed)
     {
-        while (!routeFound)
+        while (true)
         {
             //Debug.Log("LOOP BEGIN");
             //Debug.Log("Number of elements on the openList: " + openList.Count);
@@ -89,10 +111,16 @@ public class AStar : MonoBehaviour
 
             AddToClosedList(currentNode);
             CheckSurroundingNodes(currentNode);
-            routeFound = CheckForPath();
+            if(CheckForPath())
+            {
+                break;
+            }
 
+            completed(false);
             yield return null;
         }
+
+        completed(true);
         Debug.Log("Search complete.");
         yield return true;
     }
@@ -365,13 +393,13 @@ public class AStar : MonoBehaviour
 
         for(int i = idx; i >= 0; i--)
         {
-            path.Add(pathBackwards[i]);
+            _path.Add(pathBackwards[i]);
         }
 
         for (int i = 0; i <= idx; i++)
         {
-            Debugging.Instance.PlaceDebugCube(path[i].Centre, path[i].ID);
-            Debug.Log("Path " + i + " is " + path[i].ID);
+            Debugging.Instance.PlaceDebugCube(_path[i].Centre, _path[i].ID);
+            Debug.Log("Path " + i + " is " + _path[i].ID);
         }
     }
 }

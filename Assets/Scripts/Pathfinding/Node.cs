@@ -61,14 +61,11 @@ public class Node : MonoBehaviour
     /// </summary>
     private void CalculateWeight()
     {
-        Vector3 cameraPos = Camera.main.transform.position;
-
-        float dir = cameraPos.z - Centre.z;
-        Vector3 rayDirection = new Vector3(0, 0, dir);
+        Vector3 rayDirection = new Vector3(0, 0, -10f);
         Debug.DrawRay(Centre, rayDirection, Color.yellow, 50);
 
 
-        RaycastHit2D[] infoArray = Physics2D.RaycastAll(Centre, rayDirection, 5.0f);
+        RaycastHit2D[] infoArray = Physics2D.RaycastAll(Centre, rayDirection, 10.0f);
         foreach(var hitInfo in infoArray)
         {
             Weight = GridManager.Instance.GetWeight(hitInfo.transform.tag);
