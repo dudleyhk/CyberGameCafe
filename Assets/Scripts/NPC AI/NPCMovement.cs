@@ -58,18 +58,19 @@ public class NPCMovement : MonoBehaviour
         {
             currentPath = path;
             currentNode = currentPath[0];
+            StartCoroutine(CompletePath());
             travellingBegun = true;
         }
-
         // FOR DEBUGGING this could be used for all objects when the game is loading to snap all characters to the closest Node.Centre
-       // parentTransform.position = currentNode.Centre;
+        // parentTransform.position = currentNode.Centre;
 
-        if(CompletePath())
+        Debug.Log("TravellingBegun is " + travellingBegun);
+        Debug.Log("Path complete is " + pathComplete);
+        if (pathComplete)
         {
             travellingBegun = false;
             return true;
         }
-
         return false;
     }
 
@@ -196,20 +197,27 @@ public class NPCMovement : MonoBehaviour
     /// Run this loop until the last ID has been hit.
     /// </summary>
     /// <returns></returns>
-    private bool CompletePath()
+    private IEnumerator CompletePath()
     {
         int idx = 0;
-        if(currentNode.ID != currentPath[currentPath.Count - 1].ID)
+
+        int targetID = currentPath[currentPath.Count - 1].ID;
+        Debug.Log("TARGET ID : " + targetID);
+        while(currentNode.ID != targetID)
         {
+
+            CurrentNodeID = currentNode.ID; 
+            Debug.Log("In travelling coroutine next nodeID is " + currentPath[idx + 1].ID);
+
             Node nextNode = currentPath[idx + 1];
             if ((idx + 1) < currentPath.Count)
             {
                 // Check if the next node is occupied
-                if(NodeOccupied(nextNode))
-                {
+                //if(NodeOccupied(nextNode))
+                //{
                                      
 
-                }
+                //}
 
 
                 // Get Direction of nextNode.
@@ -221,10 +229,10 @@ public class NPCMovement : MonoBehaviour
                     (Mathf.Abs(parentTransform.position.y - nextNode.Centre.y) <= 0.05f))
                 {
                     // This may be too close but can be altered later.
-                    nextNode.Occupied = true;
+                  //  nextNode.Occupied = true;
                     idx++;
                 }
-                nextNode.Occupied = false;
+                //nextNode.Occupied = false;
             }
 
 
@@ -233,18 +241,15 @@ public class NPCMovement : MonoBehaviour
 
             // Set current new Node. 
             currentNode = currentPath[idx];
-            CurrentNodeID = currentNode.ID;
-
-
             //GridManager.Instance.GetNode(currentNode.ID).Occupied = true;
             //Debug.Log("From Node " + currentNode.ID + " to node " + currentPath[idx + 1].ID + " the current direction is " + CurrentDirection);
             // Debug.Log("Moving vector position: " + tranform.position);
-            return false;
-            //yield return null;
+            pathComplete = false;
+            yield return null;
         }
-        return true;
-        //flag(true);
-        //yield return true;
+
+        pathComplete = true;
+        yield return true;
     }
 
 

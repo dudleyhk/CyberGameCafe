@@ -14,16 +14,16 @@ public class NPCWaitState : MonoBehaviour
    
 
 
-    public State Waiting()
-    {
-        //	Check for players near-by.
-        //	Locate target.
-        if (AStar.Instance.Search(npcMovement.CurrentNodeID, targetNodeID))
-        {
-            print("Search complete");
-            return State.Travel;
-        }
-        return State.Wait;
-    }
+    //public State Waiting()
+    //{
+    //    //	Check for players near-by.
+    //    //	Locate target.
+    //    if (AStar.Instance.Search(npcMovement.CurrentNodeID, targetNodeID))
+    //    {
+    //        print("Search complete");
+    //        return State.Travel;
+    //    }
+    //    return State.Wait;
+    //}
 
 }

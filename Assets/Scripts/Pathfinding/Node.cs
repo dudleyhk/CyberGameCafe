@@ -13,6 +13,7 @@ public class Node : MonoBehaviour
     public Vector3   Centre      { get; internal set; }
     public Weight    Weight      { get; internal set; }
     public int       ID          { get; internal set; }
+    public int id_debugging = 0;
 
 
 
@@ -43,6 +44,7 @@ public class Node : MonoBehaviour
     public void Init(Vector3 centre, int nodeID, Node parent)
     {
         ID     = nodeID;
+        id_debugging = ID;
         Centre = centre;
         Parent = parent;
 

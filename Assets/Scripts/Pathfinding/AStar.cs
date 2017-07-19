@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class AStar : MonoBehaviour
 {
-    private List<Node> openList = new List<Node>();
-    private List<Node> closedList = new List<Node>();
-    public List<Node> _path = new List<Node>();
+    public  List<Node> openList   = new List<Node>();
+    public  List<Node> closedList = new List<Node>();
+    public  List<Node>  _path     = new List<Node>();
 
     private int targetNodeID = 0;
     private ushort nodesAcross = 0;
@@ -18,35 +18,26 @@ public class AStar : MonoBehaviour
     public bool initSearch = false;
 
 
-    private static AStar _instance = null;
-    public static AStar Instance
-    {
-        get
-        {
-            if(!_instance)
-            {
-                var aStar = FindObjectOfType<AStar>();
-                _instance = aStar;
-            }
-            return _instance;
-        }
-    }
+    //private static AStar _instance = null;
+    //public static AStar Instance
+    //{
+    //    get
+    //    {
+    //        if(!_instance)
+    //        {
+    //            var aStar = FindObjectOfType<AStar>();
+    //            _instance = aStar;
+    //        }
+    //        return _instance;
+    //    }
+    //}
 
     public List<Node> Path
     {
         get
         {
-            print("AStar path has a count of " + _path.Count);
+            Debug.Log("AStar path has a count of " + _path.Count);
             return _path;
-        }
-
-        set
-        {
-            if(value == null)
-            {
-                print("Path being set to null");
-            }
-            _path = value;
         }
     }
 
@@ -81,42 +72,21 @@ public class AStar : MonoBehaviour
         CheckForPath();
 
         return true;
-
-
-        /*         // if(!searchInit)
-        //if (!searchInProgress && _path == null)
-        //{
-        //    searchInProgress = true;
-        //    Node startNode = GridManager.Instance.GetNode(nodeID);
-        //    targetNodeID = targetID;
-        //    Debug.Log("Start node id: " + nodeID);
-        //    Debug.Log("Target node id: " + targetID);
-        //    if (startNode == null || GridManager.Instance.GetNode(targetNodeID) == null)
-        //    {
-        //        Debug.Log("Start or Target Node ID invalid");
-        //        return false;
-        //    }
-        //    if (GridManager.Instance.GetNode(targetID).Weight == GridManager.SpriteWeight.Static)
-        //    {
-        //        Debug.Log("Target is covered");
-        //        return false;
-        //    }
-        //    openList.Add(startNode);
-        //    //}
-        //    StartCoroutine(SearchLoop(completed =>
-        //    {
-        //        if (completed)
-        //        {
-        //            searchInProgress = false;
-        //        }
-        //    }));
-        //}                  
-        //return true;
-        */
     }
+
+
+    public void ResetPath()
+    {
+       initSearch = false;
+        openList.Clear();
+        closedList.Clear();
+        Path.Clear();
+    }
+
 
     private bool InitSearch(int nodeID, int targetID)
     {
+        Debug.Log("InitSearch bool is " + initSearch);
         if (!initSearch)
         {
             Node startNode = GridManager.Instance.GetNode(nodeID);
@@ -277,6 +247,7 @@ public class AStar : MonoBehaviour
             downFlag = true;
         }
 
+        Debug.Log("Nodes Across: " + nodesAcross);
         if (ID % nodesAcross > 0)
         {
             IDList.Add(new KeyValuePair<int, int>(ID - 1, orthogonalCost));  // left
@@ -370,7 +341,6 @@ public class AStar : MonoBehaviour
     private Node SelectNewParent()
     {
         //Debug.Log("SELECT A NEW PARENT");
-
         int minTotalValue = openList[0].TotalValue;
         Node parent = null;
 
@@ -430,7 +400,9 @@ public class AStar : MonoBehaviour
         while(true)
         {
             //Debug.Log("Adding node " + node.ID + " to the list at position " + idx);
-            pathBackwards[idx] = node;
+            //pathBackwards[idx] = node;
+
+            _path.Add(node);
 
             if (node.Parent == null)
                 break;
@@ -439,10 +411,11 @@ public class AStar : MonoBehaviour
             idx++;
         }
 
-        for(int i = idx; i >= 0; i--)
-        {
-            _path.Add(pathBackwards[i]);
-        }
+        _path.Reverse();
+        //for(int i = idx; i >= 0; i--)
+        //{
+        //    _path.Add(pathBackwards[i]);
+        //}
 
         for (int i = 0; i <= idx; i++)
         {
