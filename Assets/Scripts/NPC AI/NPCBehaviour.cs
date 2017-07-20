@@ -105,7 +105,7 @@ public class NPCBehaviour : MonoBehaviour
 
         // If this function returns false there has been an error regarding the targetID
         //  and another needs to be received.
-        if(!aStar.Search(player.spawnNodeID, randTargetNodeID))
+        if(!aStar.Search(npcMovement.CurrentNode.ID, randTargetNodeID))
         {
             randTargetFound = false;
             print("Astar has had trouble with the rand value");

@@ -11,7 +11,7 @@ public class AStar : MonoBehaviour
     private int targetNodeID = 0;
     private ushort nodesAcross = 0;
     private ushort nodesUp = 0;
-	public int  diagonalCost = 14;
+	//public int  diagonalCost = 14;
 	public int  orthogonalCost = 10;
 
     public bool searchInProgress = false;
@@ -229,29 +229,29 @@ public class AStar : MonoBehaviour
         List<KeyValuePair<int, int>> IDList = new List<KeyValuePair<int, int>>();
         int ID = parentID;
 
-        bool upFlag = false;
-        bool downFlag = false;
-        bool leftFlag = false;
-        bool rightFlag = false;
+        //bool upFlag = false;
+        //bool downFlag = false;
+        //bool leftFlag = false;
+        //bool rightFlag = false;
 
 
         if (ID < (nodesAcross * nodesUp) - nodesAcross)
         {
             IDList.Add(new KeyValuePair<int,int>(ID + nodesAcross, orthogonalCost)); // UP
-            upFlag = true;
+           // upFlag = true;
         }
 
         if (ID > nodesAcross)
         {
             IDList.Add(new KeyValuePair<int, int>(ID - nodesAcross, orthogonalCost)); // DOWN
-            downFlag = true;
+            //downFlag = true;
         }
 
         Debug.Log("Nodes Across: " + nodesAcross);
         if (ID % nodesAcross > 0)
         {
             IDList.Add(new KeyValuePair<int, int>(ID - 1, orthogonalCost));  // left
-            leftFlag = true;
+           // leftFlag = true;
         }
 
 
@@ -259,35 +259,35 @@ public class AStar : MonoBehaviour
         if (ID != (y * nodesAcross) + (nodesAcross - 1))
         {
             IDList.Add(new KeyValuePair<int, int>(ID + 1, orthogonalCost)); // Right
-            rightFlag = true;
+            //rightFlag = true;
         }
 
 
-        if (upFlag)
-        {
-            if (leftFlag)
-            {
-                IDList.Add(new KeyValuePair<int, int>((ID + nodesAcross) - 1, diagonalCost)); // UP_LEFT
+        //if (upFlag)
+        //{
+        //    if (leftFlag)
+        //    {
+        //        IDList.Add(new KeyValuePair<int, int>((ID + nodesAcross) - 1, diagonalCost)); // UP_LEFT
 
-            }
-            if (rightFlag)
-            {
-                IDList.Add(new KeyValuePair<int, int>((ID + nodesAcross) + 1, diagonalCost)); // UP_RIGHT
-            }
-        }
+        //    }
+        //    if (rightFlag)
+        //    {
+        //        IDList.Add(new KeyValuePair<int, int>((ID + nodesAcross) + 1, diagonalCost)); // UP_RIGHT
+        //    }
+        //}
 
-        if (downFlag)
-        {
-            if (leftFlag)
-            {
-                IDList.Add(new KeyValuePair<int, int>((ID - nodesAcross) - 1, diagonalCost)); // DOWN_LEFT
+        //if (downFlag)
+        //{
+        //    if (leftFlag)
+        //    {
+        //        IDList.Add(new KeyValuePair<int, int>((ID - nodesAcross) - 1, diagonalCost)); // DOWN_LEFT
 
-            }
-            if (rightFlag)
-            {
-                IDList.Add(new KeyValuePair<int, int>((ID - nodesAcross) + 1, diagonalCost)); // DOWN_RIGHT
-            }
-        }
+        //    }
+        //    if (rightFlag)
+        //    {
+        //        IDList.Add(new KeyValuePair<int, int>((ID - nodesAcross) + 1, diagonalCost)); // DOWN_RIGHT
+        //    }
+        //}
         return IDList;
     }
 
