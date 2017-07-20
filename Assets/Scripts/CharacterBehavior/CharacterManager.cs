@@ -30,9 +30,9 @@ public class CharacterManager : MonoBehaviour
 
         player.name = "Player Character " + players.Count;
 
-        Vector3 nodePosition = GridManager.Instance.GetNode(GridManager.Instance.spawnNodeID).Centre;
-        Vector3 playerPosition = new Vector3(nodePosition.x, nodePosition.y, 0f);
-        player.transform.position = playerPosition;
+        Vector3 spawnCentre = GridManager.Instance.GetNode(GridManager.Instance.spawnNodeID).Centre;
+        Vector3 spawnPosition = new Vector3(spawnCentre.x, spawnCentre.y, 0f);
+        player.transform.position = spawnPosition;
 
 
         players.Add(player);

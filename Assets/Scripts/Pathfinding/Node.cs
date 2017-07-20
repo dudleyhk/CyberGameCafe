@@ -75,7 +75,6 @@ public class Node : MonoBehaviour
     }
 
 
-
     public bool Occupied
     {
         get

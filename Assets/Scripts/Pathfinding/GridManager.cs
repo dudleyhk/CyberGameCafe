@@ -145,7 +145,7 @@ public class GridManager : MonoBehaviour
 
                 float Cx = topRight.x - (NodeWidth / 2);
                 float Cy = topRight.y - (NodeHeight / 2);
-                float Cz = mapMinPoint.z + nodeDepth_debugging;
+                float Cz = mapMinPoint.z;//; + nodeDepth_debugging;
                 Vector3 centre = new Vector3(Cx, Cy, Cz);
 
                // Debugging.Instance.PlaceDebugSphere(centre, nodeIdx);

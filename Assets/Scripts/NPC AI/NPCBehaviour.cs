@@ -76,6 +76,10 @@ public class NPCBehaviour : MonoBehaviour
             case State.Travel:
                 Travel();
                 break;
+
+            case State.Socialise:
+                
+                break;
         }
     }
 
@@ -133,7 +137,7 @@ public class NPCBehaviour : MonoBehaviour
             aStar.ResetPath();
             currentPath.Clear();
 
-            currentState = State.Wait;
+            currentState = State.Socialise;
         }
     }
 

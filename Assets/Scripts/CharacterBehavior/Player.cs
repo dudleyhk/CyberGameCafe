@@ -41,6 +41,12 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            LoggedIn = !LoggedIn;
+        }
+
+
         // DEBUGGING
         if (_loggedIn)
         {

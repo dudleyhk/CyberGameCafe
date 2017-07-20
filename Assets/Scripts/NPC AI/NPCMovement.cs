@@ -7,14 +7,17 @@ using UnityEngine;
 public class NPCMovement : MonoBehaviour
 {
     private List<Node> currentPath = null;
-    public  Node currentNode = null;
-    public int currentNodeID = 0;
-    public  Vector3 currentDir = Vector3.zero;
+    private Node _currentNode = null;
+    public BoxCollider playerCollider;
+    public BoxCollider nodeCollider;
+    public Vector3 currentDir = Vector3.zero;
     public Transform parentTransform = null;
     public bool travellingBegun = false;
     public bool pathComplete = false;
+    public float howCloseToTheCentre = 0.05f;
     public Direction CurrentDirection { get; internal set; }
 
+    public int currentNodeID = 0;
 
 
     public enum Direction
@@ -31,17 +34,27 @@ public class NPCMovement : MonoBehaviour
     }
 
 
+    public Node CurrentNode
+    {
+        get
+        {
+            return _currentNode;
+        }
+
+        set
+        {
+            _currentNode = value;
+            currentNodeID = _currentNode.ID;
+        }
+    }
+
+
 
     public int CurrentNodeID
     {
         get
         {
-            return currentNodeID;
-        }
-
-        set
-        {
-            currentNodeID = value;
+            return CurrentNode.ID;
         }
     }
 
@@ -49,15 +62,10 @@ public class NPCMovement : MonoBehaviour
 
     public bool JourneyToTarget(List<Node> path)
     {
-        if(path.Count <= 0)
-        {
-            print("nothing in the path list");
-        }
-
         if (!travellingBegun)
         {
             currentPath = path;
-            currentNode = currentPath[0];
+            CurrentNode = currentPath[0];
             StartCoroutine(CompletePath());
             travellingBegun = true;
         }
@@ -68,6 +76,7 @@ public class NPCMovement : MonoBehaviour
         Debug.Log("Path complete is " + pathComplete);
         if (pathComplete)
         {
+            pathComplete = false;
             travellingBegun = false;
             return true;
         }
@@ -91,24 +100,24 @@ public class NPCMovement : MonoBehaviour
         bool rightFlag = false;
 
         //Debug.Log("current centre: " + currentNode.Centre + " next node centre: " + nextNode.Centre);
-        if(currentNode.Centre.x > nextNode.Centre.x)
+        if(CurrentNode.Centre.x > nextNode.Centre.x)
         {
             leftFlag = true;
             direction = Direction.LEFT;
         }
-        else if(currentNode.Centre.x < nextNode.Centre.x)
+        else if(CurrentNode.Centre.x < nextNode.Centre.x)
         {
             rightFlag = true;
             direction = Direction.RIGHT;
         }
 
 
-        if (currentNode.Centre.y > nextNode.Centre.y)
+        if (CurrentNode.Centre.y > nextNode.Centre.y)
         {
             downFlag = true;
             direction = Direction.DOWN;
         }
-        else if (currentNode.Centre.y < nextNode.Centre.y)
+        else if (CurrentNode.Centre.y < nextNode.Centre.y)
         {
             upFlag = true;
             direction = Direction.UP;
@@ -200,54 +209,43 @@ public class NPCMovement : MonoBehaviour
     private IEnumerator CompletePath()
     {
         int idx = 0;
-
         int targetID = currentPath[currentPath.Count - 1].ID;
         Debug.Log("TARGET ID : " + targetID);
-        while(currentNode.ID != targetID)
+
+
+        while(CurrentNodeID != targetID)
         {
+            Debug.Log("WHILE CurrentNode.ID (" + CurrentNodeID + ") != targetID (" + targetID + ") is " + (CurrentNodeID != targetID)); 
+            Debug.Log("idx (" + idx + ") < currentPath.Count (" + currentPath.Count + ") is " + ((idx + 1) < currentPath.Count));
 
-            CurrentNodeID = currentNode.ID; 
-            Debug.Log("In travelling coroutine next nodeID is " + currentPath[idx + 1].ID);
-
-            Node nextNode = currentPath[idx + 1];
+            // If the next index is less that the current path size. 
             if ((idx + 1) < currentPath.Count)
             {
-                // Check if the next node is occupied
-                //if(NodeOccupied(nextNode))
-                //{
-                                     
-
-                //}
-
-
-                // Get Direction of nextNode.
+                Node nextNode = currentPath[idx + 1];
                 CurrentDirection = GetDirection(nextNode);
                 SetDirectionVec(CurrentDirection);
 
-                // If the player is very close to the nextNode, increment Node counter (idx).
+
+                nodeCollider = nextNode.GetComponent<BoxCollider>();
+
+
                 if ((Mathf.Abs(parentTransform.position.x - nextNode.Centre.x) <= 0.05f) &&
                     (Mathf.Abs(parentTransform.position.y - nextNode.Centre.y) <= 0.05f))
                 {
-                    // This may be too close but can be altered later.
-                  //  nextNode.Occupied = true;
                     idx++;
                 }
-                //nextNode.Occupied = false;
             }
 
 
             // Move
             parentTransform.position += currentDir * Time.deltaTime;
+            CurrentNode = currentPath[idx];
 
-            // Set current new Node. 
-            currentNode = currentPath[idx];
-            //GridManager.Instance.GetNode(currentNode.ID).Occupied = true;
-            //Debug.Log("From Node " + currentNode.ID + " to node " + currentPath[idx + 1].ID + " the current direction is " + CurrentDirection);
-            // Debug.Log("Moving vector position: " + tranform.position);
             pathComplete = false;
             yield return null;
         }
-
+        Debug.Log("WHILE CurrentNode.ID (" + CurrentNodeID + ") != targetID (" + targetID + ") is " + (CurrentNodeID != targetID));
+        Debug.Log("idx (" + idx + ") < currentPath.Count (" + currentPath.Count + ") is " + ((idx + 1) < currentPath.Count));
         pathComplete = true;
         yield return true;
     }
