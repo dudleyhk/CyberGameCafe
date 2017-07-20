@@ -33,6 +33,11 @@ public class Movement : MonoBehaviour {
         }
     }
 
+    public void stopMovement()
+    {
+        speed = 0.0f;
+    }
+
 
     //private void TouchIsHappening()
     //{

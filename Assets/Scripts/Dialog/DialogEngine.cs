@@ -7,15 +7,16 @@ public class DialogEngine : MonoBehaviour {
     // Node Buffers. 
     public DialogNode StartNode;
     private DialogNode currentNode;
-    private GameObject player;
+    public GameObject player;
 
     void Start()
     {}
 
-    void StartConversation(GameObject thePlayer)
+    public void StartConversation(GameObject thePlayer)
     {
         currentNode = StartNode;
         player = thePlayer;
+        player.GetComponent<Movement>().stopMovement();
     }
 
     public void moveToNode(int nodeSelection)
