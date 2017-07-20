@@ -6,9 +6,10 @@ using UnityEngine;
 // Discription - Contains message for dialog system and refrences to other dialog for player selection.
 public class DialogNode : MonoBehaviour {
 
-    private string NodeMessage;
-    private string NodeName; 
-    public DialogNode[] NodeList;
+    public string NodeMessage;
+    public string NodeName; 
+    public GameObject[] NodeList;
+    public GameObject missionToAssign;
 
     public int getChildNodeCount()
     {
@@ -23,6 +24,18 @@ public class DialogNode : MonoBehaviour {
     public string getNodeName()
     {
         return NodeName;
+    }
+
+    public bool containsMission()
+    {
+        if(missionToAssign.GetComponent<Mission>() != null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     // TODO - consider adding functions to read/write data which will be used in the dialog system.

@@ -14,9 +14,12 @@ public class Mission : MonoBehaviour
     private bool compleated;
     private int compleatedObjectives;
 
+    public int noOfStartingObjectives;
+
     void Awake()
     {
         compleated = false;
+
     }
 
 
@@ -64,6 +67,7 @@ public class Mission : MonoBehaviour
             if(newObjective.getObjectiveType() == MissionObjectiveTypes.OBJ_ITEMCOLLECT)
             {
                 // TODO - Add code to retrieve items using tag.
+                // TODO - if objective is complete it should be tagged as sand added for the system to handle. 
             }
 
             activeObjectives.Add(newObjective);

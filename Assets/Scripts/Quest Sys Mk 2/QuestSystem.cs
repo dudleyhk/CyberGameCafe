@@ -18,7 +18,7 @@ public class QuestSystem : MonoBehaviour
     // hands in the chosen mission by the player. 
     void handInMission(int missionToHandIn)
     {
-        // TODO - add more code to
+        // TODO - add more code to check and make sure that the mission is complete. 
         currentMissions.RemoveAt(missionToHandIn);
     }
 
@@ -30,5 +30,16 @@ public class QuestSystem : MonoBehaviour
     void updateMissionState(MissionObjectiveTypes missionType, string missionTag)
     {
          currentMissions[activeMission].updateActiveMissionObjectives(missionType, missionTag);
+    }
+
+
+    public void assignMission(Mission newMission)
+    {
+        if (currentMissions.Count == 0)
+        {
+            activeMission = 0;
+        }
+
+        currentMissions.Add(newMission);
     }
 }
