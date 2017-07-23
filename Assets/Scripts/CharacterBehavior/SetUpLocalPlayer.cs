@@ -47,6 +47,7 @@ public class SetUpLocalPlayer : NetworkBehaviour
 
             //turn on movement script
             GetComponent<Movement>().enabled = true;
+            //GameObject.FindGameObjectWithTag("NPC").GetComponent<DialogEngine>().StartConversation(this.gameObject);
 
             //set this as the parent of the camera
             mainCam.transform.parent = transform;

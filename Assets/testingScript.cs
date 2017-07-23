@@ -1,13 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class testingScript : MonoBehaviour {
 
-    void OnEnable()
+    void OnTriggerEnter(Collider col)
     {
-        GameObject.FindGameObjectWithTag("Player").GetComponent<Movement>().stopMovement();
-        this.gameObject.GetComponent<DialogEngine>().StartConversation(GameObject.FindGameObjectWithTag("Player"));
-        // this.gameObject.GetComponent<DialogEngine>().printMessage();
+        Debug.Log("Testing the collision system");
     }
 }
