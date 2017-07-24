@@ -26,6 +26,10 @@ public class NPCBehaviour : MonoBehaviour
     public bool randTargetFound = false;
     public int randTargetNodeID = -1;
 
+
+    public bool findingPath = false;
+    public bool movingTowards = false;
+
     // Call AStart.Search to create the shortest path. 
     // Call the Characters NPCMovement.BeingTravels() to start the movement cycle.  NPCMovement.BeingTravels(path);
 
@@ -89,40 +93,36 @@ public class NPCBehaviour : MonoBehaviour
     /// </summary>
     private void Waiting()
     {
-        print("Random no. is " + randTargetFound);
-
-        // This gets locked when a random value is received and unlocked if the ID 
-        //   doesn't work. 
-        if (!randTargetFound)
-        {
-            randTargetNodeID = Random.Range(0, GridManager.Instance.TotalNodes);
-            randTargetFound = true;
-
-
-            print("finding random target");
-            print("Target of " + randTargetNodeID + " found");
-        }
-
-        // If this function returns false there has been an error regarding the targetID
-        //  and another needs to be received.
-        if(!aStar.Search(npcMovement.CurrentNode.ID, randTargetNodeID))
-        {
-            randTargetFound = false;
-            print("Astar has had trouble with the rand value");
-            print("A new one will be aquired");
-        }
-
-
-        // A path has been found
-        if(aStar.Path.Count > 0)
-        {
-            currentPath = aStar.Path;
-            randTargetFound = false;
-
+        if (Pathfinding())
             currentState = State.Travel;
-        }
     }
 
+
+    private bool Pathfinding()
+    {
+        if (!findingPath)
+        {
+            randTargetNodeID = Random.Range(0, GridManager.Instance.TotalNodes);
+            print("Random no. is " + randTargetNodeID);
+
+
+            if (aStar.CanPathBeFound(npcMovement.CurrentNode.ID, randTargetNodeID))
+            {
+                findingPath = true;
+                StartCoroutine(aStar.PathSearchLoop());
+            }
+        }
+
+        if (aStar.PathFound())
+        {
+            print("Path found");
+            currentPath = aStar.path;
+            aStar.ClearLists();
+            findingPath = false;
+            return true;
+        }
+        return false;
+    }
 
 
     /// <summary>
@@ -130,17 +130,25 @@ public class NPCBehaviour : MonoBehaviour
     /// </summary>
     private void Travel()
     {
-        Debug.Log("TRAVELLING");
-        if (npcMovement.JourneyToTarget(currentPath))
-        {
-            print("Finished journey.. find path again");
-            aStar.ResetPath();
-            currentPath.Clear();
-
+        if (MoveTowards())
             currentState = State.Socialise;
-        }
     }
 
+
+
+    private bool MoveTowards()
+    {
+        if (!movingTowards)
+        {
+            if (npcMovement.JourneyToTarget(currentPath))
+            {
+                movingTowards = false;
+                return true;
+            }
+            movingTowards = true;
+        }
+        return false;
+    }
 
 
 

@@ -11,7 +11,6 @@ public class NPCMovement : MonoBehaviour
     public Node _currentNode = null;
     public Transform parentTransform = null;
     public int  currentNodeID = -1;
-    public bool travellingBegun = false;
     public bool pathComplete = false;
     public Direction CurrentDirection { get; internal set; }
 
@@ -60,22 +59,15 @@ public class NPCMovement : MonoBehaviour
 
     public bool JourneyToTarget(List<Node> path)
     {
-        if (!travellingBegun)
-        {
-            currentPath = path;
-            CurrentNode = currentPath[0];
-            StartCoroutine(CompletePath());
-            travellingBegun = true;
-        }
+        StartCoroutine(CompletePath(path));
+
         // FOR DEBUGGING this could be used for all objects when the game is loading to snap all characters to the closest Node.Centre
         // parentTransform.position = currentNode.Centre;
 
-        Debug.Log("TravellingBegun is " + travellingBegun);
         Debug.Log("Path complete is " + pathComplete);
         if (pathComplete)
         {
             pathComplete = false;
-            travellingBegun = false;
             return true;
         }
         return false;
@@ -151,9 +143,11 @@ public class NPCMovement : MonoBehaviour
     /// Run this loop until the last ID has been hit.
     /// </summary>
     /// <returns></returns>
-    private IEnumerator CompletePath()
+    private IEnumerator CompletePath(List<Node> path)
     {
         int idx = 0;
+        currentPath = path;
+        CurrentNode = currentPath[0];
         int targetID = currentPath[currentPath.Count - 1].ID;
         Debug.Log("TARGET ID : " + targetID);
 
@@ -170,11 +164,18 @@ public class NPCMovement : MonoBehaviour
                 CurrentDirection = GetDirection(nextNode);
                 SetDirectionVec(CurrentDirection);
 
-                if ((Mathf.Abs(parentTransform.position.x - nextNode.Centre.x) <= 0.05f) &&
-                    (Mathf.Abs(parentTransform.position.y - nextNode.Centre.y) <= 0.05f))
+                float dist = Vector3.Distance(this.transform.position, nextNode.Centre);
+                Debug.Log("Distance: " + dist);
+                if (dist < 0.01f)
                 {
                     idx++;
                 }
+                     
+                //if ((Mathf.Abs(parentTransform.position.x - nextNode.Centre.x) <= 0.05f) &&
+                //    (Mathf.Abs(parentTransform.position.y - nextNode.Centre.y) <= 0.05f))
+                //{
+                //    idx++;
+                //}
             }
 
 
