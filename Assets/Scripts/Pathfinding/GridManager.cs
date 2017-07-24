@@ -26,6 +26,7 @@ public class GridManager : MonoBehaviour
 
 
 
+
     private static GridManager _instance = null;
     public static GridManager Instance
     {
@@ -115,7 +116,7 @@ public class GridManager : MonoBehaviour
     private void Start()
     {
         CreateNodes();
-        AStar.Instance.Search(startNode, destinationNode);
+        AStar.Search(startNode, destinationNode);
     }
 
 

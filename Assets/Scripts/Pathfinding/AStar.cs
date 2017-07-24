@@ -11,25 +11,11 @@ public class AStar : MonoBehaviour
     private int targetNodeID = 0;
     private ushort nodesAcross = 0;
     private ushort nodesUp = 0;
-	public int  diagonalCost = 14;
-	public int  orthogonalCost = 10;
+    public int diagonalCost = 14;
+    public int orthogonalCost = 10;
     public bool routeFound = false;
 
 
-
-    private static AStar _instance = null;
-    public static AStar Instance
-    {
-        get
-        {
-            if(!_instance)
-            {
-                var aStar = FindObjectOfType<AStar>();
-                _instance = aStar;
-            }
-            return _instance;
-        }
-    }
 
     // http://www.policyalmanac.org/games/aStarTutorial.htm
 
@@ -39,8 +25,7 @@ public class AStar : MonoBehaviour
     private void Awake()
     {
         nodesAcross = GridManager.Instance.GetNodesAcross();
-        nodesUp     = GridManager.Instance.GetNodesUp();
-        
+        nodesUp = GridManager.Instance.GetNodesUp();
     }
 
     /// <summary>
@@ -52,25 +37,26 @@ public class AStar : MonoBehaviour
     public bool Search(int nodeID, int targetID)
     {
         Node startNode = GridManager.Instance.GetNode(nodeID);
+        Node targetNode = GridManager.Instance.GetNode(targetID);
         targetNodeID = targetID;
 
         Debug.Log("Start node id: " + nodeID);
         Debug.Log("Target node id: " + targetID);
 
-        if (startNode == null || GridManager.Instance.GetNode(targetNodeID) == null)
+        if (startNode == null || targetNode == null)
         {
             Debug.Log("Start or Target Node ID invalid");
             return false;
         }
 
-        if (GridManager.Instance.GetNode(targetID).Weight == GridManager.SpriteWeight.Static)
+        if (targetNode.Weight == GridManager.SpriteWeight.Static)
         {
             Debug.Log("Target is covered");
             return false;
         }
 
-        openList.Add(startNode);
-        StartCoroutine(SearchLoop());            
+        
+        //SearchLoop(startNode);
         return true;
     }
 
@@ -79,13 +65,11 @@ public class AStar : MonoBehaviour
     /// </summary>
     /// <param name="node"></param>
     /// <returns></returns>
-    private IEnumerator SearchLoop()
+    public IEnumerator SearchLoop(Node startNode)
     {
+        openList.Add(startNode);
         while (!routeFound)
         {
-            //Debug.Log("LOOP BEGIN");
-            //Debug.Log("Number of elements on the openList: " + openList.Count);
-
             Node currentNode = SelectNewParent();
 
             AddToClosedList(currentNode);
@@ -105,17 +89,14 @@ public class AStar : MonoBehaviour
     /// <param name="node"></param>
     private void CheckSurroundingNodes(Node node)
     {
-        //Debug.Log("CHECKING SURROUNDING NODES");
         List<KeyValuePair<int, int>> adjascentNodes = GetAdjascentIDs(node.ID);
-       // Debug.Log("Parent Node " + node.ID);
 
-        foreach(KeyValuePair<int, int> n in adjascentNodes)
+        foreach (KeyValuePair<int, int> n in adjascentNodes)
         {
             Node adjascentNode = GridManager.Instance.GetNode(n.Key);
-            if(adjascentNode.Equals(null))
-            {
+
+            if (adjascentNode == null)
                 continue;
-            }
 
             // check if its walkable or on the closed list. 
             if (adjascentNode.Weight != GridManager.SpriteWeight.None || closedList.Contains(adjascentNode))
@@ -124,50 +105,24 @@ public class AStar : MonoBehaviour
             // if its not on the openList,
             if (!openList.Contains(adjascentNode))
             {
-
                 //  make the currentNode its parent. Calc G, H and F for this. 
                 adjascentNode.Parent = node;
                 SetCostAndDistance(adjascentNode, n.Value);
                 openList.Add(adjascentNode);
-
-                //Debug.Log("Adding node " + adjascentNode.ID + " to openList");
-               // Debug.Log("Adjascent node being checked " + adjascentNode.ID + 
-                //    ", parentNode " + adjascentNode.Parent.ID      + 
-                //    ", moveCost "  + adjascentNode.Cost            + 
-                //    ", distance  " + adjascentNode.Distance        + 
-                //    " and total "  + adjascentNode.TotalValue);
             }
             else
             {
-               // Debug.Log("Node " + adjascentNode.ID + " is added to list.. Checking for better path");
-                
                 // Add the parent movecost to the potencial move cost if this direction was used. 
                 int testCost = node.Cost + n.Value;
                 int currentCost = node.Cost + adjascentNode.Cost;
 
-
-                //Debug.Log("Parent node (" + node.ID + ") movement cost: " + node.Cost);
-                //Debug.Log("New node movement cost: " + n.Value);
-                //Debug.Log("Test move cost: " + testCost);
-
-
-               // Debug.Log("Is " + testCost  + " < " + currentCost + "?");
-
                 // if the test cost is less than the current adjascent movecost
-                if(testCost < currentCost)
+                if (testCost < currentCost)
                 {
                     // Change the parent and re-calc Cost and Dist. 
-                    adjascentNode.Parent = node;
-                    adjascentNode.Cost = testCost;
+                    adjascentNode.Parent     = node;
+                    adjascentNode.Cost       = testCost;
                     adjascentNode.TotalValue = adjascentNode.Distance + adjascentNode.Cost;
-
-
-                   // Debug.Log("Updating Adjascent node to better path");
-                   // Debug.Log("Adjascent node being checked " + adjascentNode.ID +
-                   //     ", parentNode " + adjascentNode.Parent.ID +
-                   //     ", moveCost " + adjascentNode.Cost +
-                   //     ", distance  " + adjascentNode.Distance +
-                   //     " and total " + adjascentNode.TotalValue);
                 }
             }
         }
@@ -193,7 +148,7 @@ public class AStar : MonoBehaviour
 
         if (ID < (nodesAcross * nodesUp) - nodesAcross)
         {
-            IDList.Add(new KeyValuePair<int,int>(ID + nodesAcross, orthogonalCost)); // UP
+            IDList.Add(new KeyValuePair<int, int>(ID + nodesAcross, orthogonalCost)); // UP
             upFlag = true;
         }
 
@@ -253,11 +208,8 @@ public class AStar : MonoBehaviour
     /// <param name="node"></param>
     private void AddToClosedList(Node node)
     {
-       // Debug.Log("ADD TO THE CLOSED LIST");
-        if (node.Equals(null))        return;
+        if (node.Equals(null)) return;
         if (!openList.Contains(node)) return;
-
-        //Debug.Log("Add node " + node.ID + " to the closedList");
         
 
         openList.Remove(node);
@@ -272,17 +224,17 @@ public class AStar : MonoBehaviour
     /// <param name="node"></param>
     /// <param name="cost"></param>
     private void SetCostAndDistance(Node node, int cost)
-    {                
+    {
         int currentNodeY = (node.ID / nodesAcross);
         int currentNodeX = (node.ID % nodesAcross);
-        int targetNodeY  = (targetNodeID / nodesAcross);
-        int targetNodeX  = (targetNodeID % nodesAcross);
-        
+        int targetNodeY = (targetNodeID / nodesAcross);
+        int targetNodeX = (targetNodeID % nodesAcross);
+
         int differenceX = Mathf.Abs(targetNodeX - currentNodeX);
         int differenceY = Mathf.Abs(targetNodeY - currentNodeY);
         int distanceCost = differenceX + differenceY;
 
-        node.Cost     = node.Parent.Cost + cost;
+        node.Cost = node.Parent.Cost + cost;
         node.Distance = distanceCost;
 
         node.TotalValue = node.Cost + node.Distance;
@@ -295,20 +247,17 @@ public class AStar : MonoBehaviour
     /// <returns></returns>
     private Node SelectNewParent()
     {
-        //Debug.Log("SELECT A NEW PARENT");
-
         int minTotalValue = openList[0].TotalValue;
         Node parent = null;
 
         foreach (var node in openList)
         {
-            if(node.TotalValue <= minTotalValue)
+            if (node.TotalValue <= minTotalValue)
             {
                 minTotalValue = node.TotalValue;
                 parent = node;
             }
         }
-       // Debug.Log("New Parent Node " + parent.ID);
         return parent;
     }
 
@@ -319,26 +268,31 @@ public class AStar : MonoBehaviour
     /// <returns></returns>
     private bool CheckForPath()
     {
-        //Debug.Log("CHECK FOR PATH");
-       // Debug.Log("Number of elements in the closed list : " + closedList.Count);
-        foreach (Node node in closedList)
+        Node targetNode = closedList.Find(n => { return n.ID == targetNodeID; });
+        if(targetNode != null)
         {
-            // check if target has been added to the closed list. 
-            if (node.ID == targetNodeID)
-            {
-                CreatePath(node);
-                return true;
-            }
+            CreatePath(targetNode);
+            return true;
         }
-
-        // check if openlist is empty and there is no target in the closed list. 
-        if (openList.Count <= 0 &&
-            !closedList.Contains(GridManager.Instance.GetNode(targetNodeID)))
-            {
-                Debug.Log("Route cannot be found along this path");
-                return true;
-            }
         return false;
+        //foreach (Node node in closedList)
+        //{
+        //    // check if target has been added to the closed list. 
+        //    if (node.ID == targetNodeID)
+        //    {
+        //        CreatePath(node);
+        //        return true;
+        //    }
+        //}
+
+        //// check if openlist is empty and there is no target in the closed list. 
+        //if (openList.Count <= 0 &&
+        //    !closedList.Contains(GridManager.Instance.GetNode(targetNodeID)))
+        //{
+        //    Debug.Log("Route cannot be found along this path");
+        //    return true;
+        //}
+
     }
 
     /// <summary>
@@ -349,31 +303,23 @@ public class AStar : MonoBehaviour
     private void CreatePath(Node targetNode)
     {
         Node node = targetNode;
-        Node[] pathBackwards = new Node[closedList.Count];
-
-        // add the target node to the list.
-        int idx = 0;
-        while(true)
+        while (true)
         {
-            //Debug.Log("Adding node " + node.ID + " to the list at position " + idx);
-            pathBackwards[idx] = node;
+            path.Add(node);
 
             if (node.Parent == null)
                 break;
 
             node = node.Parent;
-            idx++;
         }
 
-        for(int i = idx; i >= 0; i--)
-        {
-            path.Add(pathBackwards[i]);
-        }
+        path.Reverse();
 
-        for (int i = 0; i <= idx; i++)
+        for (int i = 0; i < path.Count;i++)
         {
             Debugging.Instance.PlaceDebugCube(path[i].Centre, path[i].ID);
             Debug.Log("Path " + i + " is " + path[i].ID);
         }
+
     }
 }
