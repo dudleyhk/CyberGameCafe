@@ -9,42 +9,17 @@ using UnityEngine;
 public class NPCBehaviour : MonoBehaviour
 {
     public State currentState = State.Wait;
-
-   // public NPCWaitState      npcWaitState = null;
-   // public NPCTravelState    npcTravelState = null;
-   // public NPCSocialiseState npcSocialState = null;
    
     public Player player = null;
     public NPCMovement npcMovement = null;
     public AStar aStar = null;
 
-    public bool inState = false;
-
-
-    public bool travelling      = false;
     public List<Node> currentPath = null;
-    public bool randTargetFound = false;
     public int randTargetNodeID = -1;
 
 
     public bool findingPath = false;
     public bool movingTowards = false;
-
-    // Call AStart.Search to create the shortest path. 
-    // Call the Characters NPCMovement.BeingTravels() to start the movement cycle.  NPCMovement.BeingTravels(path);
-
-
-    // Stage One:
-    // - Remove anything which doesn't add to this stage.
-    // - Aim: Get a loop between traveling and waiting. 
-    // - Steps:
-    //      o Get path to a random point
-    //      o Include sanity checks and retrys if a point cannot be travelled to. 
-    //      o move towards the point 
-    //      o Repeat this. 
-    // - Bugs: 
-    //      o Coroutines are causing everything to be done loads of times. 
-    //
 
 
 
@@ -74,10 +49,12 @@ public class NPCBehaviour : MonoBehaviour
         switch (currentState)
         {
             case State.Wait:
+                Debug.Log("WAITING");
                 Waiting();
                 break;
 
             case State.Travel:
+                Debug.Log("TRAVELING");
                 Travel();
                 break;
 
@@ -94,12 +71,15 @@ public class NPCBehaviour : MonoBehaviour
     private void Waiting()
     {
         if (Pathfinding())
+        {
             currentState = State.Travel;
+        }
     }
 
 
     private bool Pathfinding()
     {
+        print("Finding Path: " + findingPath);
         if (!findingPath)
         {
             randTargetNodeID = Random.Range(0, GridManager.Instance.TotalNodes);
@@ -115,8 +95,9 @@ public class NPCBehaviour : MonoBehaviour
 
         if (aStar.PathFound())
         {
+            StopCoroutine(aStar.PathSearchLoop());
             print("Path found");
-            currentPath = aStar.path;
+            currentPath = new List<Node>(aStar.path);
             aStar.ClearLists();
             findingPath = false;
             return true;
@@ -131,7 +112,9 @@ public class NPCBehaviour : MonoBehaviour
     private void Travel()
     {
         if (MoveTowards())
+        {
             currentState = State.Socialise;
+        }
     }
 
 
@@ -140,12 +123,16 @@ public class NPCBehaviour : MonoBehaviour
     {
         if (!movingTowards)
         {
-            if (npcMovement.JourneyToTarget(currentPath))
-            {
-                movingTowards = false;
-                return true;
-            }
+            StartCoroutine(npcMovement.CompletePath(currentPath));
             movingTowards = true;
+        }
+
+        if(npcMovement.JourneyComplete())
+        {
+            movingTowards = false;
+            StopCoroutine(npcMovement.CompletePath(currentPath));
+            currentPath.Clear();
+            return true;
         }
         return false;
     }

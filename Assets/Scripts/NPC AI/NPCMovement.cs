@@ -11,7 +11,7 @@ public class NPCMovement : MonoBehaviour
     public Node _currentNode = null;
     public Transform parentTransform = null;
     public int  currentNodeID = -1;
-    public bool pathComplete = false;
+    public bool PathComplete = false;
     public Direction CurrentDirection { get; internal set; }
 
 
@@ -53,26 +53,8 @@ public class NPCMovement : MonoBehaviour
     private void Awake()
     {
         currentNodeID = GridManager.Instance.spawnNodeID;
+        PathComplete = false;
     }
-
-
-
-    public bool JourneyToTarget(List<Node> path)
-    {
-        StartCoroutine(CompletePath(path));
-
-        // FOR DEBUGGING this could be used for all objects when the game is loading to snap all characters to the closest Node.Centre
-        // parentTransform.position = currentNode.Centre;
-
-        Debug.Log("Path complete is " + pathComplete);
-        if (pathComplete)
-        {
-            pathComplete = false;
-            return true;
-        }
-        return false;
-    }
-
 
 
 
@@ -84,52 +66,100 @@ public class NPCMovement : MonoBehaviour
     private Direction GetDirection(Node nextNode)
     {
         Direction direction = Direction.NONE;
-
+        bool upFlag = false;
+        bool downFlag = false;
+        bool leftFlag = false;
+        bool rightFlag = false;
 
         //Debug.Log("current centre: " + currentNode.Centre + " next node centre: " + nextNode.Centre);
-        if(CurrentNode.Centre.x > nextNode.Centre.x)
+        if (CurrentNode.Centre.x > nextNode.Centre.x)
         {
+            leftFlag = true;
             direction = Direction.LEFT;
         }
-        else if(CurrentNode.Centre.x < nextNode.Centre.x)
+        else if (CurrentNode.Centre.x < nextNode.Centre.x)
         {
+            rightFlag = true;
             direction = Direction.RIGHT;
         }
 
 
         if (CurrentNode.Centre.y > nextNode.Centre.y)
         {
+            downFlag = true;
             direction = Direction.DOWN;
         }
         else if (CurrentNode.Centre.y < nextNode.Centre.y)
         {
+            upFlag = true;
             direction = Direction.UP;
         }
 
+        if (upFlag)
+        {
+            if (rightFlag)
+            {
+                direction = Direction.UP_RIGHT;
+            }
+
+            if (leftFlag)
+            {
+                direction = Direction.UP_LEFT;
+            }
+        }
+
+        if (downFlag)
+        {
+            if (rightFlag)
+            {
+                direction = Direction.DOWN_RIGHT;
+            }
+
+            if (leftFlag)
+            {
+                direction = Direction.DOWN_LEFT;
+            }
+        }
         return direction;
     }
 
 
-
-    /// <summary>
-    /// Use the current Direction to create a new Vector3 Direction. 
-    /// </summary>
-    /// <param name="dir"></param>
     private void SetDirectionVec(Direction dir)
     {
+        float nodeWidth = GridManager.Instance.NodeWidth;
+        float nodeHeight = GridManager.Instance.NodeHeight;
+
+        Vector3 up = new Vector3(0f, nodeHeight, 0f);
+        Vector3 down = new Vector3(0f, -nodeHeight, 0f);
+        Vector3 right = new Vector3(nodeWidth, 0f, 0f);
+        Vector3 left = new Vector3(-nodeWidth, 0f, 0f);
+
+
         switch (dir)
         {
             case Direction.UP:
-                currentDir = Vector3.up;
+                currentDir = up;
+                break;
+            case Direction.UP_LEFT:
+                currentDir = up + left;
+                break;
+            case Direction.UP_RIGHT:
+                currentDir = up + right;
                 break;
             case Direction.DOWN:
-                currentDir = Vector3.down;
+                currentDir = down;
+                break;
+            case Direction.DOWN_LEFT:
+                currentDir = down + left;
+                break;
+            case Direction.DOWN_RIGHT:
+                currentDir = down + right;
                 break;
             case Direction.RIGHT:
-                currentDir = Vector3.right;
+                currentDir = right;
                 break;
             case Direction.LEFT:
-                currentDir = Vector3.left;
+                currentDir = left;
                 break;
 
             default:
@@ -143,19 +173,20 @@ public class NPCMovement : MonoBehaviour
     /// Run this loop until the last ID has been hit.
     /// </summary>
     /// <returns></returns>
-    private IEnumerator CompletePath(List<Node> path)
+    public IEnumerator CompletePath(List<Node> path)
     {
         int idx = 0;
         currentPath = path;
         CurrentNode = currentPath[0];
         int targetID = currentPath[currentPath.Count - 1].ID;
-        Debug.Log("TARGET ID : " + targetID);
+        PathComplete = false;
+        //Debug.Log("TARGET ID : " + targetID);
 
 
         while(CurrentNode.ID != targetID)
         {
-            Debug.Log("WHILE CurrentNode.ID (" + CurrentNode.ID + ") != targetID (" + targetID + ") is " + (CurrentNode.ID != targetID)); 
-            Debug.Log("idx (" + idx + ") < currentPath.Count (" + currentPath.Count + ") is " + ((idx + 1) < currentPath.Count));
+            //Debug.Log("WHILE CurrentNode.ID (" + CurrentNode.ID + ") != targetID (" + targetID + ") is " + (CurrentNode.ID != targetID)); 
+            //Debug.Log("idx (" + idx + ") < currentPath.Count (" + currentPath.Count + ") is " + ((idx + 1) < currentPath.Count));
 
             // If the next index is less that the current path size. 
             if ((idx + 1) < currentPath.Count)
@@ -165,13 +196,13 @@ public class NPCMovement : MonoBehaviour
                 SetDirectionVec(CurrentDirection);
 
                 float dist = Vector3.Distance(this.transform.position, nextNode.Centre);
-                Debug.Log("Distance: " + dist);
+                //Debug.Log("Distance: " + dist);
                 if (dist < 0.2f)
                 {
-                    Debug.Log("Increment the idx");
+                   // Debug.Log("Increment the idx");
                     idx++;
                 }
-                     
+
                 //if ((Mathf.Abs(parentTransform.position.x - nextNode.Centre.x) <= 0.05f) &&
                 //    (Mathf.Abs(parentTransform.position.y - nextNode.Centre.y) <= 0.05f))
                 //{
@@ -184,13 +215,27 @@ public class NPCMovement : MonoBehaviour
             parentTransform.position += currentDir * Time.deltaTime;
             CurrentNode = currentPath[idx];
 
-            pathComplete = false;
             yield return null;
         }
-        Debug.Log("WHILE CurrentNode.ID (" + CurrentNode.ID + ") != targetID (" + targetID + ") is " + (CurrentNode.ID != targetID));
-        Debug.Log("idx (" + idx + ") < currentPath.Count (" + currentPath.Count + ") is " + ((idx + 1) < currentPath.Count));
-        pathComplete = true;
+      //  Debug.Log("WHILE CurrentNode.ID (" + CurrentNode.ID + ") != targetID (" + targetID + ") is " + (CurrentNode.ID != targetID));
+      //  Debug.Log("idx (" + idx + ") < currentPath.Count (" + currentPath.Count + ") is " + ((idx + 1) < currentPath.Count));
+        PathComplete = true;
         yield return true;
+    }
+
+
+    /// <summary>
+    /// Has the character got to the final targetNode. 
+    /// </summary>
+    /// <returns></returns>
+    public bool JourneyComplete()
+    {
+        if(PathComplete)
+        {
+            PathComplete = false;
+            return true;
+        }
+        return false;
     }
 
 

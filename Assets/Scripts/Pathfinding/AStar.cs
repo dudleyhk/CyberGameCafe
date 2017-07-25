@@ -14,8 +14,8 @@ public class AStar : MonoBehaviour
 	public int  diagonalCost = 14;
 	public int  orthogonalCost = 10;
 
-    public bool searchInProgress = false;
-    public bool initSearch = false;
+    //public bool searchInProgress = false;
+    //public bool initSearch = false;
    
 
     // http://www.policyalmanac.org/games/aStarTutorial.htm
@@ -46,6 +46,7 @@ public class AStar : MonoBehaviour
     {
         openList.Clear();
         closedList.Clear();
+        path.Clear();
     }
 
 
@@ -97,6 +98,7 @@ public class AStar : MonoBehaviour
     /// <returns></returns>
     public IEnumerator PathSearchLoop()
     {
+        Debug.Log("PathSearchLoop");
         while (true)
         { 
             Node currentNode = SelectNewParent();
@@ -186,7 +188,7 @@ public class AStar : MonoBehaviour
             downFlag = true;
         }
 
-        Debug.Log("Nodes Across: " + nodesAcross);
+       // Debug.Log("Nodes Across: " + nodesAcross);
         if (ID % nodesAcross > 0)
         {
             IDList.Add(new KeyValuePair<int, int>(ID - 1, orthogonalCost));  // left
@@ -198,7 +200,7 @@ public class AStar : MonoBehaviour
         if (ID != (y * nodesAcross) + (nodesAcross - 1))
         {
             IDList.Add(new KeyValuePair<int, int>(ID + 1, orthogonalCost)); // Right
-            //rightFlag = true;
+            rightFlag = true;
         }
 
 
