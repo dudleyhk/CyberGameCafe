@@ -5,8 +5,16 @@ using UnityEngine.Networking;
 
 public class testingScript : MonoBehaviour {
 
+    // Start a conversation to test the quest system.
     void OnTriggerEnter(Collider col)
     {
-        Debug.Log("Testing the collision system");
+        GameObject playerObject = col.gameObject;
+
+        if(playerObject.tag == "Player")
+        {
+            playerObject.GetComponent<Movement>().stopMovement();
+
+            // TODO - add code to start conversation with the NPC to test the dialog and quest system. 
+        }
     }
 }
