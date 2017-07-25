@@ -169,12 +169,26 @@ public class NPCMovement : MonoBehaviour
     }
 
 
+
+    /// <summary>
+    /// Copy the other version but change this for a FOR LOOP.
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    public IEnumerator completePath(List<Node> path)
+    {
+
+        yield return null;
+    }
+
+
     /// <summary>
     /// Run this loop until the last ID has been hit.
     /// </summary>
     /// <returns></returns>
     public IEnumerator CompletePath(List<Node> path)
     {
+        //TODO: Change this to a for loop
         int idx = 0;
         currentPath = path;
         CurrentNode = currentPath[0];

@@ -6,7 +6,7 @@ public class AStar : MonoBehaviour
 {
     public  List<Node> openList   = new List<Node>();
     public  List<Node> closedList = new List<Node>();
-    public  List<Node>  path      = new List<Node>();
+    public  List<Node> path       = new List<Node>();
 
     private int targetNodeID = 0;
     private ushort nodesAcross = 0;
@@ -44,11 +44,10 @@ public class AStar : MonoBehaviour
 
     public void ClearLists()
     {
-        openList.Clear();
-        closedList.Clear();
-        path.Clear();
+        openList = new List<Node>();
+        closedList = new List<Node>();
+        path = new List<Node>();
     }
-
 
     public bool PathFound()
     {
@@ -96,20 +95,18 @@ public class AStar : MonoBehaviour
     /// </summary>
     /// <param name="node"></param>
     /// <returns></returns>
-    public IEnumerator PathSearchLoop()
+    public IEnumerator PathSearchLoop(Node startNode)
     {
-        Debug.Log("PathSearchLoop");
-        while (true)
-        { 
+        do
+        {
             Node currentNode = SelectNewParent();
 
             AddToClosedList(currentNode);
             CheckSurroundingNodes(currentNode);
-            if (CheckForPath())
-                break;
-        
             yield return null;
-        }
+
+        } while (!CheckForPath());
+
         yield return true;
     }
 

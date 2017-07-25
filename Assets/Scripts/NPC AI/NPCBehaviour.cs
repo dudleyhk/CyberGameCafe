@@ -22,6 +22,9 @@ public class NPCBehaviour : MonoBehaviour
     public bool movingTowards = false;
 
 
+    public GameObject waiting = null;
+
+
 
 
     public enum State
@@ -89,16 +92,14 @@ public class NPCBehaviour : MonoBehaviour
             if (aStar.CanPathBeFound(npcMovement.CurrentNode.ID, randTargetNodeID))
             {
                 findingPath = true;
-                StartCoroutine(aStar.PathSearchLoop());
+                StartCoroutine(aStar.PathSearchLoop(npcMovement.CurrentNode));
             }
         }
 
         if (aStar.PathFound())
         {
-            StopCoroutine(aStar.PathSearchLoop());
             print("Path found");
-            currentPath = new List<Node>(aStar.path);
-            aStar.ClearLists();
+            currentPath = aStar.path;
             findingPath = false;
             return true;
         }
@@ -130,8 +131,8 @@ public class NPCBehaviour : MonoBehaviour
         if(npcMovement.JourneyComplete())
         {
             movingTowards = false;
-            StopCoroutine(npcMovement.CompletePath(currentPath));
-            currentPath.Clear();
+            //StopCoroutine(npcMovement.CompletePath(currentPath));
+            currentPath = null;
             return true;
         }
         return false;
