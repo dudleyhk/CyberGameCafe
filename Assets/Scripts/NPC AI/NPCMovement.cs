@@ -166,8 +166,9 @@ public class NPCMovement : MonoBehaviour
 
                 float dist = Vector3.Distance(this.transform.position, nextNode.Centre);
                 Debug.Log("Distance: " + dist);
-                if (dist < 0.01f)
+                if (dist < 0.2f)
                 {
+                    Debug.Log("Increment the idx");
                     idx++;
                 }
                      
