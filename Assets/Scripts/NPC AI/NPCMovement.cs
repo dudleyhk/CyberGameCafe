@@ -7,12 +7,13 @@ using UnityEngine;
 public class NPCMovement : MonoBehaviour
 {
     private List<Node> currentPath = null;
-    public Vector3 currentDir = Vector3.zero;
-    public Node _currentNode = null;
+    public Vector3 currentDir      = Vector3.zero;
     public Transform parentTransform = null;
-    public int  currentNodeID = -1;
-    public bool PathComplete = false;
+    public bool PathComplete         = false;
+    public int targetNodeID          = -1;
+    public float speed = 5f;                                  /// Speed could be a percentage of the total number of nodes their are. 
     public Direction CurrentDirection { get; internal set; }
+    public Node CurrentNode = null;
 
 
     public enum Direction
@@ -27,33 +28,11 @@ public class NPCMovement : MonoBehaviour
         RIGHT,
         NONE
     }
-
-
-
-    public Node CurrentNode
-    {
-        get
-        {
-            if(_currentNode == null)
-            {
-                _currentNode = GridManager.Instance.GetNode(currentNodeID);
-            }
-            return _currentNode;
-        }
-
-        set
-        {
-            _currentNode = value;
-            currentNodeID = _currentNode.ID;
-        }
-    }
-
     
 
     private void Awake()
     {
-        currentNodeID = GridManager.Instance.spawnNodeID;
-        PathComplete = false;
+        CurrentNode = GridManager.Instance.SpawnNode;
     }
 
 
@@ -129,10 +108,10 @@ public class NPCMovement : MonoBehaviour
         float nodeWidth = GridManager.Instance.NodeWidth;
         float nodeHeight = GridManager.Instance.NodeHeight;
 
-        Vector3 up = new Vector3(0f, nodeHeight, 0f);
-        Vector3 down = new Vector3(0f, -nodeHeight, 0f);
+        Vector3 up    = new Vector3(0f, nodeHeight, 0f);
+        Vector3 down  = new Vector3(0f, -nodeHeight, 0f);
         Vector3 right = new Vector3(nodeWidth, 0f, 0f);
-        Vector3 left = new Vector3(-nodeWidth, 0f, 0f);
+        Vector3 left  = new Vector3(-nodeWidth, 0f, 0f);
 
 
         switch (dir)
@@ -175,18 +154,56 @@ public class NPCMovement : MonoBehaviour
     /// </summary>
     /// <param name="path"></param>
     /// <returns></returns>
-    public IEnumerator completePath(List<Node> path)
+    public IEnumerator CompletePath(List<Node> path)
     {
 
-        yield return null;
+        float distanceToNextNode = 0;
+
+        currentPath  = new List<Node>(path);
+        CurrentNode  = currentPath[0];
+        targetNodeID = currentPath[currentPath.Count - 1].ID;
+
+
+        int i = 0;
+        while(i < currentPath.Count)
+        {
+            int nextNodeID = i + 1;
+            if (nextNodeID < currentPath.Count)
+            {
+                Node nextNode = GridManager.Instance.GetNode(nextNodeID);
+                CurrentDirection = GetDirection(nextNode);
+                SetDirectionVec(CurrentDirection);
+
+
+                distanceToNextNode = Vector3.Distance(this.transform.position, nextNode.Centre);
+                if (distanceToNextNode < 0.2f)
+                {
+                    print("Next target hit");
+                    i++;
+                    CurrentNode = nextNode;
+                }
+                print("Current Node ID: " + CurrentNode.ID);
+                parentTransform.position += currentDir * Time.deltaTime;
+            }
+        yield return null;  
+        }
+        yield return true;
     }
 
+
+
+    private IEnumerator Move(Node nextNode)
+    {
+
+
+        yield return true;
+    }
 
     /// <summary>
     /// Run this loop until the last ID has been hit.
     /// </summary>
     /// <returns></returns>
-    public IEnumerator CompletePath(List<Node> path)
+    public IEnumerator completePath(List<Node> path)
     {
         //TODO: Change this to a for loop
         int idx = 0;
@@ -202,7 +219,7 @@ public class NPCMovement : MonoBehaviour
             //Debug.Log("WHILE CurrentNode.ID (" + CurrentNode.ID + ") != targetID (" + targetID + ") is " + (CurrentNode.ID != targetID)); 
             //Debug.Log("idx (" + idx + ") < currentPath.Count (" + currentPath.Count + ") is " + ((idx + 1) < currentPath.Count));
 
-            // If the next index is less that the current path size. 
+            // If the next index is less that the current _path size. 
             if ((idx + 1) < currentPath.Count)
             {
                 Node nextNode = currentPath[idx + 1];
@@ -263,7 +280,7 @@ public class NPCMovement : MonoBehaviour
     {
         if(node.Occupied)
         {
-            // either, change the current state to wait and disregard this path. Or Wait for X seconds before continuing.
+            // either, change the current state to wait and disregard this _path. Or Wait for X seconds before continuing.
         }
         return false;
     }

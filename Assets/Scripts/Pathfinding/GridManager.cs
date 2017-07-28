@@ -85,6 +85,13 @@ public class GridManager : MonoBehaviour
             _totalNodes = value;
         }
     }
+    public Node SpawnNode
+    {
+        get
+        {
+            return GetNode(spawnNodeID);
+        }
+    }
 
 
     private static GridManager _instance = null;

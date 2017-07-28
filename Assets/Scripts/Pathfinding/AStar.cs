@@ -4,20 +4,76 @@ using UnityEngine;
 
 public class AStar : MonoBehaviour
 {
-    public  List<Node> openList   = new List<Node>();
-    public  List<Node> closedList = new List<Node>();
-    public  List<Node> path       = new List<Node>();
+    public  List<Node> _openList   = null;
+    public  List<Node> _closedList = null;
+    public  List<Node> _path       = null;
 
-    private int targetNodeID = 0;
     private ushort nodesAcross = 0;
     private ushort nodesUp = 0;
 	public int  diagonalCost = 14;
 	public int  orthogonalCost = 10;
 
-    //public bool searchInProgress = false;
-    //public bool initSearch = false;
-   
 
+
+
+    public bool isActive;
+    public bool pathAquired;
+    // public Node startNode;
+    public Node targetNode;
+    //public Node currentNode;
+
+
+
+    public List<Node> ClosedList
+    {
+        get
+        {
+            if (_closedList == null)
+                _closedList = new List<Node>();
+            return _closedList;
+        }
+    }
+
+
+    public List<Node> OpenList
+    {
+        get
+        {
+            if (_openList == null)
+                _openList = new List<Node>();
+            return _openList;
+        }
+    }
+
+    public List<Node> Path
+    {
+        get
+        {
+            if (_path == null)
+                _path = new List<Node>();
+            return _path;
+        }
+    }
+
+
+
+
+
+
+    public void ResetVariables()
+    {
+        _openList   = null;
+        _closedList = null;
+        _path       = null;
+
+        targetNode = null;
+        //currentNode = null;
+
+        isActive = false;
+        pathAquired = false;
+    }
+   
+   
     // http://www.policyalmanac.org/games/aStarTutorial.htm
 
     // F = G + H 
@@ -25,90 +81,69 @@ public class AStar : MonoBehaviour
     // G : The cost value it takes to get to this node (in the example diagonals cost slightly more).
     private void Awake()
     {
+        ResetVariables();
+
         nodesAcross = GridManager.Instance.NodesAcross;
         nodesUp     = GridManager.Instance.NodesUp;
     }
 
-    /// <summary>
-    /// Function to start the PathFinding process
-    /// </summary>
-    /// <param name="nodeID"></param>
-    /// <param name="targetID"></param>
-    /// <returns>Returns false if there has been an error regarding the targetID</returns>
-    //public bool Search(int nodeID, int targetID)
-    //{
-
-    //    return true;
-    //}
 
 
-    public void ClearLists()
+    // New function which sets the isActive bool to true.
+    // Also, return T or F if the Path can/cannot be found.  
+    public void StartPathFinding(int startID)
     {
-        openList = new List<Node>();
-        closedList = new List<Node>();
-        path = new List<Node>();
+        if (isActive)
+            return;
+
+        var startNode = GridManager.Instance.GetNode(startID);
+        Debug.Log("Start node id: " + startID);
+        
+
+        isActive = true;
+        Debug.Log("isActive: " + isActive);
+        OpenList.Add(startNode);
     }
 
-    public bool PathFound()
-    {
-        if (path.Count > 0)
-        {
-            print("PAth has count > 0");
-            return true;
-        }
-        return false;
-    }
 
-    /// <summary>
-    /// Function to start the PathFinding process
-    /// </summary>
-    /// <param name="nodeID"></param>
-    /// <param name="targetID"></param>
-    /// <returns>Returns false if there has been an error regarding the targetID</returns>
-    public bool CanPathBeFound(int startNodeID, int targetID)
+    public bool ValidateTarget(int targetID)
     {
-        Node startNode = GridManager.Instance.GetNode(startNodeID);
-        Node targetNode = GridManager.Instance.GetNode(targetID);
-        targetNodeID = targetID;
-
-        Debug.Log("Start node id: " + startNodeID);
+        targetNode = GridManager.Instance.GetNode(targetID);
         Debug.Log("Target node id: " + targetID);
+        
 
-        if (startNode == null || targetNode == null)
+        if(!targetNode)
         {
-            Debug.Log("Start or Target Node ID invalid");
+            Debug.Log("Target Node ID invalid");
             return false;
         }
-
         if (targetNode.Weight == GridManager.SpriteWeight.Static)
         {
             Debug.Log("Target is covered");
             return false;
         }
-
-        openList.Add(startNode);
         return true;
     }
 
-    /// <summary>
-    /// Main loop for the algorithm.
-    /// </summary>
-    /// <param name="node"></param>
-    /// <returns></returns>
-    public IEnumerator PathSearchLoop(Node startNode)
+
+
+    private void Update()
     {
-        do
+        if (!isActive)
+            return;
+
+
+        var currentNode = SelectNewParent();
+        AddToClosedList(currentNode);
+        CheckSurroundingNodes(currentNode);
+
+        if (CheckForPath())
         {
-            Node currentNode = SelectNewParent();
-
-            AddToClosedList(currentNode);
-            CheckSurroundingNodes(currentNode);
-            yield return null;
-
-        } while (!CheckForPath());
-
-        yield return true;
+            pathAquired = true;
+        }
     }
+    
+
 
     /// <summary>
     /// For each of the adjascent nodes; check if it exists on the OpenList or not. 
@@ -126,16 +161,16 @@ public class AStar : MonoBehaviour
             
 
             // check if its walkable or on the closed list. 
-            if (adjascentNode.Weight != GridManager.SpriteWeight.None || closedList.Contains(adjascentNode))
+            if (adjascentNode.Weight != GridManager.SpriteWeight.None || ClosedList.Contains(adjascentNode))
                 continue;
 
-            // if its not on the openList,
-            if (!openList.Contains(adjascentNode))
+            // if its not on the _openList,
+            if (!OpenList.Contains(adjascentNode))
             {
                 //  make the currentNode its parent. Calc G, H and F for this. 
                 adjascentNode.Parent = node;
                 SetCostAndDistance(adjascentNode, n.Value);
-                openList.Add(adjascentNode);
+                OpenList.Add(adjascentNode);
             }
             else
             {
@@ -236,12 +271,11 @@ public class AStar : MonoBehaviour
     /// <param name="node"></param>
     private void AddToClosedList(Node node)
     {
-       // Debug.Log("ADD TO THE CLOSED LIST");
-        if (node.Equals(null))        return;
-        if (!openList.Contains(node)) return;
+        if (!node)                    return;
+        if (!OpenList.Contains(node)) return;
 
-        openList.Remove(node);
-        closedList.Add(node);
+        OpenList.Remove(node);
+        ClosedList.Add(node);
     }
 
     /// <summary>
@@ -255,8 +289,8 @@ public class AStar : MonoBehaviour
     {                
         int currentNodeY = (node.ID / nodesAcross);
         int currentNodeX = (node.ID % nodesAcross);
-        int targetNodeY  = (targetNodeID / nodesAcross);
-        int targetNodeX  = (targetNodeID % nodesAcross);
+        int targetNodeY  = (targetNode.ID / nodesAcross);
+        int targetNodeX  = (targetNode.ID % nodesAcross);
         
         int differenceX = Mathf.Abs(targetNodeX - currentNodeX);
         int differenceY = Mathf.Abs(targetNodeY - currentNodeY);
@@ -275,10 +309,10 @@ public class AStar : MonoBehaviour
     /// <returns></returns>
     private Node SelectNewParent()
     {
-        int minTotalValue = openList[0].TotalValue;
+        int minTotalValue = OpenList[0].TotalValue;
         Node parent = null;
 
-        foreach (var node in openList)
+        foreach (var node in OpenList)
         {
             if(node.TotalValue <= minTotalValue)
             {
@@ -291,46 +325,46 @@ public class AStar : MonoBehaviour
 
 
     /// <summary>
-    /// Check for a path in the Closed list and check if a route cannot be found. 
+    /// Check for a _path in the Closed list and check if a route cannot be found. 
     /// </summary>
     /// <returns></returns>
     private bool CheckForPath()
     {
-        Node targetNode = closedList.Find(n => { return n.ID == targetNodeID; });
-        if(targetNode != null)
+        Node endNode = ClosedList.Find(node => { return node.ID == targetNode.ID; });
+
+        if(endNode)
         {
-            CreatePath(targetNode);
+            CreatePath(endNode);
             return true;
         }
         return false;
     }
 
     /// <summary>
-    /// Find the path starting at the targetNode. Add each element starting at the 
+    /// Find the _path starting at the targetNode. Add each element starting at the 
     ///     startNode to the PathList. 
     /// </summary>
     /// <param name="targetNode"></param>
     private void CreatePath(Node targetNode)
     {
         Node node = targetNode;
-
-        // add the target node to the list.
-        while(true)
+        
+        for(int i = 0; i < ClosedList.Count; i++)
         {
-            path.Add(node);
+            Path.Add(node);
 
-            if (node.Parent == null)
-                break;
+           if (node.Parent == null)
+             break;
 
             node = node.Parent;
         }
 
-        path.Reverse();
+        Path.Reverse();
 
-        for (int i = 0; i < path.Count; i++)
+        for (int i = 0; i < Path.Count; i++)
         {
-            Debugging.Instance.PlaceDebugCube(path[i].Centre, path[i].ID);
-            Debug.Log("Path " + i + " is " + path[i].ID);
+            Debugging.Instance.PlaceDebugCube(Path[i].Centre, Path[i].ID);
+            Debug.Log("Path " + i + " is " + Path[i].ID);
         }
     }
 }

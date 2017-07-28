@@ -9,7 +9,7 @@ using UnityEngine;
 public class NPCBehaviour : MonoBehaviour
 {
     public State currentState = State.Wait;
-   
+
     public Player player = null;
     public NPCMovement npcMovement = null;
     public AStar aStar = null;
@@ -29,23 +29,12 @@ public class NPCBehaviour : MonoBehaviour
 
     public enum State
     {
-        Wait, 
+        Wait,
         Travel,
         Socialise
     }
+
     
-
-    /// <summary>
-    /// When the player logs in. This function will be called to being the NPC behaviours.
-    /// </summary>
-    public void Awake()
-    {
-        // TODO: Get the currentNodeID which the npc has been spawned at. 
-
-        //StartCoroutine(NPCStateMachine());   
-
-    }
-
 
     public void Update()
     {
@@ -62,46 +51,53 @@ public class NPCBehaviour : MonoBehaviour
                 break;
 
             case State.Socialise:
-                
+
+                break;
+
+            default:
+                Debug.Log("No sTate selected");
                 break;
         }
     }
 
 
     /// <summary>
-    /// Basic waiting functionality. Pick a random target and find the path for it. 
+    /// Basic waiting functionality. Pick a random target and find the _path for it. 
     /// </summary>
     private void Waiting()
     {
-        if (Pathfinding())
+        if (PathFinding())
         {
             currentState = State.Travel;
         }
     }
 
 
-    private bool Pathfinding()
+
+    private bool PathFinding()
     {
-        print("Finding Path: " + findingPath);
-        if (!findingPath)
+        if (randTargetNodeID == -1)
         {
             randTargetNodeID = Random.Range(0, GridManager.Instance.TotalNodes);
             print("Random no. is " + randTargetNodeID);
-
-
-            if (aStar.CanPathBeFound(npcMovement.CurrentNode.ID, randTargetNodeID))
-            {
-                findingPath = true;
-                StartCoroutine(aStar.PathSearchLoop(npcMovement.CurrentNode));
-            }
         }
 
-        if (aStar.PathFound())
+
+        if (!aStar.ValidateTarget(randTargetNodeID) || (randTargetNodeID == npcMovement.CurrentNode.ID))
         {
-            print("Path found");
-            currentPath = aStar.path;
-            findingPath = false;
-            return true;
+            Debug.Log("Validation of random target node ID Value failed");
+            randTargetNodeID = -1;
+        }
+        else
+        {
+            aStar.StartPathFinding(npcMovement.CurrentNode.ID);
+            if (aStar.pathAquired)
+            {
+                currentPath = new List<Node>(aStar.Path);
+                aStar.ResetVariables();
+                Debug.Log("Path with count " + currentPath.Count + " Found");
+                return true;
+            }
         }
         return false;
     }
@@ -122,127 +118,19 @@ public class NPCBehaviour : MonoBehaviour
 
     private bool MoveTowards()
     {
+        Debug.Log("Moving towards");
         if (!movingTowards)
         {
-            StartCoroutine(npcMovement.CompletePath(currentPath));
+            StartCoroutine(npcMovement.completePath(currentPath));
             movingTowards = true;
         }
 
-        if(npcMovement.JourneyComplete())
+        if (npcMovement.JourneyComplete())
         {
             movingTowards = false;
-            //StopCoroutine(npcMovement.CompletePath(currentPath));
             currentPath = null;
             return true;
         }
         return false;
     }
-
-
-
-
-
-    /// <summary>
-    /// Main State Machine Loop. Based on the currentState run the loop
-    /// </summary>
-    /// <returns></returns>
-    //private IEnumerator NPCStateMachine()
-    //{
-    //    int i = 0;
-    //    // This could be while (!player.LoggedIn && 
-    //    while(true)
-    //    {
-    //        print("current state: " + currentState);
-    //       switch(currentState)
-    //        {
-    //            case State.Wait:
-    //                Debug.Log("WAIT STATE");
-    //                print("inState is " + inState);
-    //                if (!inState)
-    //                {
-    //                    print("instance no: " + i++);
-    //                    StartCoroutine(WaitState(flag =>
-    //                    {
-    //                        if (flag)
-    //                        {
-    //                            inState = false;
-    //                        }
-    //                        else
-    //                        {
-    //                            inState = true;
-    //                        }
-    //                    }));
-    //                }
-    //                break;
-
-    //            case State.Travel:
-
-    //                print("TRAVEL STATE");
-    //                print("inState is " + inState);
-    //                if (!inState)
-    //                {
-    //                    print("instance no: " + i++);
-    //                    StartCoroutine(TravelState(flag =>
-    //                    {
-    //                        if (flag)
-    //                        {
-    //                            inState = false;
-    //                        }
-    //                        else
-    //                        {
-    //                            inState = true;
-    //                        }
-    //                    }));
-    //                }
-    //                break;
-
-    //            default:
-    //                print("No State is set. Do something about it. ");
-    //                break;
-    //        }
-    //        yield return null;
-    //    }
-    //    yield return true;
-    //}
-
-
-
-    //private IEnumerator WaitState(System.Action<bool> stateComplete)
-    //{
-    //    while (true)
-    //    {
-    //        currentState = npcWaitState.Waiting();
-
-
-
-
-    //        if(currentState != State.Wait)
-    //        {
-    //            break;
-    //        }
-    //        stateComplete(false);
-    //        yield return null;
-    //    }
-    //    stateComplete(true);
-    //    yield return true;
-    //}
-
-
-
-    //private IEnumerator TravelState(System.Action<bool> stateComplete)
-    //{
-    //    // run state loop
-    //    while (true)
-    //    {
-    //        currentState = npcTravelState.Travelling();
-    //        if(currentState != State.Travel)
-    //        {
-    //            break;
-    //        }
-    //        stateComplete(false);
-    //        yield return null;
-    //    }
-    //    stateComplete(true);
-    //    yield return true;
-    //}
 }

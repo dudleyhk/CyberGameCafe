@@ -11,7 +11,7 @@
 
 
 //    /// <summary>
-//    /// Basic waiting functionality. Pick a random target and find the path for it. 
+//    /// Basic waiting functionality. Pick a random target and find the _path for it. 
 //    /// </summary>
 //    private void Waiting()
 //    {
@@ -42,7 +42,7 @@
 //        {
 //            StopCoroutine(aStar.PathSearchLoop());
 //            print("Path found");
-//            currentPath = new List<Node>(aStar.path);
+//            currentPath = new List<Node>(aStar._path);
 //            aStar.ClearLists();
 //            findingPath = false;
 //            return true;
