@@ -21,7 +21,6 @@ public class NPCBehaviour : MonoBehaviour
     public bool findingPath = false;
     public bool movingTowards = false;
 
-
     public GameObject waiting = null;
 
 
@@ -55,7 +54,7 @@ public class NPCBehaviour : MonoBehaviour
                 break;
 
             default:
-                Debug.Log("No sTate selected");
+                Debug.Log("No State selected");
                 break;
         }
     }
@@ -93,7 +92,7 @@ public class NPCBehaviour : MonoBehaviour
             aStar.StartPathFinding(npcMovement.CurrentNode.ID);
             if (aStar.pathAquired)
             {
-                currentPath = new List<Node>(aStar.Path);
+                npcMovement.Path = new List<Node>(aStar.Path);
                 aStar.ResetVariables();
                 Debug.Log("Path with count " + currentPath.Count + " Found");
                 return true;
@@ -118,18 +117,15 @@ public class NPCBehaviour : MonoBehaviour
 
     private bool MoveTowards()
     {
-        Debug.Log("Moving towards");
-        if (!movingTowards)
+        if(aStar.pathAquired)
         {
-            StartCoroutine(npcMovement.completePath(currentPath));
-            movingTowards = true;
-        }
-
-        if (npcMovement.JourneyComplete())
-        {
-            movingTowards = false;
-            currentPath = null;
-            return true;
+            npcMovement.Move();
+            if(npcMovement.pathComplete)
+            {
+                npcMovement.ResetVariables();
+                print("MoveComplete");
+                return true;
+            }
         }
         return false;
     }

@@ -14,14 +14,9 @@ public class AStar : MonoBehaviour
 	public int  orthogonalCost = 10;
 
 
-
-
     public bool isActive;
     public bool pathAquired;
-    // public Node startNode;
     public Node targetNode;
-    //public Node currentNode;
-
 
 
     public List<Node> ClosedList
@@ -67,7 +62,6 @@ public class AStar : MonoBehaviour
         _path       = null;
 
         targetNode = null;
-        //currentNode = null;
 
         isActive = false;
         pathAquired = false;

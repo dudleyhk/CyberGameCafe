@@ -6,14 +6,56 @@ using UnityEngine;
 
 public class NPCMovement : MonoBehaviour
 {
-    private List<Node> currentPath = null;
     public Vector3 currentDir      = Vector3.zero;
-    public Transform parentTransform = null;
+    public Transform playerTransform = null;
     public bool PathComplete         = false;
     public int targetNodeID          = -1;
-    public float speed = 5f;                                  /// Speed could be a percentage of the total number of nodes their are. 
+    public float speed  = 5f;                                  /// Speed could be a percentage of the total number of nodes their are. 
     public Direction CurrentDirection { get; internal set; }
     public Node CurrentNode = null;
+
+
+
+
+
+    public bool canMove;
+    public bool pathComplete;
+    public int currentID;
+    public Node targetNode;
+    private List<Node> _path;
+
+
+
+    public List<Node> Path
+    {
+        get
+        {
+            if(_path == null)
+            {
+                _path = new List<Node>();
+            }
+            return _path;
+        }
+
+        set
+        {
+            _path = value;
+        }
+    }
+    
+
+
+
+    public void ResetVariables()
+    {
+        canMove = false;
+        pathComplete = false;
+        currentID = 0;
+        targetNode = null;
+        _path = null;
+    }
+
+
 
 
     public enum Direction
@@ -32,7 +74,56 @@ public class NPCMovement : MonoBehaviour
 
     private void Awake()
     {
+        ResetVariables();
         CurrentNode = GridManager.Instance.SpawnNode;
+    }
+
+
+
+    private void Update()
+    {
+        if (!canMove)
+            return;
+
+        if (playerTransform.position == targetNode.Centre)
+        {
+            pathComplete = true;
+            return;
+        }
+
+        int nextNodeID = currentID + 1;
+        if (nextNodeID < Path.Count)
+        {
+            print("Next node is valid");
+            var nextNode = Path[nextNodeID];
+            CurrentDirection = GetDirection(nextNode);
+            SetDirectionVec(CurrentDirection);
+
+
+            float dist = Vector3.Distance(this.transform.position, nextNode.Centre);
+            if (dist < 0.2f)
+            {
+                currentID++;
+                CurrentNode = Path[currentID];
+            }
+        }
+        print("Moving");
+        playerTransform.position += currentDir * Time.deltaTime;
+    }
+
+    public void Move()
+    {
+        if (!canMove)
+            canMove = true;
+    }
+
+
+    public void PauseMove()
+    {
+        if(canMove)
+            canMove = false;
+        
+        // dont reset path.
     }
 
 
@@ -154,64 +245,59 @@ public class NPCMovement : MonoBehaviour
     /// </summary>
     /// <param name="path"></param>
     /// <returns></returns>
-    public IEnumerator CompletePath(List<Node> path)
-    {
+    //public IEnumerator CompletePath(List<Node> path)
+    //{
 
-        float distanceToNextNode = 0;
+    //    float distanceToNextNode = 0;
 
-        currentPath  = new List<Node>(path);
-        CurrentNode  = currentPath[0];
-        targetNodeID = currentPath[currentPath.Count - 1].ID;
-
-
-        int i = 0;
-        while(i < currentPath.Count)
-        {
-            int nextNodeID = i + 1;
-            if (nextNodeID < currentPath.Count)
-            {
-                Node nextNode = GridManager.Instance.GetNode(nextNodeID);
-                CurrentDirection = GetDirection(nextNode);
-                SetDirectionVec(CurrentDirection);
+    //    path  = new List<Node>(path);
+    //    CurrentNode  = path[0];
+    //    targetNodeID = path[path.Count - 1].ID;
 
 
-                distanceToNextNode = Vector3.Distance(this.transform.position, nextNode.Centre);
-                if (distanceToNextNode < 0.2f)
-                {
-                    print("Next target hit");
-                    i++;
-                    CurrentNode = nextNode;
-                }
-                print("Current Node ID: " + CurrentNode.ID);
-                parentTransform.position += currentDir * Time.deltaTime;
-            }
-        yield return null;  
-        }
-        yield return true;
-    }
+    //    int i = 0;
+    //    while(i < path.Count)
+    //    {
+    //        int nextNodeID = i + 1;
+    //        if (nextNodeID < path.Count)
+    //        {
+    //            Node nextNode = GridManager.Instance.GetNode(nextNodeID);
+    //            CurrentDirection = GetDirection(nextNode);
+    //            SetDirectionVec(CurrentDirection);
 
 
+    //            distanceToNextNode = Vector3.Distance(this.transform.position, nextNode.Centre);
+    //            if (distanceToNextNode < 0.2f)
+    //            {
+    //                print("Next target hit");
+    //                i++;
+    //                CurrentNode = nextNode;
+    //            }
+    //            print("Current Node ID: " + CurrentNode.ID);
+    //            parentTransform.position += currentDir * Time.deltaTime;
+    //        }
+    //    yield return null;  
+    //    }
+    //    yield return true;
+    //}
 
-    private IEnumerator Move(Node nextNode)
-    {
+
+        
 
 
-        yield return true;
-    }
+   
 
     /// <summary>
     /// Run this loop until the last ID has been hit.
     /// </summary>
     /// <returns></returns>
-    public IEnumerator completePath(List<Node> path)
+    public IEnumerator completePath(List<Node> _path)
     {
-        //TODO: Change this to a for loop
         int idx = 0;
-        currentPath = path;
-        CurrentNode = currentPath[0];
-        int targetID = currentPath[currentPath.Count - 1].ID;
+        Path = _path;
+        CurrentNode = Path[0];
+        int targetID = Path[Path.Count - 1].ID;
         PathComplete = false;
-        //Debug.Log("TARGET ID : " + targetID);
 
 
         while(CurrentNode.ID != targetID)
@@ -220,9 +306,9 @@ public class NPCMovement : MonoBehaviour
             //Debug.Log("idx (" + idx + ") < currentPath.Count (" + currentPath.Count + ") is " + ((idx + 1) < currentPath.Count));
 
             // If the next index is less that the current _path size. 
-            if ((idx + 1) < currentPath.Count)
+            if ((idx + 1) < Path.Count)
             {
-                Node nextNode = currentPath[idx + 1];
+                Node nextNode = Path[idx + 1];
                 CurrentDirection = GetDirection(nextNode);
                 SetDirectionVec(CurrentDirection);
 
@@ -243,8 +329,8 @@ public class NPCMovement : MonoBehaviour
 
 
             // Move
-            parentTransform.position += currentDir * Time.deltaTime;
-            CurrentNode = currentPath[idx];
+            playerTransform.position += currentDir * Time.deltaTime;
+            CurrentNode = Path[idx];
 
             yield return null;
         }
