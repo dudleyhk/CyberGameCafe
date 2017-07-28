@@ -10,18 +10,18 @@ public class NPCBehaviour : MonoBehaviour
 {
     public State currentState = State.Wait;
 
-    public Player player = null;
+   //public Player player = null;
     public NPCMovement npcMovement = null;
     public AStar aStar = null;
-
-    public List<Node> currentPath = null;
     public int randTargetNodeID = -1;
+   
+   //// public List<Node> currentPath = null;
+  
+  
+   // public bool findingPath = false;
+   // public bool movingTowards = false;
 
-
-    public bool findingPath = false;
-    public bool movingTowards = false;
-
-    public GameObject waiting = null;
+  // public GameObject waiting = null;
 
 
 
@@ -94,7 +94,7 @@ public class NPCBehaviour : MonoBehaviour
             {
                 npcMovement.Path = new List<Node>(aStar.Path);
                 aStar.ResetVariables();
-                Debug.Log("Path with count " + currentPath.Count + " Found");
+                Debug.Log("Path with count " + npcMovement.Path.Count + " Found");
                 return true;
             }
         }
@@ -117,15 +117,11 @@ public class NPCBehaviour : MonoBehaviour
 
     private bool MoveTowards()
     {
-        if(aStar.pathAquired)
+        npcMovement.Move();
+        if(npcMovement.pathComplete)
         {
-            npcMovement.Move();
-            if(npcMovement.pathComplete)
-            {
-                npcMovement.ResetVariables();
-                print("MoveComplete");
-                return true;
-            }
+            npcMovement.ResetVariables();
+            return true;
         }
         return false;
     }

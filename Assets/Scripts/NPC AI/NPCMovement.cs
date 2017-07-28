@@ -12,11 +12,11 @@ public class NPCMovement : MonoBehaviour
     public int targetNodeID          = -1;
     public float speed  = 5f;                                  /// Speed could be a percentage of the total number of nodes their are. 
     public Direction CurrentDirection { get; internal set; }
-    public Node CurrentNode = null;
 
 
 
-
+    /* DO NOT RESET */
+    public Node CurrentNode;
 
     public bool canMove;
     public bool pathComplete;
@@ -85,8 +85,15 @@ public class NPCMovement : MonoBehaviour
         if (!canMove)
             return;
 
-        if (playerTransform.position == targetNode.Centre)
-        {
+
+        if (!targetNode)
+            targetNode = Path[Path.Count - 1];
+
+
+        float distToEnd = Vector3.Distance(this.transform.position, targetNode.Centre);
+        if (distToEnd < 0.2f)
+        { 
+            Debug.Log("Path complete");
             pathComplete = true;
             return;
         }
@@ -113,6 +120,12 @@ public class NPCMovement : MonoBehaviour
 
     public void Move()
     {
+        if (Path.Count <= 0)
+        {
+            Debug.Log("Path empty");
+            return;
+        }
+
         if (!canMove)
             canMove = true;
     }
