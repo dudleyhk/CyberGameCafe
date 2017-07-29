@@ -355,10 +355,10 @@ public class AStar : MonoBehaviour
 
         Path.Reverse();
 
-        for (int i = 0; i < Path.Count; i++)
-        {
-            Debugging.Instance.PlaceDebugCube(Path[i].Centre, Path[i].ID);
-            Debug.Log("Path " + i + " is " + Path[i].ID);
-        }
+        //for (int i = 0; i < Path.Count; i++)
+        //{
+        //    Debugging.Instance.PlaceDebugCube(Path[i].Centre, Path[i].ID);
+        //    Debug.Log("Path " + i + " is " + Path[i].ID);
+        //}
     }
 }

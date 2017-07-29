@@ -17,10 +17,12 @@ public class NPCMovement : MonoBehaviour
 
     /* DO NOT RESET */
     public Node CurrentNode;
+    public int currentNodeID;
+
 
     public bool canMove;
     public bool pathComplete;
-    public int currentID;
+    public int tempCurrentID;
     public Node targetNode;
     private List<Node> _path;
 
@@ -50,7 +52,7 @@ public class NPCMovement : MonoBehaviour
     {
         canMove = false;
         pathComplete = false;
-        currentID = 0;
+        tempCurrentID = 0;
         targetNode = null;
         _path = null;
     }
@@ -90,15 +92,15 @@ public class NPCMovement : MonoBehaviour
             targetNode = Path[Path.Count - 1];
 
 
-        float distToEnd = Vector3.Distance(this.transform.position, targetNode.Centre);
-        if (distToEnd < 0.2f)
+        float distToTarget = Vector3.Distance(this.transform.position, targetNode.Centre);
+        if (distToTarget < 0.2f)
         { 
             Debug.Log("Path complete");
             pathComplete = true;
             return;
         }
 
-        int nextNodeID = currentID + 1;
+        int nextNodeID = tempCurrentID + 1;
         if (nextNodeID < Path.Count)
         {
             print("Next node is valid");
@@ -110,11 +112,12 @@ public class NPCMovement : MonoBehaviour
             float dist = Vector3.Distance(this.transform.position, nextNode.Centre);
             if (dist < 0.2f)
             {
-                currentID++;
-                CurrentNode = Path[currentID];
+                tempCurrentID++;
+                CurrentNode = Path[tempCurrentID];
+                currentNodeID = CurrentNode.ID;
             }
         }
-        print("Moving");
+        print("Moving... Current Node is " + CurrentNode.ID);
         playerTransform.position += currentDir * Time.deltaTime;
     }
 
@@ -127,7 +130,10 @@ public class NPCMovement : MonoBehaviour
         }
 
         if (!canMove)
+        {
             canMove = true;
+            print("canMove is " + canMove);
+        }
     }
 
 

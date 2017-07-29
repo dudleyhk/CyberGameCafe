@@ -10,20 +10,9 @@ public class NPCBehaviour : MonoBehaviour
 {
     public State currentState = State.Wait;
 
-   //public Player player = null;
     public NPCMovement npcMovement = null;
     public AStar aStar = null;
     public int randTargetNodeID = -1;
-   
-   //// public List<Node> currentPath = null;
-  
-  
-   // public bool findingPath = false;
-   // public bool movingTowards = false;
-
-  // public GameObject waiting = null;
-
-
 
 
     public enum State
@@ -33,10 +22,23 @@ public class NPCBehaviour : MonoBehaviour
         Socialise
     }
 
-    
+
 
     public void Update()
     {
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            currentState = State.Wait;
+        }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            currentState = State.Travel;
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            currentState = State.Socialise;
+        }
+
         switch (currentState)
         {
             case State.Wait:
