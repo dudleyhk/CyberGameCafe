@@ -7,7 +7,7 @@ public class DialogEngine : MonoBehaviour {
     // Node Buffers. 
     public DialogNode StartNode;
     private DialogNode currentNode;
-    public GameObject player;
+    private GameObject player;
 
     void Start()
     {}
@@ -17,6 +17,7 @@ public class DialogEngine : MonoBehaviour {
         currentNode = StartNode;
         player = thePlayer;
         player.GetComponent<Movement>().stopMovement();
+        printMessage();
     }
 
     public void moveToNode(int nodeSelection)
@@ -24,6 +25,7 @@ public class DialogEngine : MonoBehaviour {
         if(nodeSelection <= (currentNode.getChildNodeCount() - 1))
         {
             currentNode = currentNode.NodeList[nodeSelection].GetComponent<DialogNode>();
+            printMessage();
 
             if (currentNode.containsMission())
             {
@@ -31,8 +33,13 @@ public class DialogEngine : MonoBehaviour {
                 player.GetComponent<QuestSystem>().assignMission(currentNode.missionToAssign.GetComponent<Mission>());
             }
         }
+        else if (currentNode.getChildNodeCount() == 0)
+        {
+            endConversation();
+        }
         else
         {
+            // TODO - just ignore the input here.
             Debug.Log("ERROR - Message not set");
         }
     }
@@ -49,6 +56,8 @@ public class DialogEngine : MonoBehaviour {
 
     void endConversation()
     {
+        player.GetComponent<Movement>().startMovement();
+        player.GetComponent<KeyInput>().endConversationState();
         player = null;
     }
 }

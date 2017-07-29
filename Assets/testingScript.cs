@@ -12,8 +12,7 @@ public class testingScript : MonoBehaviour {
 
         if(playerObject.tag == "Player")
         {
-            playerObject.GetComponent<Movement>().stopMovement();
-
+            this.gameObject.GetComponent<DialogEngine>().StartConversation(playerObject);
             // TODO - add code to start conversation with the NPC to test the dialog and quest system. 
         }
     }
