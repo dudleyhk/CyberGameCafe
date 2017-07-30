@@ -17,6 +17,7 @@ public class MissionObjective : MonoBehaviour
     public string objectiveTag;
 
     // the starting and finishing values for the objective. 
+    // TODO - Consider changing the name of these variables as they are confusing. 
     public int startState;
     public int finishState;
 

@@ -18,20 +18,20 @@ public class KeyInput : MonoBehaviour {
     {
         if (NPCDialogObject != null)
         {
-            if (Input.GetKey(KeyCode.Alpha0))
+            if (Input.GetKeyDown(KeyCode.Alpha0))
             {
                 NPCDialogObject.moveToNode(0);
                 Debug.Log("0 key pressed.");
             }
-            else if (Input.GetKey(KeyCode.Alpha1))
+            else if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 NPCDialogObject.moveToNode(1);
             }
-            else if (Input.GetKey(KeyCode.Alpha2))
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 NPCDialogObject.moveToNode(2);
             }
-            else if (Input.GetKey(KeyCode.Alpha3))
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
             {
                 NPCDialogObject.moveToNode(3);
             }

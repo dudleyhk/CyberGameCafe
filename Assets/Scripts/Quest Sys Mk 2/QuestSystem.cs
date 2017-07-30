@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class QuestSystem : MonoBehaviour
 {
+    [SerializeField]
     private List<Mission> currentMissions;
-    private int activeMission;
+    private int activeMission = 0;
 
 
     // utility functions.
@@ -35,9 +36,10 @@ public class QuestSystem : MonoBehaviour
 
     public void assignMission(Mission newMission)
     {
-        if (currentMissions.Count == 0)
+        if (currentMissions == null)
         {
             activeMission = 0;
+            currentMissions = new List<Mission>();
         }
 
         currentMissions.Add(newMission);

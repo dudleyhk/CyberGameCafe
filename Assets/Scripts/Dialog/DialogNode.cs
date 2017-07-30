@@ -28,7 +28,7 @@ public class DialogNode : MonoBehaviour {
 
     public bool containsMission()
     {
-        if(missionToAssign.GetComponent<Mission>() != null)
+        if(missionToAssign != null)
         {
             return true;
         }

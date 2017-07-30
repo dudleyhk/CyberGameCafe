@@ -22,20 +22,20 @@ public class DialogEngine : MonoBehaviour {
 
     public void moveToNode(int nodeSelection)
     {
-        if(nodeSelection <= (currentNode.getChildNodeCount() - 1))
+        if (nodeSelection <= (currentNode.getChildNodeCount() - 1) && nodeSelection > -1)
         {
             currentNode = currentNode.NodeList[nodeSelection].GetComponent<DialogNode>();
             printMessage();
-
             if (currentNode.containsMission())
             {
                 // deliver the quest to the user. 
                 player.GetComponent<QuestSystem>().assignMission(currentNode.missionToAssign.GetComponent<Mission>());
             }
-        }
-        else if (currentNode.getChildNodeCount() == 0)
-        {
-            endConversation();
+
+            if(currentNode.getChildNodeCount() == 0)
+            {
+                endConversation();
+            }
         }
         else
         {
