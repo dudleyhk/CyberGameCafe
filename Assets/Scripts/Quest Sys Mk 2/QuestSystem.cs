@@ -13,7 +13,10 @@ public class QuestSystem : MonoBehaviour
     void setActiveMission(int newActiveMission)
     {
         // sets the new mission from the current missions list.
-        activeMission = newActiveMission;
+        if(newActiveMission < currentMissions.Count && newActiveMission > 0)
+        {
+            activeMission = newActiveMission;
+        }
     }
 
     // hands in the chosen mission by the player. 
@@ -28,9 +31,17 @@ public class QuestSystem : MonoBehaviour
         return currentMissions[activeMission];
     }
 
-    void updateMissionState(MissionObjectiveTypes missionType, string missionTag)
+    public void updateMissionState(MissionObjectiveTypes missionType, string missionTag)
     {
-         currentMissions[activeMission].updateActiveMissionObjectives(missionType, missionTag);
+        if(currentMissions.Count != 0)
+        {
+            currentMissions[activeMission].updateActiveMissionObjectives(missionType, missionTag);
+
+            if (currentMissions[activeMission].compleated)
+            {
+                handInMission(activeMission);
+            }
+        }
     }
 
 
@@ -41,7 +52,7 @@ public class QuestSystem : MonoBehaviour
             activeMission = 0;
             currentMissions = new List<Mission>();
         }
-
+        newMission.startMission();
         currentMissions.Add(newMission);
     }
 }

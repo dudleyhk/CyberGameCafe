@@ -9,43 +9,38 @@ public class Mission : MonoBehaviour
     public string missionDiscription;
 
     public GameObject[] missionObjectives;
+    [SerializeField]
     private List<MissionObjective> activeObjectives;
 
-    private bool compleated;
-    private int compleatedObjectives;
+    public bool compleated;
+    private int compleatedObjectives = 0;
 
     public int noOfStartingObjectives;
 
-    void Awake()
-    {
-        compleated = false;
-
-    }
-
 
     // utility functions go here. 
+
+
     public void updateActiveMissionObjectives(MissionObjectiveTypes objectiveType, string objectiveTag)
     {
-        int compleatedObjectives = 0;
-
+        int compleatedActiveObjectives = 0;
         // update the active missions and update the objectives. (TODO - return to update with behaviour for item systems)
         for(int i = 0; i < activeObjectives.Count; i++)
         {
            if(activeObjectives[i].objectiveType == objectiveType && activeObjectives[i].getObjectiveTag() == objectiveTag)
            {
                 activeObjectives[i].updateProgressState();
+           }
 
-                if (activeObjectives[i].isComplete())
-                {
-                    compleatedObjectives++;
-                }
-
-                break;
-            }
+           if (activeObjectives[i].isComplete())
+           {
+                compleatedActiveObjectives++;
+           }
         }
 
-        if(compleatedObjectives == activeObjectives.Count)
+        if(compleatedActiveObjectives == activeObjectives.Count)
         {
+            compleatedObjectives += compleatedActiveObjectives;
             getNewActiveObjectives();
         }
     }
@@ -59,8 +54,9 @@ public class Mission : MonoBehaviour
 
         int objectivesToRetrieve = activeObjectives[activeObjectives.Count - 1].nextObjectivesToRetrieve;
         activeObjectives.Clear();
+        
 
-        for(int i = compleatedObjectives; i < i + objectivesToRetrieve + 1; i++)
+        for(int i = compleatedObjectives; i < compleatedObjectives + objectivesToRetrieve; i++)
         {
             newObjective = missionObjectives[i].GetComponent<MissionObjective>();
 
@@ -71,11 +67,22 @@ public class Mission : MonoBehaviour
             }
 
             activeObjectives.Add(newObjective);
+            Debug.Log(newObjective.name + " added to the list");
         }
 
         if(objectivesToRetrieve == 0)
         {
             compleated = true;
+            Debug.Log("Quest Compleated");
+        }
+    }
+
+    public void startMission()
+    {
+        activeObjectives = new List<MissionObjective>();
+        for (int i = 0; i < noOfStartingObjectives; i++)
+        {
+            activeObjectives.Add(missionObjectives[i].GetComponent<MissionObjective>());
         }
     }
 }

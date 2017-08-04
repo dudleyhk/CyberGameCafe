@@ -21,11 +21,11 @@ public class MissionObjective : MonoBehaviour
     public int startState;
     public int finishState;
 
-    private int currentProgress;
+    private int currentProgress = 0;
     private bool complete = false;
 
     // change in progress when progress is updated (needs a better name).
-    private int deltaProgressValue;
+    public int deltaProgressValue;
 
     // retrieves the next set of objectives after the current set of objectives is complete. 
     public int nextObjectivesToRetrieve;
