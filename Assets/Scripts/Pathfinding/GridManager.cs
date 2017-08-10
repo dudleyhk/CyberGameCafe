@@ -24,6 +24,7 @@ public class GridManager : MonoBehaviour
     public ushort _nodesUp = 0;
     public ushort _totalNodes = 0;
     public ushort nodeDepth_debugging = 5;
+    public bool gridCubes_debugging = false;
 
 
 
@@ -155,7 +156,8 @@ public class GridManager : MonoBehaviour
                 float Cz = mapMinPoint.z;//; + nodeDepth_debugging;
                 Vector3 centre = new Vector3(Cx, Cy, Cz);
 
-               // Debugging.Instance.PlaceDebugSphere(centre, nodeIdx);
+                if(gridCubes_debugging)
+                    Debugging.Instance.PlaceDebugSphere(centre, nodeIdx);
 
                 // Create a new node and initialise it. 
                 Node node = Instantiate(nodePrefab, this.transform).GetComponent<Node>();

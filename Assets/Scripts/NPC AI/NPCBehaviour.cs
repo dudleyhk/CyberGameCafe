@@ -23,6 +23,12 @@ public class NPCBehaviour : MonoBehaviour
     }
 
 
+    private void ResetVariables()
+    {
+        randTargetNodeID = -1;
+    }
+
+
 
     public void Update()
     {
@@ -52,7 +58,7 @@ public class NPCBehaviour : MonoBehaviour
                 break;
 
             case State.Socialise:
-
+                Socialise();
                 break;
 
             default:
@@ -126,5 +132,11 @@ public class NPCBehaviour : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+
+    private void Socialise()
+    {
+        ResetVariables();
     }
 }

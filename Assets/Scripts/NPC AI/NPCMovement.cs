@@ -8,8 +8,8 @@ public class NPCMovement : MonoBehaviour
 {
     public Vector3 currentDir      = Vector3.zero;
     public Transform playerTransform = null;
+    public Rigidbody2D playerRigidbody = null;
     public bool PathComplete         = false;
-    public int targetNodeID          = -1;
     public float speed  = 5f;                                  /// Speed could be a percentage of the total number of nodes their are. 
     public Direction CurrentDirection { get; internal set; }
 
@@ -23,6 +23,7 @@ public class NPCMovement : MonoBehaviour
     public bool canMove;
     public bool pathComplete;
     public int tempCurrentID;
+    public int nextNodeID;
     public Node targetNode;
     private List<Node> _path;
 
@@ -53,6 +54,9 @@ public class NPCMovement : MonoBehaviour
         canMove = false;
         pathComplete = false;
         tempCurrentID = 0;
+        currentDir = Vector3.zero;
+        CurrentDirection = Direction.NONE;
+        nextNodeID = 0;
         targetNode = null;
         _path = null;
     }
@@ -100,7 +104,7 @@ public class NPCMovement : MonoBehaviour
             return;
         }
 
-        int nextNodeID = tempCurrentID + 1;
+        nextNodeID = tempCurrentID + 1;
         if (nextNodeID < Path.Count)
         {
             print("Next node is valid");
@@ -109,17 +113,24 @@ public class NPCMovement : MonoBehaviour
             SetDirectionVec(CurrentDirection);
 
 
-            float dist = Vector3.Distance(this.transform.position, nextNode.Centre);
-            if (dist < 0.2f)
-            {
-                tempCurrentID++;
-                CurrentNode = Path[tempCurrentID];
-                currentNodeID = CurrentNode.ID;
-            }
+            //float dist = Vector3.Distance(this.transform.position, nextNode.Centre);
+            //if (dist < 0.1f)
+            //{
+            //    tempCurrentID++;
+            //    CurrentNode = Path[tempCurrentID];
+            //    currentNodeID = CurrentNode.ID;
+            //}
         }
         print("Moving... Current Node is " + CurrentNode.ID);
-        playerTransform.position += currentDir * Time.deltaTime;
+        // playerTransform.position += currentDir * Time.deltaTime;
+        playerRigidbody.velocity = currentDir * speed * Time.deltaTime;
+     
     }
+
+
+
+
+
 
     public void Move()
     {
