@@ -17,7 +17,7 @@ public class NPCMovement : MonoBehaviour
 
     private void Awake()
     {
-        currentNode = SetupMap.nodeGraph.nodes[51];//spawnNode;   
+         
     }
 
     /// <summary>

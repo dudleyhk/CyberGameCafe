@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class SetupMap : MonoBehaviour
 {
-    public static bool[,] grid = null;
+    public bool[,] grid = null;
     public static NodeGraph nodeGraph = null;
     public GameObject nodeSprite;
 

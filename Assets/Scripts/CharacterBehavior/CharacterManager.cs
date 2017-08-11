@@ -24,18 +24,20 @@ public class CharacterManager : MonoBehaviour
     /// </summary>
     public void SpawnNewPlayer()
     {
-       //GameObject player = Instantiate(playerPrefab, this.transform);
-       //player.GetComponent<Player>().spawnNodeID = GridManager.Instance.spawnNodeID;
-       //
-       //
-       //player.name = "Player Character " + players.Count;
-       //
-       //Vector3 spawnCentre = GridManager.Instance.GetNode(GridManager.Instance.spawnNodeID).Centre;
-       //Vector3 spawnPosition = new Vector3(spawnCentre.x, spawnCentre.y, 0f);
-       //player.transform.position = spawnPosition;
+       GameObject player = Instantiate(playerPrefab, this.transform);
 
+        var id = -1;
+        do
+        {
+            id = Random.Range(0, SetupMap.grid.Length - 1);
+        } while (SetupMap.nodeGraph.nodes[id].solid == true);
 
-        //players.Add(player);
+        var node = SetupMap.nodeGraph.nodes[id];
+        player.GetComponentInChildren<NPCMovement>().currentNode = node;
+        player.transform.position = node.position;
+        players.Add(player);
+
+        player.name = "Player Character ( ID: " + players.Count + ", Name: Muffasa ) ";
     }
 
 }
