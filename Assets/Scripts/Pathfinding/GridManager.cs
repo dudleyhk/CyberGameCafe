@@ -13,7 +13,7 @@ public class GridManager : MonoBehaviour
     public GameObject nodePrefab = null;
     public GameObject map = null;
     public Vector3 mapMinPoint = Vector3.zero;
-    public Vector3 mapMaxPoint = Vector3.zero;
+    //public Vector3 mapMaxPoint = Vector3.zero;
     public float mapHeight = 0.0f;
     public float mapWidth = 0.0f;
     public ushort spawnNodeID = 0;
@@ -118,7 +118,7 @@ public class GridManager : MonoBehaviour
         mapWidth = mapRenderer.bounds.size.x;
         mapHeight = mapRenderer.bounds.size.y;
         mapMinPoint = mapRenderer.bounds.min;
-        mapMaxPoint = mapRenderer.bounds.max;
+        //mapMaxPoint = mapRenderer.bounds.max;
 
         // INIT NODE ATTRIBUTES
         NodeWidth = (float)mapWidth / NodesAcross;
