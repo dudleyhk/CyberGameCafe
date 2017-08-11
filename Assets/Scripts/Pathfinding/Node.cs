@@ -7,7 +7,7 @@ public class Node
     public Node previous = null;
     public Vector3 position = Vector3.zero;
     public string label = "";
-    public int type = -1;
+    public bool solid = false;
 
 
     public void Clear()

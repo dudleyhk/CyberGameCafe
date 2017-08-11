@@ -7,7 +7,7 @@ public class NodeGraph
     public int cols = 0;
     public Node[] nodes = null;
 
-    public NodeGraph(int[,] grid)
+    public NodeGraph(bool[,] grid)
     {
         rows = grid.GetLength(0);
         cols = grid.GetLength(1);
@@ -21,7 +21,7 @@ public class NodeGraph
             var node = new Node();
             node.label = i.ToString();
             node.position = MapData.GetPositionOfIndex(i);
-            node.type = grid[r, c];
+            node.solid = grid[r, c];
 
             //Debug.Log("node type for id " + i + " is " + node.type);
 
@@ -36,7 +36,7 @@ public class NodeGraph
                 var node = nodes[cols * r + c];
 
                 // 0 = open tile, 1 = solid tile. 
-                if(grid[r,c] == 1)
+                if(grid[r,c] == true)
                     continue;
 
                 // Up

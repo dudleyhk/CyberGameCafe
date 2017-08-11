@@ -23,13 +23,13 @@ public class Search
     /// <param name="goal"></param>
     public void Start(Node start, Node goal)
     {
-        if(start.type == 1)
+        if(start.solid == true)
         {
             Debug.Log("invalid start");
             return;
         }
 
-        if (goal.type == 1)
+        if (goal.solid == true)
         {
             Debug.Log("invalid goalIdx");
             return;

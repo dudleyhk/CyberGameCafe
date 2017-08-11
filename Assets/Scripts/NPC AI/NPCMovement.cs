@@ -20,9 +20,18 @@ public class NPCMovement : MonoBehaviour
         currentNode = SetupMap.nodeGraph.nodes[51];//spawnNode;   
     }
 
-
-    public void Init(List<Node> _path)
+    /// <summary>
+    /// if the path being passed in has nothing in it. Bump out back to wait state to get another path. 
+    /// </summary>
+    /// <param name="_path"></param>
+    /// <returns></returns>
+    public bool Init(List<Node> _path)
     {
+        if (_path.Count <= 0)
+        {
+            Debug.Log("Path count < 0");
+            return false;
+        }
         path     = new List<Node>(_path);
         currentIdx = 0;
         goalIdx    = path.Count;
@@ -32,29 +41,34 @@ public class NPCMovement : MonoBehaviour
         print("Goal: " + goalIdx);
         playerTransform.position = path[currentIdx].position;
 
-
+        return true;
     }
 
 
     public bool Move()
     {
-        if (path == null)
+        if (path == null || path.Count <= 0)
         {
-            Debug.Log("Path is null");
-            return false;
+            Debug.Log("Error with Path in NPCMovement.Move()... ABORT!");
+            if (currentIdx > path.Count || currentIdx < 0)
+            {
+                Debug.Log("Error with currentIdx in NPCMovement.Move()... ABORT!");
+                Debug.Log("CurrentIdx is " + currentIdx);
+            }
+            return true;
         }
-
-        // set the current node id player is on. 
         currentNode = path[currentIdx];
         if (playerTransform.position == path[currentIdx].position)
         {
-            print("Incrmenting current node");
+            //print("Incrmenting current node");
             currentIdx++;
 
             if (currentIdx >= goalIdx)
             {
-                print("current value is more than path length");
+                //print("current value is more than path length");
                 print("goal reached");
+
+                goalIdx = -1;
                 return true;
             }
         }

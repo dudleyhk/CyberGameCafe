@@ -16,7 +16,7 @@ public class NPCWaitState
         do
         {
             goal = Random.Range(0, SetupMap.grid.Length - 1);
-        } while (SetupMap.nodeGraph.nodes[goal].type == 1);
+        } while (SetupMap.nodeGraph.nodes[goal].solid == true);
 
 
 

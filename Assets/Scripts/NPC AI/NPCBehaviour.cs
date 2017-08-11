@@ -14,11 +14,11 @@ public class NPCBehaviour : MonoBehaviour
 
     /*Path Finding */
     public GameObject nodeSprite_debug = null;
-    public bool generatePath_debug = false;
-    public bool generateGoal_debug = false;
     public bool calculating = false;
     public bool getPath = false;
+    public int goal = -1;
     public Search search;
+    public bool generatePath_debug = false;
 
     /* Travel */
     public bool initTravel = false;
@@ -109,9 +109,24 @@ public class NPCBehaviour : MonoBehaviour
         if (calculating)
             return false;
 
+        if (!SelectGoal())
+            return false;
+
+        GeneratePath();
+
+        goal = -1;
+        calculating = false;
+
+        return true;
+    }
+
+
+
+    private bool SelectGoal()
+    {
         // Get a random goal and check its not a wall. 
-        var goal = Random.Range(0, SetupMap.grid.Length - 1);
-        if (SetupMap.nodeGraph.nodes[goal].type == 1)
+        goal = Random.Range(0, SetupMap.grid.Length - 1);
+        if (SetupMap.nodeGraph.nodes[goal].solid == true)
         {
             calculating = false;
             return false;
@@ -122,15 +137,17 @@ public class NPCBehaviour : MonoBehaviour
         }
 
 
-        if (generateGoal_debug)
-        {
-            GameObject goalSprite = Instantiate(nodeSprite_debug, SetupMap.nodeGraph.nodes[goal].position, Quaternion.identity);
-            goalSprite.name = "GOAL NODE";
-            goalSprite.GetComponent<SpriteRenderer>().color = Color.red;
-            goalSprite.GetComponent<SpriteRenderer>().sortingOrder = 2;
-        }
+        GameObject goalSprite = Instantiate(nodeSprite_debug, SetupMap.nodeGraph.nodes[goal].position, Quaternion.identity);
+        goalSprite.name = "GOAL NODE " + SetupMap.nodeGraph.nodes[goal].label;
+        goalSprite.GetComponent<SpriteRenderer>().color = Color.red;
+        goalSprite.GetComponent<SpriteRenderer>().sortingOrder = 2;
+
+        return true;
+    }
 
 
+    private void GeneratePath()
+    {
         search = new Search(SetupMap.nodeGraph);
         search.Start(npcMovement.currentNode, SetupMap.nodeGraph.nodes[goal]);
 
@@ -139,10 +156,9 @@ public class NPCBehaviour : MonoBehaviour
             search.Step();
         }
 
-        
+
+        /* DEBUGGGING */
         Debug.Log("Search done. Path length " + search.path.Count + " iterations " + search.iterations);
-
-
         if (generatePath_debug)
         {
             foreach (var node in search.path)
@@ -150,11 +166,6 @@ public class NPCBehaviour : MonoBehaviour
                 GameObject path = Instantiate(nodeSprite_debug, node.position, Quaternion.identity);
             }
         }
-
-
-
-        calculating = false;
-        return true;
     }
 
 
@@ -166,30 +177,45 @@ public class NPCBehaviour : MonoBehaviour
     {
         if (!pauseTravel)
         {
-            if (!initTravel)
+            Movement();
+        }
+    }
+
+    /// <summary>
+    /// Handle the movement of the player. 
+    /// </summary>
+    private void Movement()
+    {
+        if (!initTravel)
+        {
+            if (!npcMovement.Init(search.path))
             {
-                npcMovement.Init(search.path);
-                initTravel = true;
+                GotoWaitState();
+                return;
             }
             else
             {
-                if (npcMovement.Move())
-                {
-                    initTravel = false;
-                    currentState = State.Wait;
-                }
+                initTravel = true;
+            }
+        }
+        else
+        {
+            if (npcMovement.Move())
+            {
+                GotoWaitState();
+                return;
             }
         }
     }
 
 
 
-    private bool MoveTowards()
+    private void GotoWaitState()
     {
-        
-        
-        return false;
+        initTravel = false;
+        currentState = State.Wait;
     }
+
 
 
     private void Socialise()
