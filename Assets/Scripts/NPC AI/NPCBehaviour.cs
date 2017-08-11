@@ -11,7 +11,6 @@ public class NPCBehaviour : MonoBehaviour
     public State currentState = State.Wait;
 
     public NPCMovement npcMovement = null;
-    public AStar aStar = null;
     public int randTargetNodeID = -1;
 
 
@@ -83,29 +82,29 @@ public class NPCBehaviour : MonoBehaviour
 
     private bool PathFinding()
     {
-        if (randTargetNodeID == -1)
-        {
-            randTargetNodeID = Random.Range(0, GridManager.Instance.TotalNodes);
-            print("Random no. is " + randTargetNodeID);
-        }
+        //if (randTargetNodeID == -1)
+        //{
+        //   // randTargetNodeID = Random.Range(0, GridManager.Instance.TotalNodes);
+        //    print("Random no. is " + randTargetNodeID);
+        //}
 
 
-        if (!aStar.ValidateTarget(randTargetNodeID) || (randTargetNodeID == npcMovement.CurrentNode.ID))
-        {
-            Debug.Log("Validation of random target node ID Value failed");
-            randTargetNodeID = -1;
-        }
-        else
-        {
-            aStar.StartPathFinding(npcMovement.CurrentNode.ID);
-            if (aStar.pathAquired)
-            {
-                npcMovement.Path = new List<Node>(aStar.Path);
-                aStar.ResetVariables();
-                Debug.Log("Path with count " + npcMovement.Path.Count + " Found");
-                return true;
-            }
-        }
+        //if (!aStar.ValidateTarget(randTargetNodeID) || (randTargetNodeID == npcMovement.CurrentNode.ID))
+        //{
+        //    Debug.Log("Validation of random target node ID Value failed");
+        //    randTargetNodeID = -1;
+        //}
+        //else
+        //{
+        //    aStar.StartPathFinding(npcMovement.CurrentNode.ID);
+        //    if (aStar.pathAquired)
+        //    {
+        //        npcMovement.Path = new List<Node>(aStar.Path);
+        //        aStar.ResetVariables();
+        //        Debug.Log("Path with count " + npcMovement.Path.Count + " Found");
+        //        return true;
+        //    }
+        //}
         return false;
     }
 
@@ -125,12 +124,12 @@ public class NPCBehaviour : MonoBehaviour
 
     private bool MoveTowards()
     {
-        npcMovement.Move();
-        if(npcMovement.pathComplete)
-        {
-            npcMovement.ResetVariables();
-            return true;
-        }
+        //npcMovement.Move();
+        //if(npcMovement.pathComplete)
+        //{
+        //    npcMovement.ResetVariables();
+        //    return true;
+        //}
         return false;
     }
 
