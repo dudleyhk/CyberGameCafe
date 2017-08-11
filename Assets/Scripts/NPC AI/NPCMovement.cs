@@ -2,55 +2,67 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class NPCMovement : MonoBehaviour
 {
-    public int current;
-    public int goal;
+    public Transform playerTransform;
+    public int currentIdx;
+    public int goalIdx;
     public List<Node> path;
-
     public float speed;
 
+    public Node currentNode = null;
 
-	public void Init(List<Node> _path)
+
+
+    private void Awake()
     {
-        path  = new List<Node>(_path);
-        current = 0;
-        goal = path.Count - 1;
+        currentNode = SetupMap.nodeGraph.nodes[51];//spawnNode;   
+    }
 
 
-        print("Current: " + current);
-        print("Goal: " + goal);
-        transform.position = path[current].position;
+    public void Init(List<Node> _path)
+    {
+        path     = new List<Node>(_path);
+        currentIdx = 0;
+        goalIdx    = path.Count;
+
+
+        print("Current: " + currentIdx);
+        print("Goal: " + goalIdx);
+        playerTransform.position = path[currentIdx].position;
 
 
     }
 
 
-    public IEnumerator Move()
+    public bool Move()
     {
         if (path == null)
         {
             Debug.Log("Path is null");
-            yield return false;
+            return false;
         }
 
-        while (true)
+        // set the current node id player is on. 
+        currentNode = path[currentIdx];
+        if (playerTransform.position == path[currentIdx].position)
         {
-            if (transform.position == path[current].position)
-            {
-                print("Incrmenting current node");
-                current++;
+            print("Incrmenting current node");
+            currentIdx++;
 
-                if (current > goal)
-                {
-                    print("current value is more than path length");
-                    break;
-                }
+            if (currentIdx >= goalIdx)
+            {
+                print("current value is more than path length");
+                print("goal reached");
+                return true;
             }
-            transform.position = Vector3.MoveTowards(transform.position, path[current].position, speed * Time.deltaTime);
-            
-            yield return null;
         }
-        yield return true;
+        playerTransform.position = Vector3.MoveTowards(
+            playerTransform.position,
+            path[currentIdx].position,
+            speed * Time.deltaTime);
+
+        return false;
     }
 }

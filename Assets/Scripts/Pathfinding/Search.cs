@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Search
 {
-    public Graph graph;
+    public NodeGraph graph;
     public List<Node> reachable;
     public List<Node> explored;
     public List<Node> path;
@@ -11,7 +11,7 @@ public class Search
     public int iterations;
     public bool finished;
 
-    public Search(Graph graph)
+    public Search(NodeGraph graph)
     {
         this.graph = graph;
     }
@@ -31,7 +31,7 @@ public class Search
 
         if (goal.type == 1)
         {
-            Debug.Log("invalid goal");
+            Debug.Log("invalid goalIdx");
             return;
         }
 
@@ -119,7 +119,7 @@ public class Search
     }
 
     /// <summary>
-    /// Randomly select a goal node. 
+    /// Randomly select a goalIdx node. 
     /// </summary>
     /// <returns></returns>
     public Node ChoseNode()

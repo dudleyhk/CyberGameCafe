@@ -1,53 +1,47 @@
-﻿//using System.Collections;
-//using System.Collections.Generic;
-//using UnityEngine;
-
-//using State = NPCBehaviour.State;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 
-//public class NPCWaitState : MonoBehaviour
-//{
+public class NPCWaitState
+{
+    public bool pathFinding = false;
 
 
 
-//    /// <summary>
-//    /// Basic waiting functionality. Pick a random target and find the _path for it. 
-//    /// </summary>
-//    private void Waiting()
-//    {
-//        if (Pathfinding())
-//        {
-//            currentState = State.Travel;
-//        }
-//    }
+
+    public void PathFinding(int currentNode)
+    {
+        // Get a random goal
+        var goal = -1;
+        do
+        {
+            goal = Random.Range(0, SetupMap.grid.Length - 1);
+        } while (SetupMap.nodeGraph.nodes[goal].type == 1);
 
 
-//    private bool Pathfinding()
-//    {
-//        print("Finding Path: " + findingPath);
-//        if (!findingPath)
-//        {
-//            randTargetNodeID = Random.Range(0, GridManager.Instance.TotalNodes);
-//            print("Random no. is " + randTargetNodeID);
+
+        pathFinding = true;
 
 
-//            if (aStar.CanPathBeFound(npcMovement.CurrentNode.ID, randTargetNodeID))
-//            {
-//                findingPath = true;
-//                StartCoroutine(aStar.PathSearchLoop());
-//            }
-//        }
 
-//        if (aStar.PathFound())
-//        {
-//            StopCoroutine(aStar.PathSearchLoop());
-//            print("Path found");
-//            currentPath = new List<Node>(aStar._path);
-//            aStar.ClearLists();
-//            findingPath = false;
-//            return true;
-//        }
-//        return false;
-//    }
+        //GameObject goalSprite = Instantiate(nodeSprite, graph.nodes[goal].position, Quaternion.identity);
+        //goalSprite.name = "GOAL NODE";
+        //goalSprite.GetComponent<SpriteRenderer>().color = Color.red;
+        //goalSprite.GetComponent<SpriteRenderer>().sortingOrder = 2;
 
-//}
+
+        var search = new Search(SetupMap.nodeGraph);
+        search.Start(SetupMap.nodeGraph.nodes[currentNode], SetupMap.nodeGraph.nodes[goal]);
+
+        while (!search.finished)
+        {
+            search.Step();
+        }
+
+
+        Debug.Log("Search done. Path length " + search.path.Count + " iterations " + search.iterations);
+    }
+
+
+
+}

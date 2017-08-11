@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Graph
+public class NodeGraph
 {
     public int rows = 0;
     public int cols = 0;
     public Node[] nodes = null;
 
-    public Graph(int[,] grid)
+    public NodeGraph(int[,] grid)
     {
         rows = grid.GetLength(0);
         cols = grid.GetLength(1);
