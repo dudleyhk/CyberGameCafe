@@ -107,16 +107,43 @@ public class Search
     }
 
 
-
-    public int GetNodeIndex(Node node, List<Node> list)
+    public static int GetNodeIndex(Node node, List<Node> list) { return GetNodeIndex(node, list.ToArray()); }
+    public static int GetNodeIndex(Node node, Node[] list) 
     {
-        for (var i = 0; i < list.Count; i++)
+        for (var i = 0; i < list.Length; i++)
         {
             if (node == list[i])
                 return i;
         }
         return -1;
     }
+
+
+    /// <summary>
+    /// Get the Global version of a node. 
+    /// </summary>
+    /// <param name="node"></param>
+    /// <param name="list"></param>
+    /// <returns></returns>
+    public static Node GetGlobalNode(Node node, Node[] list)
+    {
+        var index = GetNodeIndex(node, list);
+        if (index != -1)
+            return SetupMap.nodeGraph.nodes[index];
+
+        return null;
+    }
+
+
+
+    //public static Node GetNodeAtIndex(int index, List<Node> list)
+    //{
+    //    for(var i = 0; i < list.Count; i++)
+    //    {
+    //        if(i == index)
+    //            return 
+    //    }
+    //}
 
     /// <summary>
     /// Randomly select a goalIdx node. 

@@ -8,6 +8,7 @@ public class Node
     public Vector3 position = Vector3.zero;
     public string label = "";
     public bool solid = false;
+    public bool occupied = false;
 
 
     public void Clear()

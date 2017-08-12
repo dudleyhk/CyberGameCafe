@@ -6,14 +6,12 @@ public class CharacterManager : MonoBehaviour
 {
     public GameObject playerPrefab = null;
     public List<GameObject> players = new List<GameObject>();
-    
-
 
     private void Update()
     {
        if(Input.GetKeyDown(KeyCode.A))
         {
-            print("Create New Player");
+            //print("Create New Player");
             SpawnNewPlayer();
         }
     }
@@ -29,7 +27,7 @@ public class CharacterManager : MonoBehaviour
         var id = -1;
         do
         {
-            id = Random.Range(0, SetupMap.grid.Length - 1);
+            id = Random.Range(0, SetupMap.nodeGraph.nodes.Length - 1);
         } while (SetupMap.nodeGraph.nodes[id].solid == true);
 
         var node = SetupMap.nodeGraph.nodes[id];

@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class SetupMap : MonoBehaviour
 {
-    public bool[,] grid = null;
-    public static NodeGraph nodeGraph = null;
+    private bool[,] grid = null;
+    public  static NodeGraph nodeGraph = null;
     public GameObject nodeSprite;
 
 
@@ -41,8 +41,8 @@ public class SetupMap : MonoBehaviour
                 var solid = GetType(centre);
                 grid[r, c] = solid;
 
-                if(solid == true)
-                   print("grid index " + (MapData.cols * r) + c + " is solid: " + solid);
+                //if(solid == true)
+                   //print("grid index " + (MapData.cols * r) + c + " is solid: " + solid);
             }
         }
     }
