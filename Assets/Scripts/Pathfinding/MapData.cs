@@ -7,8 +7,8 @@ public class MapData : MonoBehaviour
     public static int rows = 50;
     public static int cols = 50;
     public static List<Vector3> nodeCentrePositions;
-    public float nodeWidth = 0f;
-    public float nodeHeight = 0f;
+    public static float nodeWidth = 0f;
+    public static float nodeHeight = 0f;
     public SpriteRenderer map;
 
     private void Awake()

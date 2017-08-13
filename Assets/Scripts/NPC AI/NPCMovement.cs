@@ -10,17 +10,13 @@ public class NPCMovement : MonoBehaviour
     public int goalIdx;
     public List<Node> path;
     public float speed;
-    public bool pause = false;
+   // public bool pause = false;
+    public bool moving = false;
 
+    public Node previousNode = null;
     public Node currentNode = null;
-    public int currentNodeID_debug = -1;
+    public Node nextNode = null;
 
-
-
-    private void Awake()
-    {
-         
-    }
 
     /// <summary>
     /// if the path being passed in has nothing in it. Bump out back to wait state to get another path. 
@@ -34,9 +30,11 @@ public class NPCMovement : MonoBehaviour
             //Debug.Log("Path count < 0");
             return false;
         }
-        path     = new List<Node>(_path);
+        path       = new List<Node>(_path);
         currentIdx = 0;
         goalIdx    = path.Count;
+       // pause      = false;
+        moving     = true;
 
 
         //print("Current: " + currentIdx);
@@ -52,6 +50,9 @@ public class NPCMovement : MonoBehaviour
     /// <returns></returns>
     public bool Move()
     {
+        //if (pause)
+        //    return false;
+
         // Sanity check path. 
         if ((path == null || path.Count <= 0) ||
             (currentIdx > path.Count || currentIdx < 0))
@@ -61,10 +62,6 @@ public class NPCMovement : MonoBehaviour
 
         // Set the current Node. 
         currentNode = path[currentIdx];
-        currentNodeID_debug = int.Parse(currentNode.label);
-
-        // Find nodes counterparts from the global list. 
-        var globalCurrentNode = Search.GetGlobalNode(currentNode, SetupMap.nodeGraph.nodes);
 
         // Are we at the destination?
         if (playerTransform.position == currentNode.position)
@@ -73,19 +70,14 @@ public class NPCMovement : MonoBehaviour
             if (currentIdx >= goalIdx)
             {
                 goalIdx = -1;
+                moving = false;
                 return true;
             }
 
 
-            var globalNextNode = Search.GetGlobalNode(path[currentIdx], SetupMap.nodeGraph.nodes);
-            //print("global current node id " + globalCurrentNode.label);
-            //print("global next node id " + globalNextNode.label); 
-            if (NextNodeOccupied(globalCurrentNode, globalNextNode))
-            {
-                return false;
-            }
+            previousNode = path[currentIdx - 1];
+            nextNode = path[currentIdx];
         }
-        globalCurrentNode.occupied = false;
 
         // Move
         playerTransform.position = Vector3.MoveTowards(

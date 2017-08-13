@@ -135,6 +135,17 @@ public class Search
     }
 
 
+    public static Node GetNodeAt(int index)
+    {
+        if ((index < (SetupMap.nodeGraph.nodes.Length - 1)) &&
+            (index > 0))
+        {
+            return SetupMap.nodeGraph.nodes[index];
+        }
+        return null;
+    }
+
+
 
     //public static Node GetNodeAtIndex(int index, List<Node> list)
     //{
