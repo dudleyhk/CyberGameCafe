@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NPCSocialiseState : MonoBehaviour
-{
+public class NPCSocial : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
