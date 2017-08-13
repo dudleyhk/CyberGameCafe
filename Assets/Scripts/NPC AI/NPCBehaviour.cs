@@ -21,8 +21,10 @@ public class NPCBehaviour : MonoBehaviour
     public int maxIterations = 1600;
     public bool initPathFinding = false;
     public int waitTime = -1;
-    
-    
+    public string generationMessage = "";
+    public bool generating = false;
+
+
     /* Travel */
     public NPCMovement npcMovement = null;
     public bool initTravel = false;
@@ -51,42 +53,9 @@ public class NPCBehaviour : MonoBehaviour
         if (!initSocialCollider)
             InitSocialCollider();
 
+        search = new Search(SetupMap.nodeGraph);
+
     }
-
-
-    //private void FixedUpdate()
-    //{
-    //    switch (currentState)
-    //    {
-    //        case State.Wait:
-    //            if (getPath)
-    //            {
-    //                if (!PathFinding())
-    //                {
-    //                    calculating = false;
-    //                    getPath = true;
-    //                }
-    //                else
-    //                {
-    //                    ChangeState(State.Travel);
-    //                }
-    //            }
-    //            break;
-
-    //        case State.Travel:
-    //            break;
-
-    //        case State.Socialise:
-    //            break;
-
-    //        case State.LoggedIn:
-    //            break;
-
-    //        default:
-    //            Debug.Log("No State selected");
-    //            break;
-    //    }
-    //}
 
 
     public void Update()
@@ -136,6 +105,7 @@ public class NPCBehaviour : MonoBehaviour
     {
         if (state == State.Wait)
         {
+            generationMessage = "";
             waitTime = -1;
             timer = 0f;
             initTravel = false;
@@ -168,7 +138,7 @@ public class NPCBehaviour : MonoBehaviour
     {
         // Stop the character. 
         if (waitTime < 0)
-            waitTime = RandomNumber(2, 15);
+            waitTime = RandomNumber(2, 5);
 
         if (timer <= waitTime)
         {
@@ -191,14 +161,18 @@ public class NPCBehaviour : MonoBehaviour
             // Pathfinding
             if (getPath)
             {
-                if (!PathFinding())
+                if (PathFinding() == "Done")
+                {
+                    ChangeState(State.Travel);
+                }
+                else if(PathFinding() == "Continue")
                 {
                     calculating = false;
                     getPath = true;
                 }
                 else
                 {
-                    ChangeState(State.Travel);
+                    return;
                 }
             }
         }
@@ -231,21 +205,36 @@ public class NPCBehaviour : MonoBehaviour
     /// Take all the steps to finding a path to a random goal anywhere in the map. 
     /// </summary>
     /// <returns>Return false if the path is not complete</returns>
-    private bool PathFinding()
+    private string PathFinding()
     {
         if (calculating)
-            return false;
+            return "Continue";
 
+        if (!generating)
+        {
         if (!SelectGoal())
-            return false;
+            return "Continue";
 
-        if (!GeneratePath())
-            return false;
 
-        goal = -1;
-        calculating = false;
+            generating = true;
+            StartCoroutine(GeneratePath());
+            print("Generating path");
+        }
 
-        return true;
+
+        if(generationMessage == "Complete")
+        {
+            goal = -1;
+            calculating = false;
+            generating = false;
+            return "Done";
+        }
+        else if(generationMessage == "Continue")
+        {
+            return generationMessage;
+        }
+
+        return "PathFinding";
     }
 
 
@@ -262,33 +251,28 @@ public class NPCBehaviour : MonoBehaviour
         {
             calculating = true;
         }
-
-
-        // GameObject goalSprite = Instantiate(nodeSprite_debug, setupMap.nodeGraph.nodes[goal].position, Quaternion.identity);
-        // goalSprite.name = "GOAL NODE " + setupMap.nodeGraph.nodes[goal].label;
-        // goalSprite.GetComponent<SpriteRenderer>().color = Color.red;
-        // goalSprite.GetComponent<SpriteRenderer>().sortingOrder = 2;
-        // 
         return true;
     }
 
 
-    private bool GeneratePath()
+    private IEnumerator GeneratePath()
     {
-        search = new Search(SetupMap.nodeGraph);
+        
         search.Start(npcMovement.currentNode, SetupMap.nodeGraph.nodes[goal]);
 
         while (!search.finished)
         {
             search.Step();
-
             if (search.iterations > maxIterations)
             {
-                // print("max iters hit");
-                return false;
+                generationMessage = "Continue";
+                yield return false;
             }
+            generationMessage = "PathFinding";
+            yield return null;
         }
-        return true;
+        generationMessage = "Complete";
+        yield return true;
     }
 
 
