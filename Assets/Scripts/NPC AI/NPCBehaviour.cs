@@ -10,34 +10,24 @@ public class NPCBehaviour : MonoBehaviour
 {
     /* General */
     public State currentState = State.Wait;
+    public string myName = "";
 
     /*Waiting */
     public GameObject nodeSprite_debug = null;
-    public bool calculating = false;
-    public bool getPath = false;
     public int goal = -1;
     public Search search;
     public bool generatePath_debug = false;
-    public int maxIterations = 1600;
-    public bool initPathFinding = false;
     public int waitTime = -1;
-    public string generationMessage = "";
-    public bool generating = false;
+    public bool initGeneration = false;
 
 
     /* Travel */
     public NPCMovement npcMovement = null;
     public bool initTravel = false;
-    public bool pauseTravel = false;
 
     /* Social */
     public BoxCollider2D socialCollider = null;
-    // public GameObject previousBuddy = null;
     public bool initSocialCollider = false;
-    public float timer = 0f;
-    public int talkTime = -1;
-    public int minTalkTime = 4;
-    public int maxTalkTime = 15;
     public bool talking = false; // Used by other npcs.. Do not set yourself.
 
     public enum State
@@ -52,9 +42,6 @@ public class NPCBehaviour : MonoBehaviour
     {
         if (!initSocialCollider)
             InitSocialCollider();
-
-        search = new Search(SetupMap.nodeGraph);
-
     }
 
 
@@ -105,22 +92,17 @@ public class NPCBehaviour : MonoBehaviour
     {
         if (state == State.Wait)
         {
-            generationMessage = "";
-            waitTime = -1;
-            timer = 0f;
-            initTravel = false;
+            initGeneration = false;
+            goal = -1;
             currentState = state;
         }
         else if (state == State.Travel)
         {
-            getPath = false;
-            initPathFinding = false;
-            CharacterManager.pathFinders--;
+            initTravel = false;
             currentState = State.Travel;
         }
         else if (state == State.Socialise)
         {
-            talkTime = -1;
             currentState = state;
         }
         else
@@ -136,45 +118,9 @@ public class NPCBehaviour : MonoBehaviour
     /// </summary>
     private void Waiting()
     {
-        // Stop the character. 
-        if (waitTime < 0)
-            waitTime = RandomNumber(2, 5);
-
-        if (timer <= waitTime)
+        if (PathFinding())
         {
-            timer += Time.deltaTime;
-        }
-        else
-        {
-            if (!initPathFinding)
-            {
-                if (InitPathFinding())
-                {
-                    initPathFinding = true;
-                }
-                else
-                {
-                    initPathFinding = false;
-                    return;
-                }
-            }
-            // Pathfinding
-            if (getPath)
-            {
-                if (PathFinding() == "Done")
-                {
-                    ChangeState(State.Travel);
-                }
-                else if(PathFinding() == "Continue")
-                {
-                    calculating = false;
-                    getPath = true;
-                }
-                else
-                {
-                    return;
-                }
-            }
+            ChangeState(State.Travel);
         }
     }
 
@@ -184,95 +130,66 @@ public class NPCBehaviour : MonoBehaviour
     }
 
 
-    private bool InitPathFinding()
-    {
-        if (!CharacterManager.pathFindingLocked)
-        {
-            getPath = true;
-            CharacterManager.pathFinders++;
-            //print("Increment pathfinfing");
-            //print("Number of pathfinders : " + CharacterManager.pathFinders);
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-
     /// <summary>
     /// Take all the steps to finding a path to a random goal anywhere in the map. 
     /// </summary>
     /// <returns>Return false if the path is not complete</returns>
-    private string PathFinding()
+    private bool PathFinding()
     {
-        if (calculating)
-            return "Continue";
-
-        if (!generating)
+        if (goal < 0)
         {
-        if (!SelectGoal())
-            return "Continue";
-
-
-            generating = true;
-            StartCoroutine(GeneratePath());
-            print("Generating path");
+            if (!SelectGoal())
+            {
+                return false;
+            }
         }
 
-
-        if(generationMessage == "Complete")
-        {
-            goal = -1;
-            calculating = false;
-            generating = false;
-            return "Done";
-        }
-        else if(generationMessage == "Continue")
-        {
-            return generationMessage;
-        }
-
-        return "PathFinding";
+        if (!GeneratePath())
+            return false;
+        return true;
     }
 
 
-
+    /// <summary>
+    /// Get a random goal and check its not a wall. 
+    /// </summary>
+    /// <returns>bool</returns>
     private bool SelectGoal()
     {
-        // Get a random goal and check its not a wall. 
         goal = Random.Range(0, SetupMap.nodeGraph.nodes.Length - 1);
         if (SetupMap.nodeGraph.nodes[goal].solid)
         {
+            goal = -1;
             return false;
-        }
-        else
-        {
-            calculating = true;
         }
         return true;
     }
 
 
-    private IEnumerator GeneratePath()
+    private bool GeneratePath()
     {
-        
-        search.Start(npcMovement.currentNode, SetupMap.nodeGraph.nodes[goal]);
+        if (!initGeneration)
+        {
+            search = new Search(SetupMap.nodeGraph);
+            if (!search.Start(npcMovement.currentNode, SetupMap.nodeGraph.nodes[goal]))
+            {
+                goal = -1;
+                return false;
+            }
+            initGeneration = true;
+        }
 
-        while (!search.finished)
+        if (!search.finished)
         {
             search.Step();
-            if (search.iterations > maxIterations)
-            {
-                generationMessage = "Continue";
-                yield return false;
-            }
-            generationMessage = "PathFinding";
-            yield return null;
+            return false;
         }
-        generationMessage = "Complete";
-        yield return true;
+        else
+        {
+            if (!search.WrapPath())
+                return false;
+        }
+        return true;
     }
 
 

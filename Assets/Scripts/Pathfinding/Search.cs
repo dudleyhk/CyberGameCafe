@@ -8,6 +8,7 @@ public class Search
     public List<Node> explored;
     public List<Node> path;
     public Node goalNode;
+    public Node node;
     public int iterations;
     public bool finished;
 
@@ -21,18 +22,18 @@ public class Search
     /// </summary>
     /// <param name="start"></param>
     /// <param name="goal"></param>
-    public void Start(Node start, Node goal)
+    public bool Start(Node start, Node goal)
     {
         if(start.solid == true)
         {
             Debug.Log("invalid start");
-            return;
+            return false;
         }
 
         if (goal.solid == true)
         {
             Debug.Log("invalid goalIdx");
-            return;
+            return false;
         }
 
 
@@ -44,11 +45,14 @@ public class Search
         explored = new List<Node>();
         path     = new List<Node>();
         iterations = 0;
+        finished   = false;
+        node       = default(Node);
 
         foreach (var node in graph.nodes)
         {
             node.Clear();
         }
+        return true;
     }
 
     /// <summary>
@@ -60,23 +64,16 @@ public class Search
         if (path.Count > 0)
             return;
 
-        if (reachable.Count == 0)
+        if (reachable.Count <= 0)
         {
             finished = true;
             return;
         }
 
         iterations++;
-
-
-        var node = ChoseNode();
+        node = ChoseNode();
         if(node == goalNode)
         {
-            while(node != null)
-            {
-                path.Insert(0, node);
-                node = node.previous;
-            }
             finished = true;
             return;
         }
@@ -90,6 +87,17 @@ public class Search
         }
     }
 
+
+    public bool WrapPath()
+    {
+        if (node != null)
+        {
+            path.Insert(0, node);
+            node = node.previous;
+            return false;
+        }
+        return true;
+    }
 
     public void AddAdjacent(Node node, Node adjacent)
     {

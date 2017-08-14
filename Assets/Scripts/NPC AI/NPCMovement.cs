@@ -6,17 +6,11 @@ using UnityEngine;
 public class NPCMovement : MonoBehaviour
 {
     public Transform playerTransform;
-    public int currentIdx;
-    public int goalIdx;
     public List<Node> path;
     public float speed;
-   // public bool pause = false;
-    public bool moving = false;
-
-    public Node previousNode = null;
     public Node currentNode = null;
-    public Node nextNode = null;
-
+    private int currentIdx;
+    private int goalIdx;
 
     /// <summary>
     /// if the path being passed in has nothing in it. Bump out back to wait state to get another path. 
@@ -27,20 +21,14 @@ public class NPCMovement : MonoBehaviour
     {
         if (_path.Count <= 0)
         {
-            //Debug.Log("Path count < 0");
             return false;
         }
+
         path       = new List<Node>(_path);
         currentIdx = 0;
-        goalIdx    = path.Count;
-       // pause      = false;
-        moving     = true;
+        goalIdx    = path.Count;       
 
-
-        //print("Current: " + currentIdx);
-        //print("Goal: " + goalIdx);
         playerTransform.position = path[currentIdx].position;
-
         return true;
     }
 
@@ -50,9 +38,6 @@ public class NPCMovement : MonoBehaviour
     /// <returns></returns>
     public bool Move()
     {
-        //if (pause)
-        //    return false;
-
         // Sanity check path. 
         if ((path == null || path.Count <= 0) ||
             (currentIdx > path.Count || currentIdx < 0))
@@ -70,13 +55,8 @@ public class NPCMovement : MonoBehaviour
             if (currentIdx >= goalIdx)
             {
                 goalIdx = -1;
-                moving = false;
                 return true;
             }
-
-
-            previousNode = path[currentIdx - 1];
-            nextNode = path[currentIdx];
         }
 
         // Move
