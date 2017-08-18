@@ -23,6 +23,7 @@ public class Search
     /// <param name="goal"></param>
     public void Start(Node start, Node goal)
     {
+        //ensure origin and goal are valid
         if(start.solid == true)
         {
             Debug.Log("invalid start");
@@ -35,16 +36,18 @@ public class Search
             return;
         }
 
-
+        //start a list of reachable nodes and put origin on it
         reachable = new List<Node>();
         reachable.Add(start);
 
         goalNode = goal;
 
+        //create a list of checked nodes and a list for a valid path
         explored = new List<Node>();
         path     = new List<Node>();
         iterations = 0;
 
+        //clear the path
         foreach (var node in graph.nodes)
         {
             node.Clear();
@@ -59,7 +62,7 @@ public class Search
     {
         if (path.Count > 0)
             return;
-
+        
         if (reachable.Count == 0)
         {
             finished = true;
@@ -77,6 +80,9 @@ public class Search
                 path.Insert(0, node);
                 node = node.previous;
             }
+
+            GameObject.Destroy(GameObject.Find("GOAL NODE " + goalNode.label));
+
             finished = true;
             return;
         }
@@ -107,54 +113,16 @@ public class Search
     }
 
 
-    public static int GetNodeIndex(Node node, List<Node> list) { return GetNodeIndex(node, list.ToArray()); }
-    public static int GetNodeIndex(Node node, Node[] list) 
+
+    public int GetNodeIndex(Node node, List<Node> list)
     {
-        for (var i = 0; i < list.Length; i++)
+        for (var i = 0; i < list.Count; i++)
         {
             if (node == list[i])
                 return i;
         }
         return -1;
     }
-
-
-    /// <summary>
-    /// Get the Global version of a node. 
-    /// </summary>
-    /// <param name="node"></param>
-    /// <param name="list"></param>
-    /// <returns></returns>
-    public static Node GetGlobalNode(Node node, Node[] list)
-    {
-        var index = GetNodeIndex(node, list);
-        if (index != -1)
-            return SetupMap.nodeGraph.nodes[index];
-
-        return null;
-    }
-
-
-    public static Node GetNodeAt(int index)
-    {
-        if ((index < (SetupMap.nodeGraph.nodes.Length - 1)) &&
-            (index > 0))
-        {
-            return SetupMap.nodeGraph.nodes[index];
-        }
-        return null;
-    }
-
-
-
-    //public static Node GetNodeAtIndex(int index, List<Node> list)
-    //{
-    //    for(var i = 0; i < list.Count; i++)
-    //    {
-    //        if(i == index)
-    //            return 
-    //    }
-    //}
 
     /// <summary>
     /// Randomly select a goalIdx node. 
@@ -164,5 +132,4 @@ public class Search
     {
         return reachable[Random.Range(0, reachable.Count)];
     }
-
 }

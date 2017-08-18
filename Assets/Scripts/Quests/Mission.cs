@@ -73,7 +73,7 @@ public class Mission : MonoBehaviour
         if(objectivesToRetrieve == 0)
         {
             compleated = true;
-            Debug.Log("Quest Compleated");
+            Debug.Log("Quest Completed");
         }
     }
 

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class MapData : MonoBehaviour
 {
-    public static int rows = 50;
-    public static int cols = 50;
+    public static int rows = 54;
+    public static int cols = 72;
     public static List<Vector3> nodeCentrePositions;
     public static float nodeWidth = 0f;
     public static float nodeHeight = 0f;
@@ -16,7 +16,7 @@ public class MapData : MonoBehaviour
         nodeCentrePositions = new List<Vector3>();
         nodeWidth = map.bounds.size.x / cols;
         nodeHeight = map.bounds.size.y / rows;
-
+        
         CreatePositionList();
     }
 
@@ -39,7 +39,7 @@ public class MapData : MonoBehaviour
                 float Cy = topRight.y - (nodeHeight / 2);
                 float Cz = map.bounds.min.z;
                 Vector3 centre = new Vector3(Cx, Cy, Cz);
-
+                
                 nodeCentrePositions.Add(centre);
 
                 // Move to next node along. 
