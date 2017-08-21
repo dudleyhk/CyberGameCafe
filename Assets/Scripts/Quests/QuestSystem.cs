@@ -35,11 +35,14 @@ public class QuestSystem : MonoBehaviour
     {
         if(currentMissions.Count != 0)
         {
-            currentMissions[activeMission].updateActiveMissionObjectives(missionType, missionTag);
-
-            if (currentMissions[activeMission].compleated)
+            for(int i = 0; i < currentMissions.Count; i++)
             {
-                handInMission(activeMission);
+                currentMissions[i].updateActiveMissionObjectives(missionType, missionTag);
+
+                if (currentMissions[i].compleated)
+                {
+                    handInMission(i);
+                }
             }
         }
     }
