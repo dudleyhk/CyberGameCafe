@@ -8,6 +8,10 @@ public class QuestSystem : MonoBehaviour
     private List<Mission> currentMissions;
     private int activeMission = 0;
 
+    public Mission getActiveMission()
+    {
+        return currentMissions.Count > 0 ? currentMissions[0] : null;
+    }
 
     // utility functions.
     void setActiveMission(int newActiveMission)
@@ -24,11 +28,6 @@ public class QuestSystem : MonoBehaviour
     {
         // TODO - add more code to check and make sure that the mission is complete. 
         currentMissions.RemoveAt(missionToHandIn);
-    }
-
-    Mission getCurrentMission()
-    {
-        return currentMissions[activeMission];
     }
 
     public void updateMissionState(MissionObjectiveTypes missionType, string missionTag)

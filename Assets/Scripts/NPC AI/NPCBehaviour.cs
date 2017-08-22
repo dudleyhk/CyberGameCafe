@@ -175,7 +175,7 @@ public class NPCBehaviour : MonoBehaviour
 
 
         /* DEBUGGGING */
-        Debug.Log("Search done. Path length " + search.path.Count + " iterations " + search.iterations);
+        //Debug.Log("Search done. Path length " + search.path.Count + " iterations " + search.iterations);
         if (generatePath_debug)
         {
             foreach (var node in search.path)

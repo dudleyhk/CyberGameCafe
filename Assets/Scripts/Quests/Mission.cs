@@ -20,6 +20,10 @@ public class Mission : MonoBehaviour
 
     // utility functions go here. 
 
+    public MissionObjective getActiveObjective()
+    {
+        return activeObjectives[0];
+    }
 
     public void updateActiveMissionObjectives(MissionObjectiveTypes objectiveType, string objectiveTag)
     {
@@ -67,13 +71,13 @@ public class Mission : MonoBehaviour
             }
 
             activeObjectives.Add(newObjective);
-            Debug.Log(newObjective.name + " added to the list");
+            //Debug.Log(newObjective.name + " added to the list");
         }
 
         if(objectivesToRetrieve == 0)
         {
             compleated = true;
-            Debug.Log("Quest Completed");
+            //Debug.Log("Quest Completed");
         }
     }
 

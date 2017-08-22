@@ -37,8 +37,8 @@ public class NPCMovement : MonoBehaviour
         goalIdx    = path.Count;
 
 
-        print("Current: " + currentIdx);
-        print("Goal: " + goalIdx);
+        //print("Current: " + currentIdx);
+        //print("Goal: " + goalIdx);
         playerTransform.position = path[currentIdx].position;
 
         return true;
@@ -66,7 +66,7 @@ public class NPCMovement : MonoBehaviour
             if (currentIdx >= goalIdx)
             {
                 //print("current value is more than path length");
-                print("goal reached");
+                //print("goal reached");
                 
                 goalIdx = -1;
                 return true;
