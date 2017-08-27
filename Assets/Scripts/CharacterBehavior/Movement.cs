@@ -2,6 +2,8 @@
 using System.Collections;
 using UnityEngine.UI;
 
+
+
 public class Movement : MonoBehaviour {
 
 
@@ -9,8 +11,6 @@ public class Movement : MonoBehaviour {
     public GameObject joystick;
     public VirtualJoysticks movementStick;
     //private const string EVENT_TOUCH_AQUIRED = "event_touch_aquired";
-
-
 
     private void Start()
     {
@@ -22,6 +22,8 @@ public class Movement : MonoBehaviour {
     
 	void FixedUpdate ()
     {
+        
+#if UNITY_ANDROID
         if (movementStick.InputDirection.x * movementStick.InputDirection.x >
             movementStick.InputDirection.z * movementStick.InputDirection.z)
         {
@@ -31,6 +33,11 @@ public class Movement : MonoBehaviour {
         {
             transform.Translate(0, movementStick.InputDirection.z * speed,0);
         }
+
+#else
+        transform.Translate(Input.GetAxis("Horizontal") * speed, Input.GetAxis("Vertical") * speed, 0);
+#endif
+
     }
 
     public void stopMovement()
