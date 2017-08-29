@@ -21,7 +21,10 @@ public class TalkToNPC : MonoBehaviour
     {
         collectibleClone = new GameObject[15];
         interButton = GameObject.FindGameObjectWithTag("InteractButton");
+
+#if UNITY_ANDROID
         interButton.GetComponent<Button>().onClick.AddListener(TaskOnClick);
+#endif
 
         textBox = GameObject.FindGameObjectWithTag("TextBox");
     }
@@ -43,6 +46,18 @@ public class TalkToNPC : MonoBehaviour
             playerInBox = false;
         }
     }
+
+#if !UNITY_ANDROID
+
+    void FixedUpdate()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            TaskOnClick();
+        }
+    }
+
+#endif
 
     void TaskOnClick()
     {
