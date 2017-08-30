@@ -10,7 +10,7 @@ public class QuestSystem : MonoBehaviour
 
     public Mission getActiveMission()
     {
-        return currentMissions.Count > 0 ? currentMissions[0] : null;
+        return currentMissions.Count > 0 ? currentMissions[activeMission] : null;
     }
 
     // utility functions.
