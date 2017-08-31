@@ -54,6 +54,7 @@ public class QuestSystem : MonoBehaviour
             activeMission = 0;
             currentMissions = new List<Mission>();
         }
+
         newMission.startMission();
         currentMissions.Add(newMission);
     }

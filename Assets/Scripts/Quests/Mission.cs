@@ -39,10 +39,17 @@ public class Mission : MonoBehaviour
            if (activeObjectives[i].isComplete())
            {
                 compleatedActiveObjectives++;
-           }
+
+                if (activeObjectives[i].nextObjectivesToRetrieve == 0)
+                {
+                    compleated = true;
+                    break;
+                }
+
+            }
         }
 
-        if(compleatedActiveObjectives == activeObjectives.Count)
+        if(compleatedActiveObjectives == activeObjectives.Count && !compleated)
         {
             compleatedObjectives += compleatedActiveObjectives;
             getNewActiveObjectives();

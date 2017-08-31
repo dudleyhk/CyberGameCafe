@@ -9,7 +9,6 @@ public class SpawnWithQuest : MonoBehaviour {
     // Use this for initialization
 	void Start ()
     {
-        GetComponent<QuestSystem>().assignMission
-            (GameObject.Find("tutorialQuest").GetComponent<Mission>());
+        GetComponent<QuestSystem>().assignMission(x);
 	}
 }
