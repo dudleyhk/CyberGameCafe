@@ -15,14 +15,15 @@ public class Movement : MonoBehaviour {
     private void Start()
     {
         joystick = GameObject.FindGameObjectWithTag("Joystick");
-        movementStick = joystick.GetComponent<VirtualJoysticks>();
+        if(joystick != null)
+            movementStick = joystick.GetComponent<VirtualJoysticks>();
         speed = 0.05f;
         //Events.Listen(EVENT_ACHEIVEMENT, TouchIsHappening);
     }
     
 	void FixedUpdate ()
     {
-        
+
 #if UNITY_ANDROID
         if (movementStick.InputDirection.x * movementStick.InputDirection.x >
             movementStick.InputDirection.z * movementStick.InputDirection.z)
@@ -31,11 +32,13 @@ public class Movement : MonoBehaviour {
         }
         else
         {
-            transform.Translate(0, movementStick.InputDirection.z * speed,0);
+            transform.Translate(0, movementStick.InputDirection.z * speed, 0);
         }
 
 #else
-        transform.Translate(Input.GetAxis("Horizontal") * speed, Input.GetAxis("Vertical") * speed, 0);
+        int h = Input.GetAxis("Horizontal") > 0 ? 1 : Input.GetAxis("Horizontal") < 0 ? -1 : 0;
+        int v = Input.GetAxis("Vertical") > 0 ? 1 : Input.GetAxis("Vertical") < 0 ? -1 : 0;
+        transform.Translate(h * speed, v * speed, 0);
 #endif
 
     }
