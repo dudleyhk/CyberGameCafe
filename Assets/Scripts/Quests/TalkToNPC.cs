@@ -63,10 +63,11 @@ public class TalkToNPC : MonoBehaviour
     {
         if (playerInBox)
         {
-            string currentObj = player.GetComponent<QuestSystem>().
-                getActiveMission().getActiveObjective().objectiveTag;
-            //print("Current objective: " + currentObj);
+            string currentObj;
 
+            currentObj = player.GetComponent<QuestSystem>().
+                getActiveMission().getActiveObjective().objectiveTag;
+            print("Current objective: " + currentObj);
 
             if (currentObj == "talkToMan")
             {
