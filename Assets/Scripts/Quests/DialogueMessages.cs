@@ -34,16 +34,22 @@ public class DialogueMessages : MonoBehaviour
         //Debug.Log(b ? "Enabling the things" : "Disabling the things");
 
         GameObject interButton = GameObject.FindGameObjectWithTag("InteractButton");
-        interButton.GetComponent<Button>().enabled = b;
-        interButton.GetComponent<Image>().enabled = b;
-        interButton.GetComponentInChildren<Text>().enabled = b;
+        if (interButton != null)
+        {
+            interButton.GetComponent<Button>().enabled = b;
+            interButton.GetComponent<Image>().enabled = b;
+            interButton.GetComponentInChildren<Text>().enabled = b;
+        }
 
         GameObject js = GameObject.FindGameObjectWithTag("Joystick");
-        js.GetComponent<VirtualJoysticks>().enabled = b;
-        js.GetComponent<Image>().enabled = b;
+        if (js != null)
+        {
+            js.GetComponent<VirtualJoysticks>().enabled = b;
+            js.GetComponent<Image>().enabled = b;
 
-        GameObject jsChild = js.transform.GetChild(0).gameObject;
-        jsChild.GetComponent<Image>().enabled = b;
-        jsChild.GetComponentInChildren<Text>().enabled = b;
+            GameObject jsChild = js.transform.GetChild(0).gameObject;
+            jsChild.GetComponent<Image>().enabled = b;
+            jsChild.GetComponentInChildren<Text>().enabled = b;
+        }
     }
 }
