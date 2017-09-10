@@ -69,6 +69,7 @@ public class TalkToNPC : MonoBehaviour
                 getActiveMission().getActiveObjective().objectiveTag;
             print("Current objective: " + currentObj);
 
+
             if (currentObj == "talkToMan")
             {
                 //show a dialogue box
