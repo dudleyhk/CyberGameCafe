@@ -6,17 +6,34 @@ public class PasswordMinigame : MonoBehaviour {
 
     public GameObject MinigameWindow;
 
+    private GameObject gameWindow;
     private bool gameInProgress;
 
-    // Starts the Password Minigame Freezing the player unitl they exit. 
+    private Mission activeMission;
+
+    // Starts the Password Minigame Freezing the player and starting the minigame.
+    // Check that the quest is active.
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (!gameInProgress)
+        if(col.gameObject.tag == "Player")
         {
-            gameInProgress = true;
-            GameObject uiCanvas = GameObject.FindGameObjectWithTag("UI");
-            GameObject gameWindow = Instantiate(MinigameWindow, uiCanvas.transform);
+            activeMission = col.gameObject.GetComponent<QuestSystem>().getActiveMission();
+
+            if (activeMission != null)
+            {
+               if ((activeMission.getActiveObjective().getObjectiveTag() == "passwordCreate") && (!gameInProgress))
+                {
+                    gameInProgress = true;
+                    openMiniGameWindow();
+               }
+            }
         }
     }
 
+
+    void openMiniGameWindow()
+    {
+        GameObject uiCanvas = GameObject.FindGameObjectWithTag("UI");
+        gameWindow = Instantiate(MinigameWindow, uiCanvas.transform);
+    }
 }
