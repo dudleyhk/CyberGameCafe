@@ -1,39 +1,46 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
+
+// Set of password constants that the game will choose from using RNG as the selection for the users passwords.
+// Bad and good phrases should be included in here.
+// When password options are available we shopuld also be able to choose one of the previous passwords we created. (Doing so causes the quest to fail.)
+public class PasswordPhrases
+{
+    // TODO - Add some passphrases based on the criteria on the class comment. 
+    public static string[] passphrases =
+    {
+        "Hello",
+        "Welcome",
+        "This",
+        "is",
+        "a",
+        "Test"
+    };
+}
+
 
 public class PasswordMinigame : MonoBehaviour {
 
-    public GameObject MinigameWindow;
+    public GameObject textButtonToSpawn;
+    public int numberOfPassphraseOptions = 5;
 
-    private GameObject gameWindow;
-    private bool gameInProgress;
 
-    private Mission activeMission;
-
-    // Starts the Password Minigame Freezing the player and starting the minigame.
-    // Check that the quest is active.
-    void OnTriggerEnter2D(Collider2D col)
+    void Awake()
     {
-        if(col.gameObject.tag == "Player")
+        for(int i = 0; i < 5; i++)
         {
-            activeMission = col.gameObject.GetComponent<QuestSystem>().getActiveMission();
-
-            if (activeMission != null)
-            {
-               if ((activeMission.getActiveObjective().getObjectiveTag() == "passwordCreate") && (!gameInProgress))
-                {
-                    gameInProgress = true;
-                    openMiniGameWindow();
-               }
-            }
+            textButtonToSpawn.GetComponent<Text>().text = PasswordPhrases.passphrases[Random.Range(0, PasswordPhrases.passphrases.Length)];
+            Instantiate(textButtonToSpawn, gameObject.transform);
+            // TODO - Add code to layout the objects. 
         }
     }
-
-
-    void openMiniGameWindow()
+	
+	// Update is called once per frame
+	void Update ()
     {
-        GameObject uiCanvas = GameObject.FindGameObjectWithTag("UI");
-        gameWindow = Instantiate(MinigameWindow, uiCanvas.transform);
-    }
+		
+	}
 }
