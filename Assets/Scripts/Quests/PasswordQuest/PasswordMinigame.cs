@@ -30,7 +30,7 @@ public class PasswordMinigame : MonoBehaviour {
 
     void Awake()
     {
-        for(int i = 0; i < 5; i++)
+        for(int i = 0; i < numberOfPassphraseOptions; i++)
         {
             textButtonToSpawn.GetComponent<Text>().text = PasswordPhrases.passphrases[Random.Range(0, PasswordPhrases.passphrases.Length)];
             Instantiate(textButtonToSpawn, gameObject.transform);

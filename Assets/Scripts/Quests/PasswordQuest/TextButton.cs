@@ -14,5 +14,4 @@ public class TextButton : MonoBehaviour {
     {
         Debug.Log("Yay my trick worked.");
     }
-
 }
