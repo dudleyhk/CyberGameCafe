@@ -5,6 +5,7 @@ using UnityEngine;
 public class ThingsToRemember : MonoBehaviour {
 
     private string[] theThings;
+    private List<int> missedAnswers = new List<int>();
 
     public string getReason(int i)
     {
@@ -67,5 +68,10 @@ public class ThingsToRemember : MonoBehaviour {
             + " or something which requires action, if the e-mail is genuine then you will usually find indications of it on the"
             + " website itself.\nIt's often a good idea to visit the website in your browser rather than clicking hyperlinks in an e-mail.";
 
+    }
+
+    public void addMissedAnswer(int x)
+    {
+        missedAnswers.Add(x);
     }
 }
