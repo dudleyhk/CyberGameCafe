@@ -5,28 +5,51 @@ using UnityEngine.UI;
 
 public class DialogueMessages : MonoBehaviour
 {
+    private List<string> textBoxes = new List<string>();
+
     public void spawnTextBox(string text)
     {
-        //hide the UI
-        showOrHideUI(false);
+        textBoxes.Add(text);
+        //we need to disable player movement for this bit
 
-        //show a dialogue box
-        GetComponent<Button>().onClick.AddListener(advanceText);
-        GetComponentInChildren<Text>().text = text;
-        GetComponent<Image>().enabled = true;
-        GetComponent<Button>().enabled = true;
-        GetComponentInChildren<Text>().enabled = true;
+        if (!GetComponent<Image>().enabled)
+        {
+            //hide the UI
+            showOrHideUI(false);
+
+            //show a dialogue box
+            GetComponent<Button>().onClick.AddListener(advanceText);
+            showText();
+            GetComponent<Image>().enabled = true;
+            GetComponent<Button>().enabled = true;
+            GetComponentInChildren<Text>().enabled = true;
+        }
+    }
+
+    void showText()
+    {
+        GetComponentInChildren<Text>().text = textBoxes[0];
     }
 
     void advanceText()
     {
-        //show UI again
-        showOrHideUI(true);
-
-        //destroy the text box
-        GetComponent<Image>().enabled = false;
-        GetComponent<Button>().enabled = false;
-        GetComponentInChildren<Text>().enabled = false;
+        if (textBoxes.Count > 0)
+        {
+            textBoxes.RemoveAt(0);
+        }
+        if (textBoxes.Count == 0)
+        {
+            //show UI again
+            showOrHideUI(true);
+            //destroy the text box
+            GetComponent<Image>().enabled = false;
+            GetComponent<Button>().enabled = false;
+            GetComponentInChildren<Text>().enabled = false;
+        }
+        else
+        {
+            showText();
+        }
     }
 
     void showOrHideUI(bool b)

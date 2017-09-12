@@ -14,7 +14,7 @@ public class Questions : MonoBehaviour
     private Button button;
 
     List<char> charQueue = new List<char>();
-    float delay = 0f;
+    float delay;
 
     bool[] flags = new bool[12];
     bool[] caught = new bool[12];
@@ -22,8 +22,26 @@ public class Questions : MonoBehaviour
     private int score;
     private int maxPossScore;
 
+    public int getScore()
+    {
+        return score;
+    }
+    public int getMaxScore()
+    {
+        return maxPossScore;
+    }
+    public void resetScore()
+    {
+        score = 0;
+        maxPossScore = 0;
+    }
+
     void Awake()
     {
+        resetScore();
+
+        delay = -10f;
+
         button = eMailBox.GetComponentInChildren<Button>();
         button.onClick.AddListener(checkForFlag);
 
@@ -56,10 +74,10 @@ public class Questions : MonoBehaviour
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
         Text textBox = eMailBox.GetComponentInChildren<Text>();
-        if (charQueue.Count > 0 && delay > 0.08f)
+        if (charQueue.Count > 0 && delay > 0.1f)
         {
             if (charQueue[0] != '#' && charQueue[0] != '~')
             {
@@ -101,9 +119,10 @@ public class Questions : MonoBehaviour
 
     public void printEmail(int index)
     {
-        score = 0;
-        maxPossScore = 0;
+        Text textBox = eMailBox.GetComponentInChildren<Text>();
+        textBox.text = "";
         eMailBox.SetActive(true);
+        
         string message = content[index];
         for(int i = 0; i < message.Length; i++)
         {

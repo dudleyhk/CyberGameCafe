@@ -6,14 +6,12 @@ public class ThingsToRemember : MonoBehaviour {
 
     private string[] theThings;
     private List<int> missedAnswers = new List<int>();
-
-    public string getReason(int i)
-    {
-        return theThings[i];
-    }
+    private int genericAdviceSwitch;
 
     void Awake()
     {
+        genericAdviceSwitch = 9;
+
         theThings = new string[13];
         theThings[0] = "A government organisation such as HMRC will not contact citizens by e-mail nor by phone. "
             + "Correspondance between citizens and the government is almost always done by post or in person.";
@@ -37,15 +35,15 @@ public class ThingsToRemember : MonoBehaviour {
             
         theThings[4] = "If the e-mail uses language that encourages you to act immediately, this can sometimes be"
             + " a sign that the sender is trying to prevent you from taking the time to consider the validity of what"
-            + " they're saying. In particular you should be suspicious of an e-mail which includes threatening language.";
+            + " they're saying.\nIn particular you should be suspicious of an e-mail which includes threatening language.";
 
         theThings[5] = "Unless it's an e-mail you're expecting from someone you know well, an e-mail should have a subject"
             + " which indicates the content of the e-mail. If the e-mail was sent without a subject or if the subject"
             + " doesn't indicate why you're receiving the e-mail, you should be wary of its content.";
 
         theThings[6] = "If you receive an e-mail from someone in your contacts which seems unusually impersonal, especially if"
-            + " it's from someone you haven't heard from in a long time, and the e-mail contains and unfamilliar"
-            + " hyperlink, this is a common indicator that your friend's e-mail account has been hacked.You should e-mail"
+            + " it's from someone you haven't heard from in a long time," 
+            + " this is a common indicator that your friend's e-mail account has been hacked.You should e-mail"
             + " the sender to ask if they sent you the e-mail intentionally.";
 
         theThings[7] = "Almost every company you'll ever deal with will have their own e-mail domain (e.g. '@amazon.com')."
@@ -73,5 +71,42 @@ public class ThingsToRemember : MonoBehaviour {
     public void addMissedAnswer(int x)
     {
         missedAnswers.Add(x);
+    }
+
+    public void clearMissedAnswers()
+    {
+        for(int i = 0; i < missedAnswers.Count; i++)
+        {
+            missedAnswers.Remove(0);
+        }
+    }
+
+    public string getMissedAnswer()
+    {
+        string retString;
+        if (missedAnswers.Count > 0)
+        {
+            //get a random number from the missed answers
+            int x = Random.Range(0, missedAnswers.Count);
+            //return that as a thing to tell the player
+            retString = theThings[missedAnswers[x]];
+            //go through each element of the missed answers and delete the ones that are the same
+            //to ensure that no more of the same are returned
+            for(int i = 0; i < missedAnswers.Count; i++)
+            {
+                if(missedAnswers[i] == missedAnswers[x])
+                {
+                    missedAnswers.RemoveAt(i);
+                }
+            }
+        }
+
+        //if the list is empty use one of the all-purpose ones (9, 10 and 11)
+        else
+        {
+            genericAdviceSwitch = (genericAdviceSwitch == 11) ? 9 : genericAdviceSwitch + 1;
+            retString = theThings[genericAdviceSwitch];
+        }
+        return retString;
     }
 }
