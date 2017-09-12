@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// TODO - change gameInProgress to be a vairable to check if the minigame for that computer is complete. If so the user should not trigger the minigame again. 
+
 public class PasswordMinigameWindow : MonoBehaviour {
 
     public GameObject MinigameWindow;
