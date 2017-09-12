@@ -22,7 +22,14 @@ public class Mission : MonoBehaviour
 
     public MissionObjective getActiveObjective()
     {
-        return activeObjectives[0];
+        if (activeObjectives.Count > 0)
+        {
+            return activeObjectives[0];
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public void updateActiveMissionObjectives(MissionObjectiveTypes objectiveType, string objectiveTag)
