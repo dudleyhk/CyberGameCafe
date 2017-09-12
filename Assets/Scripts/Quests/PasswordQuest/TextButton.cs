@@ -24,9 +24,4 @@ public class TextButton : MonoBehaviour {
         gameObject.transform.parent.GetComponent<PasswordMinigame>().addPassphraseToPassword(passwordComponent);
         gameObject.SetActive(false);
     }
-
-    void FixedUpdate()
-    {
-
-    }
 }

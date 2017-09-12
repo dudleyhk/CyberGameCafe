@@ -11,8 +11,8 @@ public enum PassphraseType
 {
     TYPE_NAME = 0,
     TYPE_COMMON,
+    TYPE_NARROW_CHARRANGE,
     TYPE_WIDE_CHARRANGE,
-    TYPE_NARROW_CHARRANGE
 }
 
 public struct passphrase
@@ -42,10 +42,13 @@ public class PasswordPhrases
 public class PasswordMinigame : MonoBehaviour {
 
     public GameObject textButtonToSpawn;
+    public GameObject notificationWindow;
     public int numberOfPassphraseOptions = 5;
 
     private passphrase[] passwordString = new passphrase[3];
-    private int phraseNo = 0; 
+    private int phraseNo = 0;
+
+    private int passwordScore;
 
     void Awake()
     {
@@ -69,12 +72,25 @@ public class PasswordMinigame : MonoBehaviour {
 
     public void evaluatePassword()
     {
+        GameObject windowToSpawn;
         // Here we check the password and score the users efforts.
+        // If its good we can destroy ourselves and allow the user to move again as well as allow the game to continue.
+        // else we display an error message and some advice.
+
+
+        // TODO - evaluate password.
+
+        if (passwordScore < 75)
+        {
+            windowToSpawn = Instantiate(notificationWindow, gameObject.transform);
+        }
+
         Debug.Log("Your password is bad.");
     }
 
     void checkPasswordStrength(string passwordToCheck)
     {
         // TODO - impliment scoring system.
+        
     }
 }
