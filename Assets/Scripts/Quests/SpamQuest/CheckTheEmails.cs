@@ -60,6 +60,7 @@ public class CheckTheEmails : MonoBehaviour
                     + "see something that could be an indiation that the E-Mail is phishing spam,"
                     + " click the 'Suspicion' button");
 
+				player.GetComponent<QuestSystem> ().assignMission (thisQuest);
                 thisQuest.startMission();
             }
 
@@ -80,7 +81,7 @@ public class CheckTheEmails : MonoBehaviour
                 string feedback;
                 if(score == maxScore)
                 {
-                    feedback = "You did wonderfully, great job!"
+					feedback = "You did wonderfully, great job!"
                         + "\nHere are a few more things to look out for when you check your E-Mails.";
                     thisQuest.updateActiveMissionObjectives(MissionObjectiveTypes.OBJ_EVENT, "checkAnswers");
                 }
@@ -94,8 +95,18 @@ public class CheckTheEmails : MonoBehaviour
                 {
                     feedback = "I think maybe you should try again"
                          + "\nHere are a few things to look out for when you check your E-Mails.";
+					//complete and restart the mission
+					thisQuest.updateActiveMissionObjectives(MissionObjectiveTypes.OBJ_EVENT, "checkAnswers");
+					player.GetComponent<QuestSystem> ().assignMission (thisQuest);
+					GetComponentInParent<Questions>().resetScore();
                 }
                 d.spawnTextBox(feedback);
+				for (int i = 0; i < 3; i++) {
+					d.spawnTextBox(GetComponentInParent<ThingsToRemember> ().getMissedAnswer ());
+				}
+				if (score > maxScore / 2) {
+					d.spawnTextBox("QUEST COMPLETE!");
+				}
             }
         }
     }
