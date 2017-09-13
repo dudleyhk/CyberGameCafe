@@ -13,13 +13,14 @@ public class Mission : MonoBehaviour
     private List<MissionObjective> activeObjectives;
 
     public bool compleated;
+
+    [SerializeField]
     private int compleatedObjectives = 0;
 
     public int noOfStartingObjectives;
 
 
     // utility functions go here. 
-
     public MissionObjective getActiveObjective()
     {
         if (activeObjectives.Count > 0)
@@ -97,6 +98,7 @@ public class Mission : MonoBehaviour
 
     public void startMission()
     {
+        compleatedObjectives = 0; 
         activeObjectives = new List<MissionObjective>();
         for (int i = 0; i < noOfStartingObjectives; i++)
         {
