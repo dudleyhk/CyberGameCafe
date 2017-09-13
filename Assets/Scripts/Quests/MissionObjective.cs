@@ -59,6 +59,12 @@ public class MissionObjective : MonoBehaviour
         return complete;
     }
 
+    public void resetObjective()
+    {
+        complete = false;
+        currentProgress = startState;
+    }
+
     public string getObjectiveDiscription()
     {
         return objectiveDiscription;

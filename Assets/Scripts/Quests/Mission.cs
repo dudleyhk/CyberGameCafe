@@ -20,6 +20,16 @@ public class Mission : MonoBehaviour
 
     // utility functions go here. 
 
+    public void resetMission()
+    {
+        compleatedObjectives = 0;
+        for(int i = 0; i <  missionObjectives.Length; i++)
+        {
+            missionObjectives[i].GetComponent<MissionObjective>().resetObjective();
+        }
+    }
+
+
     public MissionObjective getActiveObjective()
     {
         if (activeObjectives.Count > 0)

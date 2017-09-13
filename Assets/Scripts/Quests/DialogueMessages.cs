@@ -7,17 +7,17 @@ public class DialogueMessages : MonoBehaviour
 {
     private List<string> textBoxes = new List<string>();
 
-	void Awake()
-	{
-		GetComponent<Button>().onClick.AddListener(advanceText);
-	}
+    void Awake()
+    {
+        GetComponent<Button>().onClick.AddListener(advanceText);
+    }
 
 
     public void spawnTextBox(string text)
     {
-		GameObject.FindGameObjectWithTag ("Player").
-		GetComponent<Movement> ().stopMovement ();
-		//and to add a bit that prevents the player from pressing e
+        GameObject.FindGameObjectWithTag("Player").
+        GetComponent<Movement>().stopMovement();
+        //and to add a bit that prevents the player from pressing e
 
         textBoxes.Add(text);
 
@@ -41,23 +41,27 @@ public class DialogueMessages : MonoBehaviour
 
     void advanceText()
     {
-			if (textBoxes.Count > 0) {
-				textBoxes.RemoveAt (0);
-			}
+        if (textBoxes.Count > 0)
+        {
+            textBoxes.RemoveAt(0);
+        }
 
-			if (textBoxes.Count == 0) {
-				//show UI again
-				showOrHideUI (true);
-				//destroy the text box
-				GetComponent<Image> ().enabled = false;
-				GetComponent<Button> ().enabled = false;
-				GetComponentInChildren<Text> ().enabled = false;
-			GameObject.FindGameObjectWithTag ("Player").
-			GetComponent<Movement> ().startMovement ();
-			} else {
-				showText ();
-			}
-		}
+        if (textBoxes.Count == 0)
+        {
+            //show UI again
+            showOrHideUI(true);
+            //destroy the text box
+            GetComponent<Image>().enabled = false;
+            GetComponent<Button>().enabled = false;
+            GetComponentInChildren<Text>().enabled = false;
+            GameObject.FindGameObjectWithTag("Player").
+            GetComponent<Movement>().startMovement();
+        }
+        else
+        {
+            showText();
+        }
+    }
 
     void showOrHideUI(bool b)
     {
