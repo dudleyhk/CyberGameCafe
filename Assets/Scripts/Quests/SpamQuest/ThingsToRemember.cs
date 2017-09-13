@@ -88,6 +88,7 @@ public class ThingsToRemember : MonoBehaviour {
         {
             //get a random number from the missed answers
             int x = Random.Range(0, missedAnswers.Count);
+			Debug.Log(missedAnswers.Count + " " + x);
             //return that as a thing to tell the player
             retString = theThings[missedAnswers[x]];
             //go through each element of the missed answers and delete the ones that are the same

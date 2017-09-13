@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class Movement : MonoBehaviour {
 
-
+	private float defaultSpeed;
     private float speed;
     public GameObject joystick;
     public VirtualJoysticks movementStick;
@@ -17,7 +17,8 @@ public class Movement : MonoBehaviour {
         joystick = GameObject.FindGameObjectWithTag("Joystick");
         if(joystick != null)
             movementStick = joystick.GetComponent<VirtualJoysticks>();
-        speed = 0.05f;
+        defaultSpeed = 0.06f;
+		speed = defaultSpeed;
         //Events.Listen(EVENT_ACHEIVEMENT, TouchIsHappening);
     }
     
@@ -50,7 +51,7 @@ public class Movement : MonoBehaviour {
 
     public void startMovement()
     {
-        speed = 0.05f;
+        speed = defaultSpeed;
     }
 
     //private void TouchIsHappening()

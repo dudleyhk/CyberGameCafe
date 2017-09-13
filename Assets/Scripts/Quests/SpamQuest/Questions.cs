@@ -40,7 +40,7 @@ public class Questions : MonoBehaviour
     {
         resetScore();
 
-        delay = -10f;
+        delay = -5f;
 
         button = eMailBox.GetComponentInChildren<Button>();
         button.onClick.AddListener(checkForFlag);
@@ -112,6 +112,8 @@ public class Questions : MonoBehaviour
         }
         if(charQueue.Count == 0 && delay > 3)
         {
+			GameObject.FindGameObjectWithTag ("Player").
+			GetComponent<Movement> ().startMovement ();
             eMailBox.SetActive(false);
         }
         delay += Time.deltaTime;
@@ -119,6 +121,9 @@ public class Questions : MonoBehaviour
 
     public void printEmail(int index)
     {
+		GameObject.FindGameObjectWithTag ("Player").
+		GetComponent<Movement> ().stopMovement ();
+
         Text textBox = eMailBox.GetComponentInChildren<Text>();
         textBox.text = "";
         eMailBox.SetActive(true);
