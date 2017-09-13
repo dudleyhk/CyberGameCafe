@@ -10,6 +10,7 @@ public class PasswordMinigameWindow : MonoBehaviour {
 
     private GameObject gameWindow;
     private bool gameInProgress;
+    private bool gameComplete = false;
 
     private Mission activeMission;
 
@@ -23,7 +24,7 @@ public class PasswordMinigameWindow : MonoBehaviour {
 
             if (activeMission != null)
             {
-               if ((activeMission.getActiveObjective().getObjectiveTag() == "passwordCreate") && (!gameInProgress))
+               if ((activeMission.getActiveObjective().getObjectiveTag() == "passwordCreate") && (!gameComplete))
                {
                     gameInProgress = true;
                     openMiniGameWindow();
@@ -37,5 +38,11 @@ public class PasswordMinigameWindow : MonoBehaviour {
     {
         GameObject uiCanvas = GameObject.FindGameObjectWithTag("UI");
         gameWindow = Instantiate(MinigameWindow, uiCanvas.transform);
+        gameWindow.GetComponent<PasswordMinigame>().setPasswordMiniGameCollider(gameObject);
+    }
+
+    public void isGameComplete(bool value)
+    {
+        gameComplete = value;
     }
 }

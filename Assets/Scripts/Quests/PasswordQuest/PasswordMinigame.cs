@@ -50,6 +50,8 @@ public class PasswordMinigame : MonoBehaviour {
 
     private int passwordScore;
 
+    private GameObject passwordMiniGameCollider;
+
     void Awake()
     {
         GameObject buttonToSpawn;
@@ -60,6 +62,7 @@ public class PasswordMinigame : MonoBehaviour {
             phraseToSet = PasswordPhrases.passphrases[Random.Range(0, PasswordPhrases.passphrases.Length)];
             buttonToSpawn.GetComponent<Text>().text = phraseToSet.phrase;
             buttonToSpawn.GetComponent<TextButton>().setPassphrase(phraseToSet);
+
             // TODO - Add code to layout the objects. 
         }
     }
@@ -78,11 +81,19 @@ public class PasswordMinigame : MonoBehaviour {
         // else we display an error message and some advice.
 
 
-        // TODO - evaluate password.
+        // TODO - evaluate password score and then rispond accordigly.
 
         if (passwordScore < 75)
         {
             windowToSpawn = Instantiate(notificationWindow, gameObject.transform);
+        }
+        else
+        {
+            // player succsseded - give them control and get back to the gameplay. 
+            GameObject.FindGameObjectWithTag("Player").GetComponent<QuestSystem>()
+                .updateMissionState(MissionObjectiveTypes.OBJ_EVENT, "passwordCreate");
+            passwordMiniGameCollider.GetComponent<PasswordMinigameWindow>().isGameComplete(true);
+            Destroy(gameObject);
         }
 
         Debug.Log("Your password is bad.");
@@ -92,5 +103,21 @@ public class PasswordMinigame : MonoBehaviour {
     {
         // TODO - impliment scoring system.
         
+    }
+
+    void FixedUpdate()
+    {
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            GameObject.FindGameObjectWithTag("Player").GetComponent<QuestSystem>()
+    .updateMissionState(MissionObjectiveTypes.OBJ_EVENT, "passwordCreate");
+            passwordMiniGameCollider.GetComponent<PasswordMinigameWindow>().isGameComplete(true);
+            Destroy(gameObject);
+        }
+    }
+
+    public void setPasswordMiniGameCollider(GameObject theCollider)
+    {
+        passwordMiniGameCollider = theCollider;
     }
 }
