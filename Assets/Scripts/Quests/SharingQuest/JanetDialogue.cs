@@ -40,7 +40,7 @@ public class JanetDialogue : MonoBehaviour
 		}
 	}
 
-	void FixedUpdate()
+	void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.E) && playerInBox)
 		{

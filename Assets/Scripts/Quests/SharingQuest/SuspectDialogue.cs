@@ -75,7 +75,7 @@ public class SuspectDialogue : MonoBehaviour {
 		}
 	}
 
-	void FixedUpdate()
+	void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.E) && playerInBox)
 		{

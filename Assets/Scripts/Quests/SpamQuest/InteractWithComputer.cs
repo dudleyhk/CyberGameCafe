@@ -34,7 +34,7 @@ public class InteractWithComputer : MonoBehaviour {
         }
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (Input.GetKeyDown(KeyCode.E) && playerInBox
             && (thisQuest.getActiveObjective().objectiveTag == "checkCom"
