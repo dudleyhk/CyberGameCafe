@@ -10,9 +10,10 @@ using UnityEngine.UI;
 public enum PassphraseType
 {
     TYPE_NAME = 0,
-    TYPE_COMMON,
-    TYPE_NARROW_CHARRANGE,
-    TYPE_WIDE_CHARRANGE,
+    TYPE_COMMONPASSWORD,
+    TYPE_STRONG,
+    TYPE_PASSWORD,
+    TYPE_SHORT
 }
 
 public struct passphrase
@@ -32,10 +33,11 @@ public class PasswordPhrases
     // TODO - Add some passphrases based on the criteria on the class comment. 
     public static passphrase[] passphrases =
     {
-        new passphrase("Hello",PassphraseType.TYPE_COMMON),
-        new passphrase("This",PassphraseType.TYPE_COMMON),
-        new passphrase("Is",PassphraseType.TYPE_COMMON),
-        new passphrase("A Test",PassphraseType.TYPE_COMMON),
+        new passphrase("Password",PassphraseType.TYPE_PASSWORD),
+        new passphrase("Hello",PassphraseType.TYPE_STRONG),
+        new passphrase("This",PassphraseType.TYPE_STRONG),
+        new passphrase("Is",PassphraseType.TYPE_STRONG),
+        new passphrase("A Test",PassphraseType.TYPE_STRONG),
     };
 }
 
@@ -45,10 +47,13 @@ public class PasswordMinigame : MonoBehaviour {
     public GameObject notificationWindow;
     public int numberOfPassphraseOptions = 5;
 
-    private passphrase[] passwordString = new passphrase[3];
+    private List<passphrase> passwordString;
+    private passphrase thePassword;
+
     private int phraseNo = 0;
 
     private int passwordScore;
+    private string passwordHints = "\0";
 
     private GameObject passwordMiniGameCollider;
 
@@ -59,7 +64,7 @@ public class PasswordMinigame : MonoBehaviour {
         for(int i = 0; i < numberOfPassphraseOptions; i++)
         {
             buttonToSpawn = Instantiate(textButtonToSpawn, gameObject.transform);
-            phraseToSet = PasswordPhrases.passphrases[Random.Range(0, PasswordPhrases.passphrases.Length)];
+            phraseToSet = PasswordPhrases.passphrases[Random.Range(0, PasswordPhrases.passphrases.Length)]; // TODO - make this a function to ensure the phrase choices are diverse.
             buttonToSpawn.GetComponent<Text>().text = phraseToSet.phrase;
             buttonToSpawn.GetComponent<TextButton>().setPassphrase(phraseToSet);
 
@@ -69,8 +74,9 @@ public class PasswordMinigame : MonoBehaviour {
 	
     public void addPassphraseToPassword(passphrase thePhrase)
     {
-        GetComponentInChildren<InputField>().text += thePhrase.phrase;
-        passwordString[phraseNo] = thePhrase;
+        GetComponentInChildren<InputField>().text = thePhrase.phrase;
+        thePassword = thePhrase;
+        // passwordString.Add(thePhrase);
     }
 
     public void evaluatePassword()
@@ -82,14 +88,14 @@ public class PasswordMinigame : MonoBehaviour {
 
 
         // TODO - evaluate password score and then rispond accordigly.
-
-        if (passwordScore < 75)
+        if (checkPasswordStrength() != PassphraseType.TYPE_STRONG)
         {
             windowToSpawn = Instantiate(notificationWindow, gameObject.transform);
+             GameObject.FindGameObjectWithTag("UIMinigameErrorWindow")
+                 .GetComponentInChildren<Text>().text = passwordHints;
         }
         else
         {
-            // player succsseded - give them control and get back to the gameplay. 
             GameObject.FindGameObjectWithTag("Player").GetComponent<QuestSystem>()
                 .updateMissionState(MissionObjectiveTypes.OBJ_EVENT, "passwordCreate");
             passwordMiniGameCollider.GetComponent<PasswordMinigameWindow>().isGameComplete(true);
@@ -99,19 +105,42 @@ public class PasswordMinigame : MonoBehaviour {
         Debug.Log("Your password is bad.");
     }
 
-    void checkPasswordStrength(string passwordToCheck)
+    PassphraseType checkPasswordStrength()
     {
-        // TODO - impliment scoring system.
-        
+            switch (thePassword.phraseType)
+            {
+                case PassphraseType.TYPE_NAME:
+                    updatePasswordHints("You shouldnt use names. Those passwords can be guessed easily.");
+                    break;
+                case PassphraseType.TYPE_PASSWORD:
+                    updatePasswordHints("NEVER EVER EVER USE 'PASSWORD' AS YOUR PASSWORD!");
+                     break;
+                case PassphraseType.TYPE_COMMONPASSWORD:
+                    updatePasswordHints("Common words can be easily guessed by password crackers. I would consider using something else.");
+                    break;
+                case PassphraseType.TYPE_SHORT:
+                    updatePasswordHints("The password is quite short. You should choose a pass");
+                    break;
+            }
+
+        return thePassword.phraseType;
+    }
+
+    void updatePasswordHints(string hintToAdd)
+    {
+        passwordHints = hintToAdd;
     }
 
     void FixedUpdate()
     {
         if (Input.GetKey(KeyCode.Escape))
         {
+
+#if UNITY_EDITOR // Only execute the code below if we are testing.
             GameObject.FindGameObjectWithTag("Player").GetComponent<QuestSystem>()
     .updateMissionState(MissionObjectiveTypes.OBJ_EVENT, "passwordCreate");
             passwordMiniGameCollider.GetComponent<PasswordMinigameWindow>().isGameComplete(true);
+#endif
             Destroy(gameObject);
         }
     }
