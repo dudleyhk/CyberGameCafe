@@ -83,7 +83,7 @@ public class PasswordMinigame : MonoBehaviour {
 
         // TODO - evaluate password score and then rispond accordigly.
 
-        if (checkPasswordStrength() < 75)
+        if (passwordScore < 75)
         {
             windowToSpawn = Instantiate(notificationWindow, gameObject.transform);
         }
@@ -99,11 +99,10 @@ public class PasswordMinigame : MonoBehaviour {
         Debug.Log("Your password is bad.");
     }
 
-    int checkPasswordStrength()
+    void checkPasswordStrength(string passwordToCheck)
     {
-        int score = 0;
         // TODO - impliment scoring system.
-        return score;
+        
     }
 
     void FixedUpdate()
