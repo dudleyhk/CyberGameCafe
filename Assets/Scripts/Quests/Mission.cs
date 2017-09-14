@@ -12,7 +12,7 @@ public class Mission : MonoBehaviour
     [SerializeField]
     private List<MissionObjective> activeObjectives;
 
-    public bool compleated;
+    private bool compleated;
 
     [SerializeField]
     private int compleatedObjectives = 0;
@@ -105,6 +105,16 @@ public class Mission : MonoBehaviour
         }
     }
 
+
+    public bool isCompleated()
+    {
+        return compleated;
+    }
+
+    public void setCompleated(bool newValue)
+    {
+        compleated = newValue;
+    }
 
     public void startMission()
     {

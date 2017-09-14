@@ -84,14 +84,14 @@ public class CheckTheEmails : MonoBehaviour
                     feedback = "You did wonderfully, great job!"
                         + "\nHere are a few more things to look out for when you check your E-Mails.";
                     thisQuest.updateActiveMissionObjectives(MissionObjectiveTypes.OBJ_EVENT, "checkAnswers");
-                    thisQuest.compleated = true;
+                    thisQuest.setCompleated(true);
                 }
                 else if (score > maxScore / 2)
                 {
                     feedback = "You have really helped us out today, thanks."
                         + "\nHere are a few things to look out for when you check your E-Mails.";
                     thisQuest.updateActiveMissionObjectives(MissionObjectiveTypes.OBJ_EVENT, "checkAnswers");
-                    thisQuest.compleated = true;
+                    thisQuest.setCompleated(true);
                 }
                 else
                 {

@@ -39,7 +39,7 @@ public class QuestSystem : MonoBehaviour
             {
                 currentMissions[i].updateActiveMissionObjectives(missionType, missionTag);
 
-                if (currentMissions[i].compleated)
+                if (currentMissions[i].isCompleated())
                 {
                     handInMission(i);
                 }

@@ -47,7 +47,7 @@ public class DoAClick : MonoBehaviour {
 
 			Mission thisQuest = janet.transform.parent.gameObject.GetComponent<Mission> ();
 			thisQuest.updateActiveMissionObjectives (MissionObjectiveTypes.OBJ_EVENT, "jaccuse");
-			thisQuest.compleated = true;
+			thisQuest.setCompleated(true);
 		}
 	}
 
