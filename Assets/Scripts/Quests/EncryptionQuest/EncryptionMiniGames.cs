@@ -3,67 +3,83 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EncryptionMiniGames : MonoBehaviour {
+public class EncryptionMiniGames : MonoBehaviour
+{
 
     public GameObject unencryptedText;
     public InputField userInputField;
-	public Button sendButton;
-	public Text scoreText;
+    public Button sendButton;
+    public Text scoreText;
+    public Text descriptionText;
 
     private Text originalText;
     private string correctText = null;
     private bool sendPressed = false;
     private int increaseTextBy = 0;
+    private int level = 1;
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
         originalText = unencryptedText.GetComponent<Text>();
         sendButton.onClick.AddListener(sendButtonPressed);
-        increaseTextBy = 1;
-	}
-	
-	// Update is called once per frame
-	void Update ()
-    {
         originalText.text = "Bristol is the worlds best city";
         converting();
+    }
 
-		if (sendPressed == true) 
-		{
-            sendPressed = false;
+    // Update is called once per frame
+    void Update()
+    {
+        if (sendPressed == true)
+        {
             Debug.Log("Button Pressed");
-			markPlayerInput ();
-		}
+            sendPressed = false;
+            level++;
+            markPlayerInput();
+            converting();
+        }
 
-	}
+        if(level == 3)
+        {
+            //congrats! finish minigame
+        }
+    }
 
     void converting()
     {
+        increaseTextBy = Levels(level);
         string convertingOriginal = originalText.text;
         for (int i = 0; i < originalText.text.Length; i++)
         {
             char characterStorage = convertingOriginal[i];
 
-            if (increaseTextBy == 1)
+            if (increaseTextBy > 0)
             {
-                characterStorage++;
+                for (int j = 0; j < increaseTextBy; j++)
+                {
+                    if (characterStorage != ' ')
+                    {
+                        characterStorage++;
+                    }
+                }
             }
-            if (increaseTextBy == 3)
+            if (increaseTextBy < 0)
             {
-                characterStorage++;
-                characterStorage++;
-                characterStorage++;
-            }
-            if (increaseTextBy == -2)
-            {
-                characterStorage--;
-                characterStorage--;
-            }
-
-            if (characterStorage == '!')
-            {
-                characterStorage = ' ';
+                increaseTextBy = 0 - increaseTextBy;
+                for (int j = 0; j < increaseTextBy; j++)
+                {
+                    if (characterStorage != ' ')
+                    {
+                        if (characterStorage == 'a')
+                        {
+                            characterStorage = 'z';
+                        }
+                        else
+                        {
+                            characterStorage--;
+                        }
+                    }
+                }
             }
 
             convertingOriginal = convertingOriginal.Remove(i, 1);
@@ -75,19 +91,19 @@ public class EncryptionMiniGames : MonoBehaviour {
     void markPlayerInput()
     {
         Debug.Log(correctText);
-        int score = 0; 
+        int score = 0;
 
         for (int i = 0; i < correctText.Length; i++)
-		{
-			if (userInputField.text[i] == correctText[i])
-			{
-				score++;
-			}
-		}
+        {
+            if (userInputField.text[i] == correctText[i])
+            {
+                score++;
+            }
+        }
         float percentageCorrect = 0;
         float floatScore = score;
         float floatMax = correctText.Length;
-        percentageCorrect = (floatScore / floatMax) *100;
+        percentageCorrect = (floatScore / floatMax) * 100;
 
         Debug.Log(score);
         Debug.Log(correctText.Length);
@@ -98,5 +114,37 @@ public class EncryptionMiniGames : MonoBehaviour {
     void sendButtonPressed()
     {
         sendPressed = true;
+    }
+
+    int Levels(int levelNumber)
+    {
+        int changeTextBy = 0;
+
+        switch (levelNumber)
+        {
+            case 1:
+                changeTextBy = 1;
+                break;
+            case 2:
+                changeTextBy = 3;
+                break;
+            case 3:
+                changeTextBy = -2;
+                break;
+            default:
+                changeTextBy = 0;
+                break;
+        }
+
+        Debug.Log(changeTextBy);
+
+        string descriptionStringText = descriptionText.text;
+        descriptionStringText = descriptionStringText.Remove(16, 1);
+        descriptionStringText = descriptionStringText.Insert(16, changeTextBy.ToString());
+        descriptionStringText = descriptionStringText.Remove(32, 1);
+        descriptionStringText = descriptionStringText.Insert(32, changeTextBy.ToString());
+        descriptionText.text = descriptionStringText;
+
+        return changeTextBy;
     }
 }

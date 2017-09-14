@@ -10,7 +10,7 @@ public class CheckTheEmails : MonoBehaviour
     private GameObject textBox;
 
     private int textState;
-    
+
     private Mission thisQuest;
 
     void Start()
@@ -37,7 +37,7 @@ public class CheckTheEmails : MonoBehaviour
             playerInBox = false;
         }
     }
-    
+
     void FixedUpdate()
     {
         if (Input.GetKeyDown(KeyCode.E))
@@ -60,15 +60,15 @@ public class CheckTheEmails : MonoBehaviour
                     + "see something that could be an indiation that the E-Mail is phishing spam,"
                     + " click the 'Suspicion' button");
 
-				player.GetComponent<QuestSystem> ().assignMission (thisQuest);
+                player.GetComponent<QuestSystem>().assignMission(thisQuest);
                 thisQuest.startMission();
             }
 
             else if (thisQuest.getActiveObjective().getObjectiveTag() == "checkCom")
             {
-                d.spawnTextBox("or not is fine...");
+                d.spawnTextBox("The computer just above me.\nWould you kindly interact with it.");
             }
-            else if(thisQuest.getActiveObjective().getObjectiveTag() == "findSpam")
+            else if (thisQuest.getActiveObjective().getObjectiveTag() == "findSpam")
             {
                 d.spawnTextBox("Sorry, I'm very busy, would you mind checking one more?");
             }
@@ -79,34 +79,39 @@ public class CheckTheEmails : MonoBehaviour
                 d.spawnTextBox("The total number of things to find in those E-Mails was "
                     + maxScore + " and you found " + score);
                 string feedback;
-                if(score == maxScore)
+                if (score == maxScore)
                 {
-					feedback = "You did wonderfully, great job!"
+                    feedback = "You did wonderfully, great job!"
                         + "\nHere are a few more things to look out for when you check your E-Mails.";
                     thisQuest.updateActiveMissionObjectives(MissionObjectiveTypes.OBJ_EVENT, "checkAnswers");
+                    thisQuest.compleated = true;
                 }
-                else if(score > maxScore / 2)
+                else if (score > maxScore / 2)
                 {
                     feedback = "You have really helped us out today, thanks."
                         + "\nHere are a few things to look out for when you check your E-Mails.";
                     thisQuest.updateActiveMissionObjectives(MissionObjectiveTypes.OBJ_EVENT, "checkAnswers");
+                    thisQuest.compleated = true;
                 }
                 else
                 {
                     feedback = "I think maybe you should try again"
                          + "\nHere are a few things to look out for when you check your E-Mails.";
-					//complete and restart the mission
-					thisQuest.updateActiveMissionObjectives(MissionObjectiveTypes.OBJ_EVENT, "checkAnswers");
-					player.GetComponent<QuestSystem> ().assignMission (thisQuest);
-					GetComponentInParent<Questions>().resetScore();
+                    //complete and restart the mission
+                    thisQuest.resetMission();
+
+                    player.GetComponent<QuestSystem>().assignMission(thisQuest);
+                    GetComponentInParent<Questions>().resetScore();
                 }
                 d.spawnTextBox(feedback);
-				for (int i = 0; i < 3; i++) {
-					d.spawnTextBox(GetComponentInParent<ThingsToRemember> ().getMissedAnswer ());
-				}
-				if (score > maxScore / 2) {
-					d.spawnTextBox("QUEST COMPLETE!");
-				}
+                for (int i = 0; i < 3; i++)
+                {
+                    d.spawnTextBox(GetComponentInParent<ThingsToRemember>().getMissedAnswer());
+                }
+                if (score > maxScore / 2)
+                {
+                    d.spawnTextBox("QUEST COMPLETE!");
+                }
             }
         }
     }
