@@ -40,8 +40,6 @@ public class Questions : MonoBehaviour
     {
         resetScore();
 
-        delay = -5f;
-
         button = eMailBox.GetComponentInChildren<Button>();
         button.onClick.AddListener(checkForFlag);
 

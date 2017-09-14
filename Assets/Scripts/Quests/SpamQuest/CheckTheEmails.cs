@@ -53,12 +53,12 @@ public class CheckTheEmails : MonoBehaviour
             DialogueMessages d = textBox.GetComponent<DialogueMessages>();
             if (thisQuest.getActiveObjective() == null)
             {
-                d.spawnTextBox("Good afternoon, my name is Martin\nI am an I.T. technician.");
+                d.spawnTextBox("Good afternoon, my name is Martin\nI am an I.T. technician.","Martin");
                 d.spawnTextBox("We are developping a new spam filter AI to use on these computers."
-                    + "\nWe need to teach it how to recognise potentially suspicious E-Mails.");
-                d.spawnTextBox("Please go onto the computer above me and read the E-Mails. Every time you"
-                    + "see something that could be an indiation that the E-Mail is phishing spam,"
-                    + " click the 'Suspicion' button");
+					+ "\nWe need to teach it how to recognise potentially suspicious E-Mails.","Martin");
+                d.spawnTextBox("Please go onto the computer above me and read the E-Mails. For each thing"
+                    + " you see that could be an indiation that the E-Mail is phishing spam,"
+					+ " click the 'Suspicion' button when it appears.","Martin");
 
                 player.GetComponent<QuestSystem>().assignMission(thisQuest);
                 thisQuest.startMission();
@@ -66,18 +66,18 @@ public class CheckTheEmails : MonoBehaviour
 
             else if (thisQuest.getActiveObjective().getObjectiveTag() == "checkCom")
             {
-                d.spawnTextBox("The computer just above me.\nWould you kindly interact with it.");
+				d.spawnTextBox("The computer just above me.\nWould you kindly interact with it.","Martin");
             }
             else if (thisQuest.getActiveObjective().getObjectiveTag() == "findSpam")
             {
-                d.spawnTextBox("Sorry, I'm very busy, would you mind checking one more?");
+				d.spawnTextBox("Sorry, I'm very busy, would you mind checking one more?","Martin");
             }
             else if (thisQuest.getActiveObjective().getObjectiveTag() == "checkAnswers")
             {
                 int score = GetComponentInParent<Questions>().getScore();
                 int maxScore = GetComponentInParent<Questions>().getMaxScore();
                 d.spawnTextBox("The total number of things to find in those E-Mails was "
-                    + maxScore + " and you found " + score);
+					+ maxScore + " and you found " + score,"Martin");
                 string feedback;
                 if (score == maxScore)
                 {
@@ -103,10 +103,10 @@ public class CheckTheEmails : MonoBehaviour
                     player.GetComponent<QuestSystem>().assignMission(thisQuest);
                     GetComponentInParent<Questions>().resetScore();
                 }
-                d.spawnTextBox(feedback);
+				d.spawnTextBox(feedback,"Martin");
                 for (int i = 0; i < 3; i++)
                 {
-                    d.spawnTextBox(GetComponentInParent<ThingsToRemember>().getMissedAnswer());
+					d.spawnTextBox(GetComponentInParent<ThingsToRemember>().getMissedAnswer(),"Martin");
                 }
                 if (score > maxScore / 2)
                 {
