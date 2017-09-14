@@ -9,7 +9,6 @@ public class PasswordMinigameWindow : MonoBehaviour {
     public GameObject MinigameWindow;
 
     private GameObject gameWindow;
-    private bool gameInProgress;
     private bool gameComplete = false;
 
     private Mission activeMission;
@@ -26,7 +25,6 @@ public class PasswordMinigameWindow : MonoBehaviour {
             {
                if ((activeMission.getActiveObjective().getObjectiveTag() == "passwordCreate") && (!gameComplete))
                {
-                    gameInProgress = true;
                     openMiniGameWindow();
                }
             }

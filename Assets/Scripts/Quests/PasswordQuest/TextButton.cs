@@ -22,6 +22,6 @@ public class TextButton : MonoBehaviour {
     {
         // Add text to the input field.
         gameObject.transform.parent.GetComponent<PasswordMinigame>().addPassphraseToPassword(passwordComponent);
-        gameObject.SetActive(false);
+        // gameObject.SetActive(false);
     }
 }

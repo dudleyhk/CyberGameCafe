@@ -86,7 +86,6 @@ public class Mission : MonoBehaviour
             }
 
             activeObjectives.Add(newObjective);
-            //Debug.Log(newObjective.name + " added to the list");
         }
 
         if(objectivesToRetrieve == 0)
@@ -99,6 +98,7 @@ public class Mission : MonoBehaviour
     public void resetMission()
     {
         compleatedObjectives = 0;
+        compleated = false;
         for (int i = 0; i < noOfStartingObjectives; i++)
         {
             activeObjectives.Add(missionObjectives[i].GetComponent<MissionObjective>());
@@ -108,7 +108,8 @@ public class Mission : MonoBehaviour
 
     public void startMission()
     {
-        compleatedObjectives = 0; 
+        compleatedObjectives = 0;
+        compleated = false;
         activeObjectives = new List<MissionObjective>();
         for (int i = 0; i < noOfStartingObjectives; i++)
         {

@@ -67,7 +67,7 @@ public class PasswordMinigame : MonoBehaviour {
             phraseToSet = PasswordPhrases.passphrases[Random.Range(0, PasswordPhrases.passphrases.Length)]; // TODO - make this a function to ensure the phrase choices are diverse.
             buttonToSpawn.GetComponent<Text>().text = phraseToSet.phrase;
             buttonToSpawn.GetComponent<TextButton>().setPassphrase(phraseToSet);
-
+            buttonToSpawn.GetComponent<RectTransform>().anchoredPosition = new Vector2(30 + (60 * i), -54); // TODO - refine text layout system.
             // TODO - Add code to layout the objects. 
         }
     }
@@ -101,8 +101,6 @@ public class PasswordMinigame : MonoBehaviour {
             passwordMiniGameCollider.GetComponent<PasswordMinigameWindow>().isGameComplete(true);
             Destroy(gameObject);
         }
-
-        Debug.Log("Your password is bad.");
     }
 
     PassphraseType checkPasswordStrength()
