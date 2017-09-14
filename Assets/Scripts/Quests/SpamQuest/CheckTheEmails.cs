@@ -38,7 +38,7 @@ public class CheckTheEmails : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
