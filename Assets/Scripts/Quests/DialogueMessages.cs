@@ -6,17 +6,31 @@ using UnityEngine.UI;
 public class DialogueMessages : MonoBehaviour
 {
     private List<string> textBoxes = new List<string>();
+	Text speaker;
 
     void Awake()
     {
+		speaker = transform.GetChild (1).GetComponent<Text> ();
         GetComponent<Button>().onClick.AddListener(advanceText);
     }
 
+	public void switchButton(bool on)
+	{
+		GetComponent<Button> ().enabled = on;
+	}
 
-    public void spawnTextBox(string text)
+	public void spawnTextBox(string text, string speakerName = "")
     {
+
+		speaker.text = speakerName;
+		if (speakerName != "") {
+			speaker.text = speaker.text + ":";
+		}
+		speaker.enabled = true;
+
         GameObject.FindGameObjectWithTag("Player").
         GetComponent<Movement>().stopMovement();
+
         //and to add a bit that prevents the player from pressing e
 
         textBoxes.Add(text);
@@ -48,20 +62,26 @@ public class DialogueMessages : MonoBehaviour
 
         if (textBoxes.Count == 0)
         {
-            //show UI again
-            showOrHideUI(true);
-            //destroy the text box
-            GetComponent<Image>().enabled = false;
-            GetComponent<Button>().enabled = false;
-            GetComponentInChildren<Text>().enabled = false;
-            GameObject.FindGameObjectWithTag("Player").
-            GetComponent<Movement>().startMovement();
+			turnOffBox ();
         }
         else
         {
             showText();
         }
     }
+
+	public void turnOffBox()
+	{
+		//show UI again
+		showOrHideUI(true);
+		//destroy the text box
+		GetComponent<Image>().enabled = false;
+		GetComponent<Button>().enabled = false;
+		GetComponentInChildren<Text>().enabled = false;
+		GameObject.FindGameObjectWithTag("Player").
+		GetComponent<Movement>().startMovement();
+		speaker.enabled = false;
+	}
 
     void showOrHideUI(bool b)
     {

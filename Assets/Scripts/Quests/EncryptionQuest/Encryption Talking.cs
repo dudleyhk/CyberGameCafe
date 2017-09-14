@@ -76,7 +76,7 @@ public class EncryptionTalking : MonoBehaviour
                     + " sticks around campus which are infected with malware.\n"
                     + "If anyone finds one of them and plugs it into their"
                     + " computer it could spell disaster.\nPlease can you "
-                    + "find them and bring them back here.");
+                    + "find them and bring them back here.","");
 
                 //spawn the sticks
                 for (int i = 0; i < 15; i++)
