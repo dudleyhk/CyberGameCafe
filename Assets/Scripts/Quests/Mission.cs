@@ -96,6 +96,16 @@ public class Mission : MonoBehaviour
         }
     }
 
+    public void resetMission()
+    {
+        compleatedObjectives = 0;
+        for (int i = 0; i < noOfStartingObjectives; i++)
+        {
+            activeObjectives.Add(missionObjectives[i].GetComponent<MissionObjective>());
+        }
+    }
+
+
     public void startMission()
     {
         compleatedObjectives = 0; 
