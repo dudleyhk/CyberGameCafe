@@ -61,6 +61,8 @@ public class PasswordPhrases
 
         // good passwords
         new passphrase("theKingdom5areVeryG00dT0day!", PassphraseType.TYPE_STRONG),
+        new passphrase("It'sABeauti4lDayT0G0Walking", PassphraseType.TYPE_STRONG),
+        new passphrase("24cc78a7f6ff3546e", PassphraseType.TYPE_STRONG)
     };
 }
 
@@ -179,7 +181,7 @@ public class PasswordMinigame : MonoBehaviour {
 
         if(validPhrases == 0)
         {
-            phraseBuffer[Random.Range(0, phraseBuffer.Length)] = PasswordPhrases.passphrases[15];
+            phraseBuffer[Random.Range(0, phraseBuffer.Length)] = PasswordPhrases.passphrases[Random.Range(15,PasswordPhrases.passphrases.Length)];
         }
     }
 
