@@ -59,7 +59,7 @@ public class JimScript : MonoBehaviour {
                 d.spawnTextBox("Hello there, Just to let you know we have some new computers here today.", "Jim");
                 d.spawnTextBox("We need some new passwords for these systems,\n so could you sort out some new passwords for these computers thanks.", "Jim");
 
-                player.GetComponent<QuestSystem>().assignMission(thisQuest);
+                player.GetComponent<QuestSystem>().assignMission(thisQuest,gameObject);
                 thisQuest.startMission();
             }
         }
@@ -69,7 +69,7 @@ public class JimScript : MonoBehaviour {
             d.spawnTextBox("Hello there, Just to let you know we have some new computers here today.", "Jim");
             d.spawnTextBox("We need some new passwords for these systems,\n so could you sort out some new passwords for these computers thanks.", "Jim");
 
-            player.GetComponent<QuestSystem>().assignMission(thisQuest);
+            player.GetComponent<QuestSystem>().assignMission(thisQuest, gameObject);
             thisQuest.startMission();
         }
     }

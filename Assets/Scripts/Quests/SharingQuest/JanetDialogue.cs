@@ -61,7 +61,7 @@ public class JanetDialogue : MonoBehaviour
 			d.spawnTextBox ("The problem is that every time one of them speaks they always say one true statement and one false statement, and I never know which is which", "Janet");
 			d.spawnTextBox ("Please could you try speaking to them and see if you can figure out which of them did it?", "Janet");
 
-			player.GetComponent<QuestSystem> ().assignMission (thisQuest);
+			player.GetComponent<QuestSystem> ().assignMission (thisQuest, gameObject);
 			thisQuest.startMission ();
 		} else {
 			string thisTag = thisQuest.getActiveObjective ().objectiveTag;

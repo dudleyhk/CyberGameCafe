@@ -48,8 +48,9 @@ public class QuestSystem : MonoBehaviour
     }
 
 
-    public void assignMission(Mission newMission)
+    public void assignMission(Mission newMission, GameObject questGiver)
     {
+		GameObject.Destroy(questGiver.transform.GetChild (0).gameObject);
         if (currentMissions == null)
         {
             activeMission = 0;

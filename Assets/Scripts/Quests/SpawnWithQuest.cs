@@ -9,6 +9,6 @@ public class SpawnWithQuest : MonoBehaviour {
     // Use this for initialization
 	void Start ()
     {
-        GetComponent<QuestSystem>().assignMission(x);
+        //GetComponent<QuestSystem>().assignMission(x);
 	}
 }

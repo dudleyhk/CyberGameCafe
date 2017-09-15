@@ -29,7 +29,7 @@ public class DialogEngine : MonoBehaviour {
             if (currentNode.containsMission())
             {
                 // deliver the quest to the user. 
-                player.GetComponent<QuestSystem>().assignMission(currentNode.missionToAssign.GetComponent<Mission>());
+                //player.GetComponent<QuestSystem>().assignMission(currentNode.missionToAssign.GetComponent<Mission>());
             }
 
             if(currentNode.getChildNodeCount() == 0)
