@@ -50,7 +50,10 @@ public class QuestSystem : MonoBehaviour
 
     public void assignMission(Mission newMission, GameObject questGiver)
     {
-		GameObject.Destroy(questGiver.transform.GetChild (0).gameObject);
+		GameObject point = questGiver.transform.GetChild (0).gameObject;
+		if (point.name == "QuestIndicator") {
+			GameObject.Destroy (point);
+		}
         if (currentMissions == null)
         {
             activeMission = 0;
