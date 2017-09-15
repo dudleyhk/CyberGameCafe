@@ -72,12 +72,8 @@ public class PasswordMinigame : MonoBehaviour {
     public GameObject notificationWindow;
     public int numberOfPassphraseOptions = 5;
 
-    private List<passphrase> passwordString;
     private passphrase thePassword;
 
-    private int phraseNo = 0;
-
-    private int passwordScore;
     private string passwordHints = "\0";
 
     private GameObject passwordMiniGameCollider;
@@ -184,6 +180,9 @@ public class PasswordMinigame : MonoBehaviour {
             phraseBuffer[Random.Range(0, phraseBuffer.Length)] = PasswordPhrases.passphrases[Random.Range(15,PasswordPhrases.passphrases.Length)];
         }
     }
+
+
+
 
     void FixedUpdate()
     {
