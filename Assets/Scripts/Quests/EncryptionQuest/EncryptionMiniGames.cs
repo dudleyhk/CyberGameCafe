@@ -39,9 +39,10 @@ public class EncryptionMiniGames : MonoBehaviour
             converting();
         }
 
-        if(level == 3)
+        if(level > 3)
         {
             //congrats! finish minigame
+            Application.LoadLevel(0);
         }
     }
 
@@ -124,12 +125,15 @@ public class EncryptionMiniGames : MonoBehaviour
         {
             case 1:
                 changeTextBy = 1;
+                originalText.text = "Bristol is amazing";
                 break;
             case 2:
                 changeTextBy = 3;
+                originalText.text = "Pristol is terrible";
                 break;
             case 3:
                 changeTextBy = -2;
+                originalText.text = "Our uni is the best";
                 break;
             default:
                 changeTextBy = 0;
