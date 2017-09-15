@@ -9,11 +9,13 @@ using UnityEngine.UI;
 // When password options are available we shopuld also be able to choose one of the previous passwords we created. (Doing so causes the quest to fail.)
 public enum PassphraseType
 {
-    TYPE_NAME = 0,
+    TYPE_NULL = 0,
+    TYPE_NAME,
     TYPE_COMMONPASSWORD,
     TYPE_STRONG,
     TYPE_PASSWORD,
-    TYPE_SHORT
+    TYPE_SHORT,
+    TYPE_REPETATIVE
 }
 
 public struct passphrase
@@ -34,10 +36,31 @@ public class PasswordPhrases
     public static passphrase[] passphrases =
     {
         new passphrase("Password",PassphraseType.TYPE_PASSWORD),
-        new passphrase("Hello",PassphraseType.TYPE_STRONG),
-        new passphrase("This",PassphraseType.TYPE_STRONG),
-        new passphrase("Is",PassphraseType.TYPE_STRONG),
-        new passphrase("A Test",PassphraseType.TYPE_STRONG),
+
+        // passwords with names
+        new passphrase("Peter098", PassphraseType.TYPE_NAME),
+        new passphrase("JamesFoot76", PassphraseType.TYPE_NAME),
+        new passphrase("micheal", PassphraseType.TYPE_NAME),
+        new passphrase("Tommy765", PassphraseType.TYPE_NAME),
+
+        // common passwords
+        new passphrase("Welc0me", PassphraseType.TYPE_COMMONPASSWORD),
+        new passphrase("football", PassphraseType.TYPE_COMMONPASSWORD),
+        new passphrase("monkey", PassphraseType.TYPE_COMMONPASSWORD),
+        new passphrase("football", PassphraseType.TYPE_COMMONPASSWORD),
+
+        // short passwords
+        new passphrase("abc123", PassphraseType.TYPE_SHORT),
+        new passphrase("adobe123", PassphraseType.TYPE_SHORT),
+        new passphrase("123", PassphraseType.TYPE_SHORT),
+        new passphrase("letmein", PassphraseType.TYPE_SHORT),
+
+        // repeative passwords
+        new passphrase("gamesgames77",PassphraseType.TYPE_REPETATIVE),
+        new passphrase("123321", PassphraseType.TYPE_REPETATIVE),
+
+        // good passwords
+        new passphrase("theKingdom5areVeryG00dT0day!", PassphraseType.TYPE_STRONG),
     };
 }
 
@@ -61,14 +84,16 @@ public class PasswordMinigame : MonoBehaviour {
     {
         GameObject buttonToSpawn;
         passphrase phraseToSet;
+        passphrase[] passwordPhrases = new passphrase[numberOfPassphraseOptions];
+        setPasswordPhrases(passwordPhrases);
+
         for(int i = 0; i < numberOfPassphraseOptions; i++)
         {
             buttonToSpawn = Instantiate(textButtonToSpawn, gameObject.transform);
-            phraseToSet = PasswordPhrases.passphrases[Random.Range(0, PasswordPhrases.passphrases.Length)]; // TODO - make this a function to ensure the phrase choices are diverse.
+            phraseToSet = passwordPhrases[i]; // TODO - make this a function to ensure the phrase choices are diverse.
             buttonToSpawn.GetComponent<Text>().text = phraseToSet.phrase;
             buttonToSpawn.GetComponent<TextButton>().setPassphrase(phraseToSet);
             buttonToSpawn.GetComponent<RectTransform>().anchoredPosition = new Vector2(30 + (60 * i), -54); // TODO - refine text layout system.
-            // TODO - Add code to layout the objects. 
         }
     }
 	
@@ -76,17 +101,14 @@ public class PasswordMinigame : MonoBehaviour {
     {
         GetComponentInChildren<InputField>().text = thePhrase.phrase;
         thePassword = thePhrase;
-        // passwordString.Add(thePhrase);
     }
 
+    // Here we check the password and score the users efforts.
+    // If its good we can destroy ourselves and allow the user to move again as well as allow the game to continue.
+    // else we display an error message and some advice.
     public void evaluatePassword()
     {
         GameObject windowToSpawn;
-        // Here we check the password and score the users efforts.
-        // If its good we can destroy ourselves and allow the user to move again as well as allow the game to continue.
-        // else we display an error message and some advice.
-
-
         // TODO - evaluate password score and then rispond accordigly.
         if (checkPasswordStrength() != PassphraseType.TYPE_STRONG)
         {
@@ -105,21 +127,34 @@ public class PasswordMinigame : MonoBehaviour {
 
     PassphraseType checkPasswordStrength()
     {
-            switch (thePassword.phraseType)
-            {
-                case PassphraseType.TYPE_NAME:
-                    updatePasswordHints("You shouldnt use names. Those passwords can be guessed easily.");
-                    break;
-                case PassphraseType.TYPE_PASSWORD:
-                    updatePasswordHints("NEVER EVER EVER USE 'PASSWORD' AS YOUR PASSWORD!");
-                     break;
-                case PassphraseType.TYPE_COMMONPASSWORD:
-                    updatePasswordHints("Common words can be easily guessed by password crackers. I would consider using something else.");
-                    break;
-                case PassphraseType.TYPE_SHORT:
-                    updatePasswordHints("The password is quite short. You should choose a pass");
-                    break;
-            }
+        string helpMessage = "";
+        switch (thePassword.phraseType)
+        {
+            case PassphraseType.TYPE_NAME:
+                helpMessage = "You shouldnt use names. Those passwords can be guessed easily.";
+                break;
+            case PassphraseType.TYPE_PASSWORD:
+                helpMessage = "NEVER EVER EVER USE 'PASSWORD' AS YOUR PASSWORD!";
+                break;
+            case PassphraseType.TYPE_COMMONPASSWORD:
+                helpMessage = "Common words can be easily guessed by password crackers.I would consider using something else.";
+                break;
+            case PassphraseType.TYPE_SHORT:
+                helpMessage = "The password is quite short. You should choose a pass";
+                break;
+            case PassphraseType.TYPE_REPETATIVE:
+                helpMessage = "The password is a little repetitive which makes it easy to work out the password. \n" +
+                    "Try to create a password that cosent contain similar patterns of words or characters.";
+                break;
+           default:
+                helpMessage = "You need to set a password for this system!";
+                break;
+        }
+            
+        if(helpMessage != "")
+        {
+            updatePasswordHints(helpMessage);
+        }
 
         return thePassword.phraseType;
     }
@@ -127,6 +162,25 @@ public class PasswordMinigame : MonoBehaviour {
     void updatePasswordHints(string hintToAdd)
     {
         passwordHints = hintToAdd;
+    }
+
+
+    void setPasswordPhrases(passphrase[] phraseBuffer)
+    {
+        int validPhrases = 0;
+        for(int i = 0; i < phraseBuffer.Length; i++)
+        {
+           phraseBuffer[i] =  PasswordPhrases.passphrases[Random.Range(0, PasswordPhrases.passphrases.Length)];
+           if (phraseBuffer[i].phraseType == PassphraseType.TYPE_STRONG)
+           {
+                validPhrases++;
+           }
+        }
+
+        if(validPhrases == 0)
+        {
+            phraseBuffer[Random.Range(0, phraseBuffer.Length)] = PasswordPhrases.passphrases[15];
+        }
     }
 
     void FixedUpdate()
