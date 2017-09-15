@@ -45,9 +45,8 @@ public class DoAClick : MonoBehaviour {
 			d.spawnTextBox ("Yes, it must have been Jackie, of course, thank you so much for your help!", "Janet");
 			d.spawnTextBox ("QUEST COMPLETE!");
 
-			Mission thisQuest = janet.transform.parent.gameObject.GetComponent<Mission> ();
-			thisQuest.updateActiveMissionObjectives (MissionObjectiveTypes.OBJ_EVENT, "jaccuse");
-			thisQuest.setCompleated(true);
+			GameObject.FindGameObjectWithTag ("Player").GetComponent<QuestSystem> ().
+			updateMissionState (MissionObjectiveTypes.OBJ_EVENT, "jaccuse");
 		}
 	}
 

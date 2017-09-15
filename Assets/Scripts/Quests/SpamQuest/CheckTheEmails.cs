@@ -15,7 +15,7 @@ public class CheckTheEmails : MonoBehaviour
 
     void Start()
     {
-        thisQuest = transform.parent.gameObject.GetComponent<Mission>();
+        thisQuest = GetComponentInParent<Mission>();
         textBox = GameObject.FindGameObjectWithTag("TextBox");
         textState = 0;
     }
@@ -60,7 +60,7 @@ public class CheckTheEmails : MonoBehaviour
                     + " you see that could be an indiation that the E-Mail is phishing spam,"
 					+ " click the 'Suspicion' button when it appears.","Martin");
 
-                player.GetComponent<QuestSystem>().assignMission(thisQuest);
+                player.GetComponent<QuestSystem>().assignMission(thisQuest, gameObject);
                 thisQuest.startMission();
             }
 
@@ -83,15 +83,13 @@ public class CheckTheEmails : MonoBehaviour
                 {
                     feedback = "You did wonderfully, great job!"
                         + "\nHere are a few more things to look out for when you check your E-Mails.";
-                    thisQuest.updateActiveMissionObjectives(MissionObjectiveTypes.OBJ_EVENT, "checkAnswers");
-                    thisQuest.setCompleated(true);
+					player.GetComponent<QuestSystem> ().updateMissionState (MissionObjectiveTypes.OBJ_EVENT, "checkAnswers");
                 }
                 else if (score > maxScore / 2)
                 {
                     feedback = "You have really helped us out today, thanks."
                         + "\nHere are a few things to look out for when you check your E-Mails.";
-                    thisQuest.updateActiveMissionObjectives(MissionObjectiveTypes.OBJ_EVENT, "checkAnswers");
-                    thisQuest.setCompleated(true);
+					player.GetComponent<QuestSystem> ().updateMissionState (MissionObjectiveTypes.OBJ_EVENT, "checkAnswers");
                 }
                 else
                 {
@@ -100,7 +98,7 @@ public class CheckTheEmails : MonoBehaviour
                     //complete and restart the mission
                     thisQuest.resetMission();
 
-                    player.GetComponent<QuestSystem>().assignMission(thisQuest);
+                    player.GetComponent<QuestSystem>().assignMission(thisQuest, gameObject);
                     GetComponentInParent<Questions>().resetScore();
                 }
 				d.spawnTextBox(feedback,"Martin");
