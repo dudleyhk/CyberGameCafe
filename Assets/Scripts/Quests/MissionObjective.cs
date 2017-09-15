@@ -32,7 +32,6 @@ public class MissionObjective : MonoBehaviour
 
     #region CLASS_FUNCTIONS //objective utility functions. (consider using properties).
 
-
     // increases the progress variable and updates quest compleation state. 
     public void updateProgressState(int increaseBy = 1)
     {

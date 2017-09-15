@@ -78,6 +78,7 @@ public class Mission : MonoBehaviour
         for(int i = compleatedObjectives; i < compleatedObjectives + objectivesToRetrieve; i++)
         {
             newObjective = missionObjectives[i].GetComponent<MissionObjective>();
+            newObjective.GetComponent<MissionObjective>().resetObjective();
 
             if(newObjective.getObjectiveType() == MissionObjectiveTypes.OBJ_ITEMCOLLECT)
             {
@@ -91,7 +92,6 @@ public class Mission : MonoBehaviour
         if(objectivesToRetrieve == 0)
         {
             compleated = true;
-            //Debug.Log("Quest Completed");
         }
     }
 
@@ -102,6 +102,7 @@ public class Mission : MonoBehaviour
         for (int i = 0; i < noOfStartingObjectives; i++)
         {
             activeObjectives.Add(missionObjectives[i].GetComponent<MissionObjective>());
+            missionObjectives[i].GetComponent<MissionObjective>().resetObjective();
         }
     }
 
@@ -124,6 +125,7 @@ public class Mission : MonoBehaviour
         for (int i = 0; i < noOfStartingObjectives; i++)
         {
             activeObjectives.Add(missionObjectives[i].GetComponent<MissionObjective>());
+            missionObjectives[i].GetComponent<MissionObjective>().resetObjective();
         }
     }
 }

@@ -95,7 +95,7 @@ public class PasswordMinigame : MonoBehaviour {
             phraseToSet = passwordPhrases[i]; // TODO - make this a function to ensure the phrase choices are diverse.
             buttonToSpawn.GetComponent<Text>().text = phraseToSet.phrase;
             buttonToSpawn.GetComponent<TextButton>().setPassphrase(phraseToSet);
-            buttonToSpawn.GetComponent<RectTransform>().anchoredPosition = new Vector2(30 + (60 * i), -54); // TODO - refine text layout system.
+            buttonToSpawn.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(30 + (100 * i), -54, 0); // TODO - refine text layout system.
         }
     }
 	
