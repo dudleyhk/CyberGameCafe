@@ -129,16 +129,16 @@ public class PasswordMinigame : MonoBehaviour {
         switch (thePassword.phraseType)
         {
             case PassphraseType.TYPE_NAME:
-                helpMessage = "You shouldnt use names. Those passwords can be guessed easily.";
+                helpMessage = "You shouldnt use names. \n Those passwords can be guessed easily.";
                 break;
             case PassphraseType.TYPE_PASSWORD:
-                helpMessage = "NEVER EVER EVER USE 'PASSWORD' AS YOUR PASSWORD!";
+                helpMessage = "NEVER EVER EVER \n USE 'PASSWORD' AS YOUR PASSWORD!";
                 break;
             case PassphraseType.TYPE_COMMONPASSWORD:
-                helpMessage = "Common words can be easily guessed by password crackers.I would consider using something else.";
+                helpMessage = "Common words can be easily guessed by password crackers. \n Consider using something else.";
                 break;
             case PassphraseType.TYPE_SHORT:
-                helpMessage = "The password is quite short. You should choose a pass";
+                helpMessage = "The password is quite short. You should choose a password that quite long and contains a few charaters.";
                 break;
             case PassphraseType.TYPE_REPETATIVE:
                 helpMessage = "The password is a little repetitive which makes it easy to work out the password. \n" +
@@ -173,6 +173,11 @@ public class PasswordMinigame : MonoBehaviour {
            {
                 validPhrases++;
            }
+
+           if (validPhrases == 2)
+           {
+                i--;
+           }
         }
 
         if(validPhrases == 0)
@@ -180,11 +185,6 @@ public class PasswordMinigame : MonoBehaviour {
             phraseBuffer[Random.Range(0, phraseBuffer.Length)] = PasswordPhrases.passphrases[Random.Range(15,PasswordPhrases.passphrases.Length)];
         }
     }
-
-    //int getTextBoxPosition(int labelNo, passphrase[] passPhrases)
-    //{
-    //      return (labelNo - 1 > 0) ? (passPhrases[labelNo - 1].phrase.Length * 2) : 0;
-    //}
 
 
     void FixedUpdate()
