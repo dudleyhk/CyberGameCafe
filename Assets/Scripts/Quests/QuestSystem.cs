@@ -8,6 +8,10 @@ public class QuestSystem : MonoBehaviour
     private List<Mission> currentMissions;
     private int activeMission = 0;
 
+	public bool missionStarted(Mission m)
+	{
+		return currentMissions.Contains (m);
+	}
 
     public Mission getActiveMission()
     {

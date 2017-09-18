@@ -108,7 +108,8 @@ public class Questions : MonoBehaviour
             
             delay = 0f;
         }
-        if(charQueue.Count == 0 && delay > 3)
+		if(charQueue.Count == 0 && delay > 3 && 
+			eMailBox.activeInHierarchy)
         {
 			GameObject.FindGameObjectWithTag ("Player").
 			GetComponent<Movement> ().startMovement ();

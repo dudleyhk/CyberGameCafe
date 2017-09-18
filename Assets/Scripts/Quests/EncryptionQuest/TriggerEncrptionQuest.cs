@@ -19,7 +19,7 @@ public class TriggerEncrptionQuest : MonoBehaviour
         if (playerInBox == true && Input.GetKeyDown(KeyCode.E))
         {
             Debug.Log("Scene Switch to Encryption");
-            Application.LoadLevel(1);
+            Application.LoadLevel("EncryptionGame");
         }
 	}
 

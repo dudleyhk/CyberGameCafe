@@ -42,7 +42,7 @@ public class EncryptionMiniGames : MonoBehaviour
         if(level > 3)
         {
             //congrats! finish minigame
-            Application.LoadLevel(0);
+            Application.LoadLevel("SinglePlayer");
         }
     }
 
