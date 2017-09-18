@@ -35,13 +35,13 @@ public class QuestSystem : MonoBehaviour
         currentMissions.RemoveAt(missionToHandIn);
     }
 
-    public void updateMissionState(MissionObjectiveTypes missionType, string missionTag)
+	public void updateMissionState(MissionObjectiveTypes missionType, string missionTag, bool skip = false)
     {
         if(currentMissions.Count != 0)
         {
             for(int i = 0; i < currentMissions.Count; i++)
             {
-                currentMissions[i].updateActiveMissionObjectives(missionType, missionTag);
+                currentMissions[i].updateActiveMissionObjectives(missionType, missionTag, skip);
 
                 if (currentMissions[i].isCompleated())
                 {
