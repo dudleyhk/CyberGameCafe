@@ -18,7 +18,9 @@ public class TriggerEncrptionQuest : MonoBehaviour
 	void Update () {
         if (playerInBox == true && Input.GetKeyDown(KeyCode.E))
         {
-            Debug.Log("Scene Switch to Encryption");
+			player.GetComponent<QuestSystem> ().updateMissionState (MissionObjectiveTypes.OBJ_EVENT, "encrypt");
+			GameObject.FindGameObjectWithTag ("GameController").
+			GetComponent<LoadGame>().writeToTextFile();
             Application.LoadLevel("EncryptionGame");
         }
 	}
@@ -28,7 +30,6 @@ public class TriggerEncrptionQuest : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         if (col.gameObject == player)
         {
-            Debug.Log("playing in encrpytion trigger");
             playerInBox = true;
         }
     }

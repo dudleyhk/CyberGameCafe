@@ -26,18 +26,16 @@ public class LoadGame : MonoBehaviour
 
 		for (int i = 0; i < numberOfQuestsInGame; i++)
 		{
-			string s = fileReader.ReadLine ();
-			Debug.Log (s);
-			if (s == "True") {
+			if (fileReader.ReadLine () == "True") {
 				questHandler.assignMission (quests[i], qg[i]);
-				for (int j = 0; j < quests [i].missionObjectives.Length; j++)
+			}
+			for (int j = 0; j < quests [i].missionObjectives.Length; j++)
+			{
+				string tag = fileReader.ReadLine ();
+				if (fileReader.ReadLine () == "True")
 				{
-					string tag = fileReader.ReadLine ();
-					if (fileReader.ReadLine () == "True")
-					{
-						questHandler.updateMissionState
-						(MissionObjectiveTypes.OBJ_EVENT, tag);
-					}
+					questHandler.updateMissionState
+					(MissionObjectiveTypes.OBJ_EVENT, tag);
 				}
 			}
 		}
@@ -45,7 +43,12 @@ public class LoadGame : MonoBehaviour
 		fileReader.Close ();
 	}		
 
-	void OnDestroy()
+	void OnApplicationQuit()
+	{
+		writeToTextFile ();
+	}
+		
+	public void writeToTextFile()
 	{
 		fileWriter = new StreamWriter ("assets\\scripts\\quests\\questprogress\\questprogress.txt");
 
