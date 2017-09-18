@@ -51,6 +51,7 @@ public class Movement : MonoBehaviour {
 
     public void startMovement()
     {
+		Debug.Log ("Resuming movement");
         speed = defaultSpeed;
     }
 

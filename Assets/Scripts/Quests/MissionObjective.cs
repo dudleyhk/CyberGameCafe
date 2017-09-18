@@ -43,6 +43,11 @@ public class MissionObjective : MonoBehaviour
         }
     }
 
+	public bool getComplete()
+	{
+		return complete;
+	}
+
     public string getObjectiveTag()
     {
         return objectiveTag;
