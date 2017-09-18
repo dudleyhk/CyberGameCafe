@@ -15,6 +15,6 @@ encrypt
 False
 False
 passwordGetToComputerLab
-False
+True
 passwordCreate
-False
+True

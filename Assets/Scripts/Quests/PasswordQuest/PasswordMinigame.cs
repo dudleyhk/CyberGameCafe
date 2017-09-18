@@ -165,11 +165,12 @@ public class PasswordMinigame : MonoBehaviour {
 
     void setPasswordPhrases(passphrase[] phraseBuffer)
     {
-        for(int i = 0; i < phraseBuffer.Length; i++)
-        {
-           phraseBuffer[i] =  PasswordPhrases.passphrases[Random.Range(0, 14)];
-
-        }
+		int phraseHeap = 0;
+		for(int i = 0; i < phraseBuffer.Length; i++)
+		{
+			phraseHeap = Random.Range(1,4);
+			phraseBuffer[i] =  PasswordPhrases.passphrases[Random.Range((i * 3) + 1 , (i + 3))];
+		}
 
         phraseBuffer[Random.Range(0, phraseBuffer.Length)] = PasswordPhrases.passphrases[Random.Range(15,PasswordPhrases.passphrases.Length)];
     }
