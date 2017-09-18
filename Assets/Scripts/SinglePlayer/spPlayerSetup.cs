@@ -38,4 +38,6 @@ public class spPlayerSetup : MonoBehaviour
 
 		GameObject.FindGameObjectWithTag ("GameController").GetComponent<LoadGame> ().loadGame ();
     }
+
+
 }
