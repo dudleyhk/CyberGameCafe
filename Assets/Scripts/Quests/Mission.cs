@@ -33,29 +33,36 @@ public class Mission : MonoBehaviour
         }
     }
 
-    public void updateActiveMissionObjectives(MissionObjectiveTypes objectiveType, string objectiveTag)
+	public void updateActiveMissionObjectives(MissionObjectiveTypes objectiveType, string objectiveTag, bool skip = false)
     {
         int compleatedActiveObjectives = 0;
         // update the active missions and update the objectives. (TODO - return to update with behaviour for item systems)
-        for(int i = 0; i < activeObjectives.Count; i++)
-        {
-           if(activeObjectives[i].objectiveType == objectiveType && activeObjectives[i].getObjectiveTag() == objectiveTag)
-           {
-                activeObjectives[i].updateProgressState();
-           }
+		for (int i = 0; i < activeObjectives.Count; i++)
+		{
+			if (activeObjectives [i].objectiveType == objectiveType && activeObjectives [i].getObjectiveTag () == objectiveTag) 
+			{
+				if (skip)
+				{
+					activeObjectives [i].skipObjective ();
+				}
+				else
+				{
+					activeObjectives [i].updateProgressState ();
+				}
+			}
 
-           if (activeObjectives[i].isComplete())
-           {
-                compleatedActiveObjectives++;
+			if (activeObjectives [i].isComplete ()) 
+			{
+				compleatedActiveObjectives++;
 
-                if (activeObjectives[i].nextObjectivesToRetrieve == 0)
-                {
-                    compleated = true;
-                    break;
-                }
+				if (activeObjectives [i].nextObjectivesToRetrieve == 0) 
+				{
+					compleated = true;
+					break;
+				}
 
-            }
-        }
+			}
+		}
 
         if(compleatedActiveObjectives == activeObjectives.Count && !compleated)
         {

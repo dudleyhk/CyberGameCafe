@@ -43,6 +43,12 @@ public class MissionObjective : MonoBehaviour
         }
     }
 
+	public void skipObjective()
+	{
+		currentProgress += deltaProgressValue * finishState;
+		complete = true;
+	}
+
 	public bool getComplete()
 	{
 		return complete;

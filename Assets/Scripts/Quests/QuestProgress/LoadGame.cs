@@ -32,10 +32,10 @@ public class LoadGame : MonoBehaviour
 			for (int j = 0; j < quests [i].missionObjectives.Length; j++)
 			{
 				string tag = fileReader.ReadLine ();
-				if (fileReader.ReadLine () == "True")
+				if (fileReader.ReadLine() == "True")
 				{
 					questHandler.updateMissionState
-					(MissionObjectiveTypes.OBJ_EVENT, tag);
+					(MissionObjectiveTypes.OBJ_EVENT, tag, true);
 				}
 			}
 		}
@@ -54,7 +54,7 @@ public class LoadGame : MonoBehaviour
 
 		for(int i = 0; i < numberOfQuestsInGame; i++)
 		{
-			fileWriter.WriteLine(questHandler.missionStarted(quests[i]));
+			fileWriter.WriteLine(questHandler.missionStarted(quests[i]) || quests[i].isCompleated());
 			for (int j = 0; j < quests [i].missionObjectives.Length; j++)
 			{
 				MissionObjective objective = quests [i].missionObjectives [j].GetComponent<MissionObjective>();
