@@ -12,7 +12,7 @@ public class player_animation_script : MonoBehaviour
 
     void Start()
     {
-        
+		anim = GetComponent<Animator> ();
     }
 
     void Update()
