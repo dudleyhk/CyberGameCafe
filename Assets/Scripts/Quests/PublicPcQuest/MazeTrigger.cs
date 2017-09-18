@@ -6,7 +6,9 @@ public class MazeTrigger : MonoBehaviour {
 
 	public GameObject[] mazeTrigger = new GameObject[4];
 
-	public Sprite[] mazes = new Sprite[4];
+	public GameObject[] mazes = new GameObject[4];
+
+	public GameObject blocker;
 
 	private int counter = 0;
 
@@ -25,7 +27,6 @@ public class MazeTrigger : MonoBehaviour {
 
 	public void DestroyTrigger()
 	{
-		Destroy (mazes [counter]);
 		Destroy (mazeTrigger [counter]);
 		counter++;	
 		spawnMaze ();
@@ -34,6 +35,10 @@ public class MazeTrigger : MonoBehaviour {
 
 	void spawnMaze()
 	{
-		Instantiate (mazes [counter]);
+		if (counter == 2) 
+		{
+			Destroy (mazes [(counter - 2)]);
+		}
+		blocker.transform.Translate (0, 0, -10);
 	}
 }
