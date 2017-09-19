@@ -41,13 +41,14 @@ public class LoadGame : MonoBehaviour
 		}
 
 		string s = fileReader.ReadLine ();
-		float x = (s == null) ? -11 : getFloat(s, -11f);
+		float x = (s == null) ? -11 : getFloat(s, 0f);
 		s = fileReader.ReadLine ();
-		float y = (s == null) ? 9 : getFloat(s, 9f);
-		float z = getFloat(fileReader.ReadLine(), 0.0f);
+		float y = (s == null) ? 9 : getFloat(s, 0f);
+		float z = getFloat(fileReader.ReadLine(), 0f);
 
 		Vector3 playerLoc = new Vector3 (x, y, z);
 
+        Debug.Log(playerLoc);
 		GameObject.FindGameObjectWithTag ("Player").transform.position = playerLoc;
 
 		fileReader.Close ();

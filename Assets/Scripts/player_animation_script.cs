@@ -20,7 +20,7 @@ public class player_animation_script : MonoBehaviour
 
         float horizontal = 0;
         float vertical = 0;
-
+        
         currentPosition = transform.position;
 
         if(currentPosition.x > lastPosition.x)

@@ -9,12 +9,7 @@ public class SpawnCharacter : MonoBehaviour
     public GameObject[] charTrousers = new GameObject[2];
     public GameObject[] charHair = new GameObject[5];
     public GameObject charShoes;
-
-    public void Start()
-    {
-        transform.Translate(0, 14, 0);
-    }
-
+    
     public void renderPlayer(int body, int top, int legs, int eyes, int hair, Color skinC, Color topC, Color legsC, Color shoesC, Color hairC)
     {
         //spawn each component of a character sprite and assign it a colour

@@ -42,6 +42,7 @@ public class CharacterManager : MonoBehaviour
 
         var node = SetupMap.nodeGraph.nodes[id];
         player.GetComponentInChildren<NPCMovement>().currentNode = node;
+        Debug.Log("Node Position: " + node.position);
         player.transform.position = node.position;
         players.Add(player);
 
