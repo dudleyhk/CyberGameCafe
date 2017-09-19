@@ -10,6 +10,8 @@ public class MazeTrigger : MonoBehaviour {
 
 	public GameObject blocker;
 
+    public GameObject mazeRunner;
+
 	private int counter = 0;
 
     private GameObject player;
@@ -23,8 +25,8 @@ public class MazeTrigger : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		
-	}
+
+    }
 		
 
 	public void MazeStart(GameObject thePlayer)
@@ -36,12 +38,18 @@ public class MazeTrigger : MonoBehaviour {
 		counter++;	
 		spawnMaze ();
 
-	}
+        Instantiate(mazeRunner);
+        mazeRunner.transform.position = new Vector3(0, 0, 0);
+        mazeRunner.transform.position = new Vector3(39.6f, 36.6f, -2f);
+       
+    }
 
     public void MazeComplete(GameObject thePlayer)
     {
         player = thePlayer;
         player.GetComponent<Movement>().startMovement();
+
+        Destroy(mazeRunner);
     }
 
 	void spawnMaze()
