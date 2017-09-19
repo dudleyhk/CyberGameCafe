@@ -49,12 +49,12 @@ public class MarkDialog : MonoBehaviour
         if (thisQuest.getActiveObjective() == null)
         {
             d.spawnTextBox("Public PC Quest Dialog!", name);
-
+            d.spawnTextBox("Talk to me again once you're ready to go in!", name);
             player.GetComponent<QuestSystem>().assignMission(thisQuest, gameObject);
         }
         else
         {
-            d.spawnTextBox("I really appreciate your help.", name);
+            Application.LoadLevel(3);
         }
     }
 }
