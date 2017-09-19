@@ -72,11 +72,18 @@ public class PasswordMinigame : MonoBehaviour {
     public GameObject notificationWindow;
     public int numberOfPassphraseOptions = 5;
 
-    private passphrase thePassword;
+	private List<List<passphrase>> passphraseHeaps; 
+	private passphrase thePassword;
 
     private string passwordHints = "\0";
 
     private GameObject passwordMiniGameCollider;
+
+	void Start()
+	{
+		
+	}
+
 
     void Awake()
     {
@@ -165,15 +172,29 @@ public class PasswordMinigame : MonoBehaviour {
 
     void setPasswordPhrases(passphrase[] phraseBuffer)
     {
-        for(int i = 0; i < phraseBuffer.Length; i++)
-        {
-           phraseBuffer[i] =  PasswordPhrases.passphrases[Random.Range(0, 14)];
-
-        }
+		int phraseHeap = 0;
+		for(int i = 0; i < phraseBuffer.Length; i++)
+		{
+			phraseHeap = Random.Range(1,4);
+			phraseBuffer[i] =  PasswordPhrases.passphrases[Random.Range((i * 3) + 1 , (i + 3))];
+		}
 
         phraseBuffer[Random.Range(0, phraseBuffer.Length)] = PasswordPhrases.passphrases[Random.Range(15,PasswordPhrases.passphrases.Length)];
     }
 
+
+	void addPassphrases()
+	{
+		passphraseHeaps = new List<List<passphrase>>();
+		passphraseHeaps.Add (new List<passphrase> ());
+
+		passphraseHeaps [0].Add (PasswordPhrases.passphrases [0]);
+
+		for (int i = 1; i < PasswordPhrases.passphrases.count; i++) 
+		{
+			for(int j = 1; j < )
+		}
+	}
 
     void FixedUpdate()
     {
