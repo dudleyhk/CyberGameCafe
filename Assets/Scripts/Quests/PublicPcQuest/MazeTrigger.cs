@@ -12,10 +12,12 @@ public class MazeTrigger : MonoBehaviour {
 
 	private int counter = 0;
 
-	// Use this for initialization
-	void Start () 
+    private GameObject player;
+
+         // Use this for initialization
+        void Start () 
 	{
-		
+
 	}
 	
 	// Update is called once per frame
@@ -25,13 +27,22 @@ public class MazeTrigger : MonoBehaviour {
 	}
 		
 
-	public void DestroyTrigger()
+	public void MazeStart(GameObject thePlayer)
 	{
+        player = thePlayer;
+        player.GetComponent<Movement>().stopMovement();
+
 		Destroy (mazeTrigger [counter]);
 		counter++;	
 		spawnMaze ();
 
 	}
+
+    public void MazeComplete(GameObject thePlayer)
+    {
+        player = thePlayer;
+        player.GetComponent<Movement>().startMovement();
+    }
 
 	void spawnMaze()
 	{
