@@ -10,28 +10,47 @@ public class MazeTrigger : MonoBehaviour {
 
 	public GameObject blocker;
 
+    public GameObject mazeRunner;
+
 	private int counter = 0;
 
-	// Use this for initialization
-	void Start () 
+    private GameObject player;
+
+         // Use this for initialization
+        void Start () 
 	{
-		
+
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		
-	}
+
+    }
 		
 
-	public void DestroyTrigger()
+	public void MazeStart(GameObject thePlayer)
 	{
+        player = thePlayer;
+        player.GetComponent<Movement>().stopMovement();
+
 		Destroy (mazeTrigger [counter]);
 		counter++;	
 		spawnMaze ();
 
-	}
+        Instantiate(mazeRunner);
+        mazeRunner.transform.position = new Vector3(0, 0, 0);
+        mazeRunner.transform.position = new Vector3(39.6f, 36.6f, -2f);
+       
+    }
+
+    public void MazeComplete(GameObject thePlayer)
+    {
+        player = thePlayer;
+        player.GetComponent<Movement>().startMovement();
+
+        Destroy(mazeRunner);
+    }
 
 	void spawnMaze()
 	{
