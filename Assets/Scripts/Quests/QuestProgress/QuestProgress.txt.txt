@@ -10,7 +10,7 @@ questionSusps
 False
 jaccuse
 False
-False
+True
 encrypt
 False
 False
@@ -18,6 +18,6 @@ passwordGetToComputerLab
 False
 passwordCreate
 False
--8.115425
-1.080017
+-18.79784
+-12.60481
 0

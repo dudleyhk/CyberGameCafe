@@ -23,7 +23,7 @@ public class EncryptionMiniGames : MonoBehaviour
     {
         originalText = unencryptedText.GetComponent<Text>();
         sendButton.onClick.AddListener(sendButtonPressed);
-        originalText.text = "Bristol is the worlds best city";
+        originalText.text = "placeholder";
         converting();
     }
 
@@ -129,7 +129,7 @@ public class EncryptionMiniGames : MonoBehaviour
                 break;
             case 2:
                 changeTextBy = 3;
-                originalText.text = "Pristol is terrible";
+                originalText.text = "The shipment will arrive at five";
                 break;
             case 3:
                 changeTextBy = -2;
