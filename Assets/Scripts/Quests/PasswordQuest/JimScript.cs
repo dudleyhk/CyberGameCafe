@@ -39,8 +39,9 @@ public class JimScript : MonoBehaviour {
     }
 
     void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.E) && playerInBox)
+	{
+		GameObject.FindGameObjectWithTag ("GameController").GetComponent<UseKey> ().toggleUseKey (false);
+		if (GameObject.FindGameObjectWithTag("GameController").GetComponent<UseKey>().getUseKey() && playerInBox)
         {
             dialogue();
         }
