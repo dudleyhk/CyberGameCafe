@@ -13,11 +13,11 @@ False
 False
 encrypt
 False
-False
+True
 passwordGetToComputerLab
-False
+True
 passwordCreate
 False
--11
-9
+-7.457695
+-6.754331
 0
