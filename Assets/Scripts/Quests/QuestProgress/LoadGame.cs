@@ -18,6 +18,7 @@ public class LoadGame : MonoBehaviour
 
 	QuestSystem questHandler;
 
+	#if !UNITY_EDITOR
 	public void loadGame()
 	{
 		questHandler = GameObject.FindGameObjectWithTag ("Player").GetComponent<QuestSystem>();
@@ -52,6 +53,7 @@ public class LoadGame : MonoBehaviour
 
 		fileReader.Close ();
 	}
+	#endif
 
 	float getFloat(string s, float defaultValue)
 	{

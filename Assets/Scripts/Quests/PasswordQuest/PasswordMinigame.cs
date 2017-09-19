@@ -175,25 +175,27 @@ public class PasswordMinigame : MonoBehaviour {
 		int phraseHeap = 0;
 		for(int i = 0; i < phraseBuffer.Length; i++)
 		{
-			phraseHeap = Random.Range(1,4);
-			phraseBuffer[i] =  PasswordPhrases.passphrases[Random.Range((i * 3) + 1 , (i + 3))];
+			// phraseHeap = Random.Range(1,4);
+			phraseBuffer[i] =  PasswordPhrases.passphrases[Random.Range(0, 14)];
+
+			if (i > 0) 
+			{
+				for (int j = 0; j < i; j++) 
+				{
+					if (phraseBuffer [j].phrase == phraseBuffer [i].phrase) 
+					{
+						phraseBuffer[i] =  PasswordPhrases.passphrases[Random.Range(0, 14)];
+					}	
+				}
+			}
 		}
 
-        phraseBuffer[Random.Range(0, phraseBuffer.Length)] = PasswordPhrases.passphrases[Random.Range(15,PasswordPhrases.passphrases.Length)];
+		phraseBuffer[Random.Range(0, phraseBuffer.Length)] = PasswordPhrases.passphrases[Random.Range(15,(PasswordPhrases.passphrases.Length - 1))];
     }
 
 
 	void addPassphrases()
 	{
-		passphraseHeaps = new List<List<passphrase>>();
-		passphraseHeaps.Add (new List<passphrase> ());
-
-		passphraseHeaps [0].Add (PasswordPhrases.passphrases [0]);
-
-		for (int i = 1; i < PasswordPhrases.passphrases.count; i++) 
-		{
-			for(int j = 1; j < )
-		}
 	}
 
     void FixedUpdate()
