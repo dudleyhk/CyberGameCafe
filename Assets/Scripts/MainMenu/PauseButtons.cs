@@ -29,7 +29,6 @@ public class PauseButtons : MonoBehaviour
 	{
 		GameObject.FindGameObjectWithTag ("GameController").
 		GetComponent<LoadGame>().writeToTextFile();
-
 		Application.LoadLevel ("MainMenu");
 	}
 }

@@ -36,7 +36,9 @@ public class spPlayerSetup : MonoBehaviour
 			Instantiate (panda, transform);			
 		}
 
+		#if !UNITY_EDITOR
 		GameObject.FindGameObjectWithTag ("GameController").GetComponent<LoadGame> ().loadGame ();
+		#endif
     }
 
 
