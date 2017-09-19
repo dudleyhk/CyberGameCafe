@@ -11,6 +11,7 @@ public class EncryptionMiniGames : MonoBehaviour
     public Button sendButton;
     public Text scoreText;
     public Text descriptionText;
+    public Text buttonText;
 
     private Text originalText;
     private string correctText = null;
@@ -32,7 +33,6 @@ public class EncryptionMiniGames : MonoBehaviour
     {
         if (sendPressed == true)
         {
-            Debug.Log("Button Pressed");
             sendPressed = false;
             level++;
             markPlayerInput();
@@ -41,8 +41,7 @@ public class EncryptionMiniGames : MonoBehaviour
 
         if(level > 3)
         {
-            //congrats! finish minigame
-            Application.LoadLevel("SinglePlayer");
+            buttonText.text = "Exit";
         }
     }
 
@@ -60,15 +59,22 @@ public class EncryptionMiniGames : MonoBehaviour
                 {
                     if (characterStorage != ' ')
                     {
-                        characterStorage++;
+                        if (characterStorage == 'z')
+                        {
+                            characterStorage = 'a';
+                        }
+                        else
+                        {
+                            characterStorage++;
+                        }
                     }
                 }
             }
             if (increaseTextBy < 0)
             {
-                increaseTextBy = 0 - increaseTextBy;
-                for (int j = 0; j < increaseTextBy; j++)
+                for (int j = 0; j > increaseTextBy; j--)
                 {
+
                     if (characterStorage != ' ')
                     {
                         if (characterStorage == 'a')
@@ -80,6 +86,8 @@ public class EncryptionMiniGames : MonoBehaviour
                             characterStorage--;
                         }
                     }
+
+                    
                 }
             }
 
@@ -87,11 +95,11 @@ public class EncryptionMiniGames : MonoBehaviour
             convertingOriginal = convertingOriginal.Insert(i, characterStorage.ToString());
         }
         correctText = convertingOriginal;
+        Debug.Log(correctText);
     }
 
     void markPlayerInput()
     {
-        Debug.Log(correctText);
         int score = 0;
 
         for (int i = 0; i < correctText.Length; i++)
@@ -106,15 +114,20 @@ public class EncryptionMiniGames : MonoBehaviour
         float floatMax = correctText.Length;
         percentageCorrect = (floatScore / floatMax) * 100;
 
-        Debug.Log(score);
-        Debug.Log(correctText.Length);
-        Debug.Log(percentageCorrect);
+        //Debug.Log(score);
+        //Debug.Log(correctText.Length);
+        //Debug.Log(percentageCorrect);
         scoreText.text = score.ToString() + " out of " + correctText.Length + " " + percentageCorrect + "%";
     }
 
     void sendButtonPressed()
     {
         sendPressed = true;
+
+        if (level > 3)
+        {
+            Application.LoadLevel("SinglePlayer");
+        }
     }
 
     int Levels(int levelNumber)
