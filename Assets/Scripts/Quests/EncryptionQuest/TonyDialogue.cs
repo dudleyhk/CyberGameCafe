@@ -46,18 +46,20 @@ public class TonyDialogue : MonoBehaviour {
 		DialogueMessages d =
 			GameObject.FindGameObjectWithTag ("TextBox").GetComponent<DialogueMessages> ();
 		if (thisQuest.getActiveObjective () == null) {
-			d.spawnTextBox ("I have some very very important E-Mails to send, but I really need to wait here for a parcel.");
-			d.spawnTextBox ("As I know you so well, please could you go onto the computer in the room here and send my E-Mails?");
-			d.spawnTextBox ("Unfortunately the secure server is down and the information is very important. So it must be encrypted.");
-			d.spawnTextBox ("If the E-Mails don't get encrypted, there is a risk that someone could intercept the E-Mails and learn my secrets.");
-			d.spawnTextBox ("Each letter in the message needs to translated to another letter.");
-			d.spawnTextBox ("For example, in a 1 Caeser Shift, B needs to be typed instead of A and C needs to be typed instead of B");
+			d.spawnTextBox ("I have some very very important E-Mails to send, but I really need to wait here for a parcel.", name);
+			d.spawnTextBox ("As I know you so well, please could you go onto the computer in the room here and send my E-Mails?", name);
+			d.spawnTextBox ("Unfortunately the secure server is down and the information is very important. So it must be encrypted.", name);
+			d.spawnTextBox ("If the E-Mails don't get encrypted, there is a risk that someone could intercept the E-Mails and learn my secrets.", name);
+			d.spawnTextBox ("Each letter in the message needs to translated to another letter.", name);
+			d.spawnTextBox ("For example, in a 1 Caeser Shift, B needs to be typed instead of A and C needs to be typed instead of B", name);
 
 			computerTrigger.GetComponent<BoxCollider2D> ().enabled = true;
 
 			player.GetComponent<QuestSystem> ().assignMission (thisQuest, gameObject);
-		} else {
-			d.spawnTextBox ("You are doing a quest for me");
+		}
+		else
+		{
+			d.spawnTextBox ("I really appreciate your help.", name);
 		}
 	}
 }
