@@ -35,7 +35,7 @@ public class MazeTrigger : MonoBehaviour {
 
 	void spawnMaze()
 	{
-		if (counter == 2) 
+		if (counter > 1) 
 		{
 			Destroy (mazes [(counter - 2)]);
 		}
