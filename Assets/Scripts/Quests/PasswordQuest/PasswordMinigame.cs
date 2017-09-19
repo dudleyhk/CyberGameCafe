@@ -185,6 +185,7 @@ public class PasswordMinigame : MonoBehaviour {
 					if (phraseBuffer [j].phrase == phraseBuffer [i].phrase) 
 					{
 						phraseBuffer[i] =  PasswordPhrases.passphrases[Random.Range(0, 14)];
+						j = 0;
 					}	
 				}
 			}
