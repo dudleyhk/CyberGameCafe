@@ -12,8 +12,12 @@ public class JanetDialogue : MonoBehaviour
 
 	GameObject textBox;
 
+	private Interact speak;
+
 	void Start()
 	{
+		speak = GameObject.FindGameObjectWithTag ("GameController").
+			GetComponent<Interact>();
 	textBox = GameObject.FindGameObjectWithTag ("TextBox");
 	}
 		
@@ -42,7 +46,7 @@ public class JanetDialogue : MonoBehaviour
 
 	void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.E) && playerInBox)
+		if (speak.beingPressed && playerInBox)
 		{
 			dialogue ();
 		}

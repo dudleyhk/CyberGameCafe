@@ -17,8 +17,12 @@ public class TalkToNPC : MonoBehaviour
 
     private bool playerInBox = false;
 
-    void Start()
-    {
+	private Interact speak;
+
+	void Start()
+	{
+		speak = GameObject.FindGameObjectWithTag ("GameController").
+			GetComponent<Interact>();
         collectibleClone = new GameObject[15];
         interButton = GameObject.FindGameObjectWithTag("InteractButton");
 
@@ -51,7 +55,7 @@ public class TalkToNPC : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (speak.beingPressed)
         {
             TaskOnClick();
         }

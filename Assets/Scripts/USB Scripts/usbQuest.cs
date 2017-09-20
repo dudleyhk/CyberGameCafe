@@ -16,10 +16,12 @@ public class usbQuest : MonoBehaviour
 
 	private GameObject controller;
 
+	private Interact speak;
 
-	// Use this for initialization
-	void Start () 
+	void Start()
 	{
+		speak = GameObject.FindGameObjectWithTag ("GameController").
+			GetComponent<Interact>();
 		playerEnter = false;
 		controller = GameObject.FindGameObjectWithTag ("TextBox");
 	}
@@ -27,7 +29,7 @@ public class usbQuest : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{		
-		if(playerEnter && Input.GetKeyDown(KeyCode.E))
+		if(playerEnter && speak.beingPressed)
 		{
 
 			player.GetComponent<QuestSystem> ().assignMission (usbMission, this.gameObject);

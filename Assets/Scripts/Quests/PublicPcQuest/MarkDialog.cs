@@ -11,8 +11,12 @@ public class MarkDialog : MonoBehaviour
     [SerializeField]
     GameObject computerTrigger;
 
-    void Start()
-    {
+	private Interact speak;
+
+	void Start()
+	{
+		speak = GameObject.FindGameObjectWithTag ("GameController").
+			GetComponent<Interact>();
         thisQuest = GetComponentInParent<Mission>();
     }
 
@@ -36,7 +40,7 @@ public class MarkDialog : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && playerInBox)
+        if (speak.beingPressed && playerInBox)
         {
             interact();
         }

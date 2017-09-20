@@ -10,8 +10,12 @@ public class TonyDialogue : MonoBehaviour {
 	[SerializeField]
 	GameObject computerTrigger;
 
+	private Interact speak;
+
 	void Start()
 	{
+		speak = GameObject.FindGameObjectWithTag ("GameController").
+			GetComponent<Interact>();
 		thisQuest = GetComponentInParent<Mission>();
 	}
 
@@ -35,7 +39,7 @@ public class TonyDialogue : MonoBehaviour {
 
 	void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.E) && playerInBox)
+		if (speak.beingPressed && playerInBox)
 		{
 			interact();
 		}

@@ -8,11 +8,27 @@ public class DialogueMessages : MonoBehaviour
     private List<string> textBoxes = new List<string>();
 	Text speaker;
 
+	private Interact speak;
+
+	void Start()
+	{
+		speak = GameObject.FindGameObjectWithTag ("GameController").
+			GetComponent<Interact> ();
+	}
+
     void Awake()
     {
 		speaker = transform.GetChild (1).GetComponent<Text> ();
         GetComponent<Button>().onClick.AddListener(advanceText);
     }
+
+	void Update()
+	{
+		if (GetComponent<Image> ().enabled && Input.GetKeyDown (KeyCode.E)) 
+		{
+			advanceText ();
+		}
+	}
 
 	public void switchButton(bool on)
 	{
@@ -21,7 +37,7 @@ public class DialogueMessages : MonoBehaviour
 
 	public void spawnTextBox(string text, string speakerName = "")
     {
-
+		speak.toggleInteraction ();
 		speaker.text = speakerName;
 		if (speakerName != "") {
 			speaker.text = speaker.text + ":";
@@ -72,6 +88,7 @@ public class DialogueMessages : MonoBehaviour
 
 	public void turnOffBox()
 	{
+		speak.toggleInteraction ();
 		//show UI again
 		showOrHideUI(true);
 		//destroy the text box

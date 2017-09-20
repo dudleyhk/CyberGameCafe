@@ -13,8 +13,12 @@ public class CheckTheEmails : MonoBehaviour
 
     private Mission thisQuest;
 
-    void Start()
-    {
+	private Interact speak;
+
+	void Start()
+	{
+		speak = GameObject.FindGameObjectWithTag ("GameController").
+			GetComponent<Interact>();
         thisQuest = GetComponentInParent<Mission>();
         textBox = GameObject.FindGameObjectWithTag("TextBox");
         textState = 0;
@@ -40,7 +44,7 @@ public class CheckTheEmails : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (speak.beingPressed)
         {
             interact();
         }

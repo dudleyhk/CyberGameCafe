@@ -12,9 +12,12 @@ public class dropUSB : MonoBehaviour
 	private int binCount;
 	private int compCount;
 
-	// Use this for initialization
-	void Start () 
+	private Interact speak;
+
+	void Start()
 	{
+		speak = GameObject.FindGameObjectWithTag ("GameController").
+			GetComponent<Interact>();
 		usbCount = 5;
 		binCount = 0;
 		compCount = 0;
@@ -33,7 +36,7 @@ public class dropUSB : MonoBehaviour
 		//Debug.Log ("On Trigger Stay");
 		if (coll == binColl) 
 		{
-			if (Input.GetKeyDown(KeyCode.E))
+			if (speak.beingPressed)
 			{		
 				player.GetComponent<QuestSystem> ().updateMissionState (MissionObjectiveTypes.OBJ_EVENT, "usbSort");
 				if (usbCount > 0 && binCount < 5) 
@@ -47,7 +50,7 @@ public class dropUSB : MonoBehaviour
 
 		if (coll == compColl) 
 		{
-			if (Input.GetKeyDown(KeyCode.E))
+			if (speak.beingPressed)
 			{		
 				player.GetComponent<QuestSystem> ().updateMissionState (MissionObjectiveTypes.OBJ_EVENT, "usbSort");
 				if (usbCount > 0 && compCount < 5) 

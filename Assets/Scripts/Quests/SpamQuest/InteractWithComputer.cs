@@ -10,8 +10,12 @@ public class InteractWithComputer : MonoBehaviour {
 
     int lastEMail;
 
-    void Start()
-    {
+	private Interact speak;
+
+	void Start()
+	{
+		speak = GameObject.FindGameObjectWithTag ("GameController").
+			GetComponent<Interact>();
         lastEMail = 9;
         thisQuest = transform.parent.gameObject.GetComponent<Mission>();
     }
@@ -36,7 +40,7 @@ public class InteractWithComputer : MonoBehaviour {
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && playerInBox
+        if (speak.beingPressed && playerInBox
             && (thisQuest.getActiveObjective().objectiveTag == "checkCom"
             || thisQuest.getActiveObjective().objectiveTag == "findSpam"))
         {

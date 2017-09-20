@@ -8,15 +8,18 @@ public class TriggerEncrptionQuest : MonoBehaviour
     private bool playerInBox;
 
 
-    // Use this for initialization
-    void Start ()
-    {
+	private Interact speak;
+
+	void Start()
+	{
+		speak = GameObject.FindGameObjectWithTag ("GameController").
+			GetComponent<Interact>();
 		
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (playerInBox == true && Input.GetKeyDown(KeyCode.E))
+        if (playerInBox == true && speak.beingPressed)
         {
 			player.GetComponent<QuestSystem> ().updateMissionState (MissionObjectiveTypes.OBJ_EVENT, "encrypt");
 			GameObject.FindGameObjectWithTag ("GameController").

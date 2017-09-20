@@ -10,6 +10,14 @@ public class SuspectDialogue : MonoBehaviour {
 
 	bool[] talkedToYet = new bool[5];
 
+	private Interact speak;
+
+	void Start()
+	{
+		speak = GameObject.FindGameObjectWithTag ("GameController").
+			GetComponent<Interact> ();
+	}
+
 	string getOfficialStatement()
 	{
 		switch (gameObject.name)
@@ -77,7 +85,7 @@ public class SuspectDialogue : MonoBehaviour {
 
 	void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.E) && playerInBox)
+		if (speak.beingPressed && playerInBox)
 		{
 			dialogue ();
 		}
