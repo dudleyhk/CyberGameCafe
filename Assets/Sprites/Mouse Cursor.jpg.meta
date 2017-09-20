@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: a765189984c403541ada08a85464f5b6
-timeCreated: 1505827274
+timeCreated: 1505895080
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName: {}
@@ -43,7 +43,7 @@ TextureImporter:
   spritePixelsToUnits: 100
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: -1
+  spriteTessellationDetail: 0
   textureType: 8
   textureShape: 1
   maxTextureSizeSet: 0
@@ -58,43 +58,42 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
-  - buildTarget: Standalone
-    maxTextureSize: 2048
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
   spriteSheet:
     serializedVersion: 2
     sprites: []
     outline:
-    - - {x: -149.64417, y: 312.5}
-      - {x: -168.79453, y: 312.5}
-      - {x: -175.1184, y: 308.31262}
-      - {x: -179.61179, y: 302.45416}
-      - {x: -180.71854, y: -218.27228}
-      - {x: -178.22905, y: -228.2989}
-      - {x: -166.1042, y: -237.1769}
-      - {x: -152.55261, y: -236.23962}
-      - {x: -140.10947, y: -225.05301}
-      - {x: -57.519623, y: -112.26773}
-      - {x: 6.7185364, y: -294.09647}
-      - {x: 23.04274, y: -310.09103}
-      - {x: 34.889313, y: -312.5}
-      - {x: 43.58197, y: -312.5}
-      - {x: 51.8237, y: -312.5}
-      - {x: 65.54692, y: -308.4893}
-      - {x: 80.09085, y: -295.50818}
-      - {x: 85.854675, y: -284.13315}
-      - {x: 87.00598, y: -261.33554}
-      - {x: 26.244186, y: -86.595825}
-      - {x: 161.21695, y: -112.34665}
-      - {x: 174.82419, y: -111.53256}
-      - {x: 183.89316, y: -102.24762}
-      - {x: 185.5, y: -86.45395}
-      - {x: 21.715942, y: 108.31583}
+    - - {x: -147.5, y: 310.5}
+      - {x: -152.40848, y: 312.5}
+      - {x: -168.5, y: 312.5}
+      - {x: -174.5, y: 309.5}
+      - {x: -180.5, y: 299.5}
+      - {x: -181.5, y: -218.5}
+      - {x: -177.5, y: -228.5}
+      - {x: -169.5, y: -235.5}
+      - {x: -160.5, y: -237.5}
+      - {x: -148.5, y: -234.5}
+      - {x: -103.5, y: -174.5}
+      - {x: -57.5, y: -112.5}
+      - {x: -53.5, y: -123.5}
+      - {x: 4.5, y: -290.5}
+      - {x: 10.5, y: -298.5}
+      - {x: 17.5, y: -305.5}
+      - {x: 31.5, y: -312.5}
+      - {x: 52.19229, y: -312.5}
+      - {x: 63.5, y: -309.5}
+      - {x: 74.5, y: -301.5}
+      - {x: 83.5, y: -290.5}
+      - {x: 87.5, y: -276.5}
+      - {x: 87.5, y: -261.5}
+      - {x: 26.5, y: -87.5}
+      - {x: 39.5, y: -89.5}
+      - {x: 164.5, y: -113.5}
+      - {x: 172.5, y: -112.5}
+      - {x: 179.5, y: -108.5}
+      - {x: 184.5, y: -99.5}
+      - {x: 184.5, y: -86.5}
+      - {x: 182.5, y: -80.5}
+      - {x: -114.5, y: 272.5}
   spritePackingTag: 
   userData: 
   assetBundleName: 
