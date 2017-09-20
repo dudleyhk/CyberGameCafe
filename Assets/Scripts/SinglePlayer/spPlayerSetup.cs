@@ -35,7 +35,12 @@ public class spPlayerSetup : MonoBehaviour
 		{
 			Instantiate (panda, transform);			
 		}
-		GameObject.FindGameObjectWithTag ("GameController").GetComponent<LoadGame> ().loadGame ();
+		LoadGame lg = GameObject.FindGameObjectWithTag ("GameController").GetComponent<LoadGame> ();
+		if(lg)
+		{
+			lg.loadGame ();
+		}
+
     }
 
 
