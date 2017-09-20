@@ -12,6 +12,7 @@ public class MissionObjective : MonoBehaviour
 {
     // Mission objectives
     public string objectiveDiscription;
+	public string objectiveExtendedDescription;
 
     public MissionObjectiveTypes objectiveType;
     public string objectiveTag;
@@ -79,6 +80,11 @@ public class MissionObjective : MonoBehaviour
     {
         return objectiveDiscription;
     }
+
+	public string getObjectiveExtDescription()
+	{
+		return objectiveExtendedDescription;
+	}
 
     #endregion
 }
