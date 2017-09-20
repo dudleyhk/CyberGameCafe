@@ -12,15 +12,16 @@ public class usbQuest : MonoBehaviour
 	private MissionObjective usbSortObjective;
 
 	private bool playerEnter;
-
 	private GameObject player;
+
+	private GameObject controller;
 
 
 	// Use this for initialization
 	void Start () 
 	{
 		playerEnter = false;
-
+		controller = GameObject.FindGameObjectWithTag ("TextBox");
 	}
 		
 	// Update is called once per frame
@@ -28,7 +29,16 @@ public class usbQuest : MonoBehaviour
 	{		
 		if(playerEnter && Input.GetKeyDown(KeyCode.E))
 		{
+
 			player.GetComponent<QuestSystem> ().assignMission (usbMission, this.gameObject);
+			DialogueMessages d = controller.GetComponent<DialogueMessages> ();
+			d.spawnTextBox ("Hello! I am Dov, I'm here for your Cyber Security week USB safety awareness seminar."
+				+"\nYou're going to be with me to learn about USB safety. Exciting stuff!", "Dov");
+			d.spawnTextBox ("I'm going to give you some USBs, and you're going to sort through them for me."
+			+"\nIf you think they're safe to use, please plug them into the computer and see what's on it."
+			+"\nOtherwise through them into the rubbish bin over there!", "Dov");
+
+
 		}
 			
 	}

@@ -6,6 +6,7 @@ public class counterManagerScript : MonoBehaviour
 {
 	private int usbCounter;
 	private GameObject player;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -36,5 +37,10 @@ public class counterManagerScript : MonoBehaviour
 		usbCounter = 0;
 		Debug.Log (usbCounter);
 	}
+
+	//public void ReturnCounter()
+	//{
+		//return usbCounter;
+	//}
 
 }
