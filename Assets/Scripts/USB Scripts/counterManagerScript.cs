@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class counterManagerScript : MonoBehaviour 
 {
-
 	private int usbCounter;
-
+	private GameObject player;
 	// Use this for initialization
 	void Start () 
 	{
@@ -16,21 +15,14 @@ public class counterManagerScript : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		if(Input.GetKeyDown("space"))
-		{
-			ResetCounter();
-		}
-
-		if(Input.GetKeyDown("e") && usbCounter != 0)
-		{
-			DecrementCounter();
-		}
+		player = GameObject.FindGameObjectWithTag ("Player");
 	}
 
 	public void UpdateCounter()
 	{
 		usbCounter++;
 		Debug.Log (usbCounter);
+		player.GetComponent<QuestSystem> ().updateMissionState (MissionObjectiveTypes.OBJ_EVENT, "usbPickup");
 	}
 
 	public void DecrementCounter()
