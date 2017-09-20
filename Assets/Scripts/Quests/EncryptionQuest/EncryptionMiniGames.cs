@@ -138,15 +138,15 @@ public class EncryptionMiniGames : MonoBehaviour
         {
             case 1:
                 changeTextBy = 1;
-                originalText.text = "Bristol is amazing";
+                originalText.text = "you forgot to log out of this computer";
                 break;
             case 2:
                 changeTextBy = 3;
-                originalText.text = "The shipment will arrive at five";
+                originalText.text = "someone stole all of your bank details";
                 break;
             case 3:
                 changeTextBy = -2;
-                originalText.text = "Our uni is the best";
+                originalText.text = "because your uni password for everything";
                 break;
             default:
                 changeTextBy = 0;
