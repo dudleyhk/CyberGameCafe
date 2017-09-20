@@ -67,7 +67,7 @@ public class JanetDialogue : MonoBehaviour
 			string thisTag = thisQuest.getActiveObjective ().objectiveTag;
 			if (thisTag == "questionSusps") {
 				d.spawnTextBox ("You should question all five of them before you make an accusation. Remember, I'm certain that:"
-					+ "\nOnly one of them is guilty\nand\nEach of them is telling one truthful statement and one lie", "Janet");
+					+ "\nONLY ONE of them is guilty\nand\nEach of them is telling ONE TRUTHFUL STATEMENT and ONE LIE", "Janet");
 			} else if (thisTag == "jaccuse") {
 				d.spawnTextBox ("So who do you think it was?", "Janet");
 

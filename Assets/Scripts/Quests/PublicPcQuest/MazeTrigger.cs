@@ -6,28 +6,21 @@ public class MazeTrigger : MonoBehaviour {
 
 	public GameObject[] mazeTrigger = new GameObject[4];
 
+	public GameObject[] mazeCompleteTriggers = new GameObject[4];
+
 	public GameObject[] mazes = new GameObject[4];
 
 	public GameObject blocker;
 
+	public GameObject gameEndTrigger;
+
     public GameObject mazeRunner;
+	private GameObject mazeRunnerClone;
+	private GameObject currentObjective;
 
 	private int counter = 0;
 
     private GameObject player;
-
-         // Use this for initialization
-        void Start () 
-	{
-
-	}
-	
-	// Update is called once per frame
-	void Update () 
-	{
-
-    }
-		
 
 	public void MazeStart(GameObject thePlayer)
 	{
@@ -38,9 +31,9 @@ public class MazeTrigger : MonoBehaviour {
 		counter++;	
 		spawnMaze ();
 
-        Instantiate(mazeRunner);
-        mazeRunner.transform.position = new Vector3(0, 0, 0);
-        mazeRunner.transform.position = new Vector3(39.6f, 36.6f, -2f);
+		mazeRunnerClone = Instantiate(mazeRunner);
+		mazeRunnerClone.transform.position = new Vector3(0, 0, 0);
+		mazeRunnerClone.transform.position = new Vector3(39.6f, 36.6f, -2f);
        
     }
 
@@ -49,8 +42,16 @@ public class MazeTrigger : MonoBehaviour {
         player = thePlayer;
         player.GetComponent<Movement>().startMovement();
 
-        Destroy(mazeRunner);
+		Destroy(mazeRunnerClone);
+		Destroy (currentObjective);
     }
+
+	public void miniGameComplete()
+	{
+		Application.LoadLevel ("SinglePlayer");
+	}
+
+
 
 	void spawnMaze()
 	{
@@ -59,5 +60,10 @@ public class MazeTrigger : MonoBehaviour {
 			Destroy (mazes [(counter - 2)]);
 		}
 		blocker.transform.Translate (0, 0, -10);
+
+		currentObjective = mazeCompleteTriggers [counter-1];
+		BoxCollider2D currentObjectiveBoxCollider = currentObjective.GetComponent<BoxCollider2D> ();
+		currentObjectiveBoxCollider.enabled = true;
+		Debug.Log (counter + " is enabled");
 	}
 }
