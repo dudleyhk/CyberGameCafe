@@ -28,9 +28,9 @@ public class usbQuest : MonoBehaviour
 	{		
 		if(playerEnter && Input.GetKeyDown(KeyCode.E))
 		{
-			Debug.Log ("memes");
-			player.GetComponent<QuestSystem> ().assignMission (usbMission, player);
+			player.GetComponent<QuestSystem> ().assignMission (usbMission, this.gameObject);
 		}
+			
 	}
 
 	void OnTriggerEnter2D(Collider2D coll)
@@ -40,7 +40,6 @@ public class usbQuest : MonoBehaviour
 			player = GameObject.FindGameObjectWithTag ("Player");
 		}
 
-		Debug.Log (player.name);
 		if(coll.gameObject == player)
 		{
 			playerEnter = true;

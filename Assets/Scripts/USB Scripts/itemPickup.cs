@@ -9,6 +9,8 @@ public class itemPickup : MonoBehaviour
 	private BoxCollider2D usbPrefab;
 	private int usbCounter;
 
+	private GameObject player;
+
 
 	// Use this for initialization
 	void Start () 
@@ -20,7 +22,7 @@ public class itemPickup : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		
+		player = GameObject.FindGameObjectWithTag ("Player");
 	}
 
 	void OnTriggerEnter2D(Collider2D coll)
