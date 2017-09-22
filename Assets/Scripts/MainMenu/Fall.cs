@@ -10,13 +10,13 @@ public class Fall : MonoBehaviour {
     void Start()
     {
         rotationSpeed = Random.Range(-5, 5);
-        fallSpeed = Random.Range(1, 3) / 10;
+        fallSpeed = Random.Range(1f, 3f) / 10f;
     }
 
 	// Update is called once per frame
 	void FixedUpdate ()
     {
-        transform.position -= new Vector3(0, 0.1f, 0);
+        transform.position += new Vector3(fallSpeed, 0, 0);
         transform.Rotate(0, 0, rotationSpeed);
 	}
 }

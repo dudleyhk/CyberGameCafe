@@ -37,7 +37,6 @@ public class DialogueMessages : MonoBehaviour
 
 	public void spawnTextBox(string text, string speakerName = "")
     {
-		speak.toggleInteraction ();
 		speaker.text = speakerName;
 		if (speakerName != "") {
 			speaker.text = speaker.text + ":";
@@ -53,6 +52,8 @@ public class DialogueMessages : MonoBehaviour
 
         if (!GetComponent<Image>().enabled)
         {
+            speak.toggleInteraction();
+
             //hide the UI
             showOrHideUI(false);
 

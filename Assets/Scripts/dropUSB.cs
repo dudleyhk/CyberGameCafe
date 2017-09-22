@@ -27,8 +27,12 @@ public class dropUSB : MonoBehaviour
 	void Update () 
 	{
 		player = GameObject.FindGameObjectWithTag("Player");
-		binColl = GameObject.FindGameObjectWithTag("bin").GetComponent<BoxCollider2D>();
-		compColl = GameObject.FindGameObjectWithTag("computer").GetComponent<BoxCollider2D>();
+        GameObject bin = GameObject.FindGameObjectWithTag("bin");
+        if(bin)
+        binColl = bin.GetComponent<BoxCollider2D>();
+        GameObject com = GameObject.FindGameObjectWithTag("computer");
+        if(com)
+        compColl = com.GetComponent<BoxCollider2D>();
 	}
 
 	void OnTriggerStay2D(Collider2D coll)

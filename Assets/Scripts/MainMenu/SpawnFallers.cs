@@ -17,7 +17,7 @@ public class SpawnFallers : MonoBehaviour {
         {
             NPCClone = Instantiate(NPCPrefab);
             NPCClone.transform.localScale *= 6;
-            NPCClone.transform.position = new Vector3(Random.Range(-15, 15), Random.Range(10, 100), 0);
+            NPCClone.transform.position = new Vector3(Random.Range(-10, -100), Random.Range(-15, 15), 0);
             NPCClone.transform.rotation = new Quaternion(0, 0, Random.Range(0, 359), 0);
             delay = 0;
         }

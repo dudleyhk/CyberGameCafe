@@ -10,6 +10,8 @@ public class usbQuest : MonoBehaviour
 	private MissionObjective usbPickupObjective;
 	[SerializeField]
 	private MissionObjective usbSortObjective;
+    [SerializeField]
+    GameObject USBHolder;
 
 	private bool playerEnter;
 	private GameObject player;
@@ -39,8 +41,9 @@ public class usbQuest : MonoBehaviour
 			d.spawnTextBox ("I'm going to give you some USBs, and you're going to sort through them for me."
 			+"\nIf you think they're safe to use, please plug them into the computer and see what's on it."
 			+"\nOtherwise through them into the rubbish bin over there!", "Dov");
-
-
+            
+                Instantiate(USBHolder);
+            
 		}
 			
 	}

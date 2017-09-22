@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class Interact : MonoBehaviour {
 
-	bool enabled;
+	bool activated;
 	public bool beingPressed;
 
 	void Start()
 	{
-		enabled = true;
+		activated = true;
 	}
 
 	void Update () 
 	{
-		if (enabled && Input.GetKeyDown (KeyCode.E)) {
+		if (activated && Input.GetKeyDown (KeyCode.E)) {
 			beingPressed = true;
 		}
 		else
@@ -25,6 +25,7 @@ public class Interact : MonoBehaviour {
 
 	public void toggleInteraction()
 	{
-		enabled = !enabled;
+        Debug.Log("Interaction should now be " + !activated);
+		activated = !activated;
 	}
 }

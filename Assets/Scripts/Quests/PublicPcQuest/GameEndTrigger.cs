@@ -9,6 +9,7 @@ public class GameEndTrigger : MonoBehaviour
 	void OnTriggerEnter2D()
 	{
 		gameController.GetComponent<MazeTrigger> ().miniGameComplete ();
+        Application.LoadLevel("SinglePlayer");
 	}
 
 }

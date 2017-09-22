@@ -1,30 +1,146 @@
-Initialize engine version: 5.6.3f1 (d3101c3b8468)
+Initialize engine version: 5.6.1f1 (2860b30f0b54)
 GfxDevice: creating device client; threaded=1
 Direct3D:
-    Version:  Direct3D 11.0 [level 11.1]
-    Renderer: NVIDIA GeForce GTX 1060 6GB (ID=0x1c03)
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GT 630M (ID=0xde9)
     Vendor:   NVIDIA
-    VRAM:     3072 MB
-    Driver:   21.21.13.7653
+    VRAM:     1999 MB
+    Driver:   21.21.13.7654
 Begin MonoManager ReloadAssembly
-Platform assembly: D:\CyberGameCafe\CyberAcademy_Data\Managed\UnityEngine.dll (this message is harmless)
-Loading D:\CyberGameCafe\CyberAcademy_Data\Managed\UnityEngine.dll into Unity Child Domain
-Platform assembly: D:\CyberGameCafe\CyberAcademy_Data\Managed\Assembly-CSharp.dll (this message is harmless)
-Loading D:\CyberGameCafe\CyberAcademy_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-Platform assembly: D:\CyberGameCafe\CyberAcademy_Data\Managed\UnityEngine.UI.dll (this message is harmless)
-Loading D:\CyberGameCafe\CyberAcademy_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-Platform assembly: D:\CyberGameCafe\CyberAcademy_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
-Loading D:\CyberGameCafe\CyberAcademy_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
-- Completed reload, in  0.036 seconds
-Platform assembly: D:\CyberGameCafe\CyberAcademy_Data\Managed\System.Core.dll (this message is harmless)
-Platform assembly: D:\CyberGameCafe\CyberAcademy_Data\Managed\System.dll (this message is harmless)
-desktop: 1920x1080 60Hz; virtual: 3840x1080 at 0,0
+Platform assembly: C:\Users\hitti\Documents\UnityProjects\CyberCafeGame\CyberGameCafe\CyberAcademy_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\hitti\Documents\UnityProjects\CyberCafeGame\CyberGameCafe\CyberAcademy_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\hitti\Documents\UnityProjects\CyberCafeGame\CyberGameCafe\CyberAcademy_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\hitti\Documents\UnityProjects\CyberCafeGame\CyberGameCafe\CyberAcademy_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\hitti\Documents\UnityProjects\CyberCafeGame\CyberGameCafe\CyberAcademy_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\hitti\Documents\UnityProjects\CyberCafeGame\CyberGameCafe\CyberAcademy_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\hitti\Documents\UnityProjects\CyberCafeGame\CyberGameCafe\CyberAcademy_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\hitti\Documents\UnityProjects\CyberCafeGame\CyberGameCafe\CyberAcademy_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+- Completed reload, in  0.049 seconds
+Platform assembly: C:\Users\hitti\Documents\UnityProjects\CyberCafeGame\CyberGameCafe\CyberAcademy_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\hitti\Documents\UnityProjects\CyberCafeGame\CyberGameCafe\CyberAcademy_Data\Managed\System.dll (this message is harmless)
+desktop: 1366x768 60Hz; virtual: 1366x768 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
-UnloadTime: 0.923343 ms
-Setting up 4 worker threads for Enlighten.
-  Thread -> id: 222c -> priority: 1 
-  Thread -> id: 2adc -> priority: 1 
-  Thread -> id: 11f0 -> priority: 1 
-  Thread -> id: b58 -> priority: 1 
+UnloadTime: 1.206953 ms
+Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 7.570961 ms
+
+Unloading 54 unused Assets to reduce memory usage. Loaded Objects now: 2051.
+Total: 3.541627 ms (FindLiveObjects: 0.139169 ms CreateObjectMapping: 0.061168 ms MarkObjects: 0.738129 ms  DeleteObjects: 2.602338 ms)
+
+(-11.0, 9.0, 0.0)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Interaction should now be False
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Interaction should now be True
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+2
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+3
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+4
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+5
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+2
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Interaction should now be False
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Interaction should now be True
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Interaction should now be False
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Interaction should now be True
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Interaction should now be False
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Interaction should now be True
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Interaction should now be False
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Interaction should now be True
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Interaction should now be False
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Interaction should now be True
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Interaction should now be False
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Interaction should now be True
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Interaction should now be False
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Interaction should now be True
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Interaction should now be False
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Interaction should now be True
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Interaction should now be False
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Interaction should now be True
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: 2034 -> priority: 1 
+  Thread -> id: 1494 -> priority: 1 
