@@ -10,8 +10,6 @@ public class DoAClick : MonoBehaviour
     GameObject janet;
     int accusation;
 
-
-    // Use this for initialization
     void Start()
     {
         GetComponent<Button>().onClick.AddListener(getIndex);
