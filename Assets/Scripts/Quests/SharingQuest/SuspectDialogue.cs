@@ -20,6 +20,7 @@ public class SuspectDialogue : MonoBehaviour {
 
 	string getOfficialStatement()
 	{
+        Debug.Log(gameObject.name);
 		switch (gameObject.name)
 		{
 		case "Jackie":
@@ -83,7 +84,7 @@ public class SuspectDialogue : MonoBehaviour {
 		}
 	}
 
-	void Update()
+	void LateUpdate()
 	{
 		if (speak.beingPressed && playerInBox)
 		{
@@ -99,7 +100,9 @@ public class SuspectDialogue : MonoBehaviour {
 
 		if (thisQuest.getActiveObjective () == null) {
 			d.spawnTextBox("I think Janet is unhappy about something.\n\nI hate rectangles.",gameObject.name);
-		} else{
+		}
+        else
+        {
 			d.spawnTextBox (getOfficialStatement (), gameObject.name);
 		}
 	}

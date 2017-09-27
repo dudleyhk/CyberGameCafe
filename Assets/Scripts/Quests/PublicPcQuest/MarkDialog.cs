@@ -63,7 +63,7 @@ public class MarkDialog : MonoBehaviour
         }
         else if (!d.gameObject.GetComponent<Image>().IsActive())
         {
-            Application.LoadLevel(3);
+            Application.LoadLevel("PublicPCQuest");
         }
     }
 }
