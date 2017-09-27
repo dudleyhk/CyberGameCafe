@@ -22,7 +22,9 @@ public class PauseButtons : MonoBehaviour
 		GameObject.FindGameObjectWithTag ("Player").
 		GetComponent<Movement>().startMovement();
 
-		transform.parent.gameObject.SetActive (false);
+        GameObject.FindGameObjectWithTag("CurrentObjective").SetActive(true);
+
+        transform.parent.gameObject.SetActive (false);
 	}
 
 	void quit()
