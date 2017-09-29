@@ -12,7 +12,7 @@ public class Spawn : MonoBehaviour
     GameObject letterPrefab;
     GameObject[] letterClone;
 
-    int numberOfLetters = 3;
+    int numberOfLetters = 0;
     int currentLetter = 0;
 
     string message;
@@ -24,12 +24,13 @@ public class Spawn : MonoBehaviour
 
     public void spawn()
     {
-        letterClone = new GameObject[numberOfLetters];
+        int lettersToSpawn = (numberOfLetters / 2) + 3;
+        letterClone = new GameObject[lettersToSpawn];
 
         char correctLetter = advanceLetter(message[currentLetter]);
 
         //spawn the appropriate number of letter boxes
-        for (int i = 0; i < numberOfLetters; i++)
+        for (int i = 0; i < lettersToSpawn; i++)
         {
             //instantiate them onto the canvas
             letterClone[i] = Instantiate(letterPrefab, GameObject.FindGameObjectWithTag("Canvas").transform);
@@ -46,29 +47,48 @@ public class Spawn : MonoBehaviour
             letterClone[i].GetComponentInChildren<Text>().text = l.ToString();
         }
 
+        //tag the correct letter and set it to what it needs to be
         letterClone[0].gameObject.tag = "CorrectLetter";
         letterClone[0].GetComponentInChildren<Text>().text = correctLetter.ToString();
     }
 
     public void newLetter()
     {
+        //destroy the previous letters that were left
         for(int i = 0; i < letterClone.Length; i++)
         {
-            Destroy(letterClone[i]);
+            if (letterClone[i])
+            {
+                Destroy(letterClone[i]);
+            }
         }
+
+        //get one extra letter for the next level
         numberOfLetters++;
+        //move the correct letter on one
         currentLetter++;
 
+        //check win state
         if (currentLetter == message.Length)
         {
+            //get the gameobject that carries info between scenes and save the score onto it
+            GameObject foreverController = GameObject.Find("EternalObject");
+            if (foreverController)
+            {
+                foreverController.GetComponent<EternalScript>().encryptionScore = 10000;
+                Application.LoadLevel("SinglePlayer");
+            }
             Debug.Log("You win");
         }
         else
         {
+            //skip the spaces
             if (message[currentLetter] == ' ')
             {
                 currentLetter++;
             }
+
+            //spawn the new letters
             spawn();
         }
     }

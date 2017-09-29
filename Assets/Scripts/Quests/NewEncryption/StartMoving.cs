@@ -23,10 +23,6 @@ public class StartMoving : MonoBehaviour {
             case "yWall":
                 direction = ((Mathf.PI * 2) - direction);
                 break;
-            case "Letter":
-            case "CorrectLetter":
-                speed *= -1;
-                break;
             case "Player":
                 if (gameObject.tag == "CorrectLetter")
                 {
@@ -40,6 +36,7 @@ public class StartMoving : MonoBehaviour {
                 }
                 break;
             default:
+                speed *= -1;
                 break;
         }
     }
