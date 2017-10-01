@@ -36,7 +36,7 @@ public class Spawn : MonoBehaviour
             letterClone[i] = Instantiate(letterPrefab, GameObject.FindGameObjectWithTag("Canvas").transform);
             //put them somewhere random
             letterClone[i].transform.position = new Vector3
-                (Random.Range(50, Screen.width - 50), Random.Range(50, Screen.height - 50), 0);
+                (Random.Range(200, Screen.width - 200), Screen.height / 2, 0);
 
             //put in an incorrect letter
             char l;
@@ -50,6 +50,9 @@ public class Spawn : MonoBehaviour
         //tag the correct letter and set it to what it needs to be
         letterClone[0].gameObject.tag = "CorrectLetter";
         letterClone[0].GetComponentInChildren<Text>().text = correctLetter.ToString();
+
+        //move the player to their spawn
+        GameObject.FindGameObjectWithTag("Player").transform.position = new Vector3(35, Screen.height / 2, 0);
     }
 
     public void newLetter()
@@ -75,7 +78,8 @@ public class Spawn : MonoBehaviour
             GameObject foreverController = GameObject.Find("EternalObject");
             if (foreverController)
             {
-                foreverController.GetComponent<EternalScript>().encryptionScore = 10000;
+                foreverController.GetComponent<EternalScript>().encryptionScore =
+                    GameObject.FindGameObjectWithTag("Timer").GetComponent<Timer>().getTime();
                 Application.LoadLevel("SinglePlayer");
             }
             Debug.Log("You win");

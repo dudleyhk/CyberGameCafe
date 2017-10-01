@@ -61,7 +61,18 @@ public class TonyDialogue : MonoBehaviour {
 
 			player.GetComponent<QuestSystem> ().assignMission (thisQuest, gameObject);
 		}
-		else
+        else if(thisQuest.isCompleated())
+        {
+            if (GameObject.Find("EternalObject"))
+            {
+                d.spawnTextBox("Good work, it took you " + GameObject.Find("EternalObject").GetComponent<EternalScript>().encryptionScore + " to encrypt the E-Mail.");
+            }
+            else
+            {
+                d.spawnTextBox("Good work pal.", name);
+            }
+        }
+		else if(thisQuest.getActiveObjective().objectiveTag == "encrypt")
 		{
 			d.spawnTextBox ("I really appreciate your help.", name);
 		}
