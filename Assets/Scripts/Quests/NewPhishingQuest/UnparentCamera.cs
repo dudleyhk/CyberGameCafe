@@ -18,7 +18,6 @@ public class UnparentCamera : MonoBehaviour {
         camera = GameObject.FindGameObjectWithTag("MainCamera");
         if (camera.transform.parent != null)
         {
-            Debug.Log("aa");
             camera.transform.parent = null;
             camera.transform.Translate(10, 0, 0);
         }
