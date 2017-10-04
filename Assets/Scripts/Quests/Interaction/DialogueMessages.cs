@@ -22,13 +22,13 @@ public class DialogueMessages : MonoBehaviour
         GetComponent<Button>().onClick.AddListener(advanceText);
     }
 
-	void Update()
-	{
-		if (GetComponent<Image> ().enabled && Input.GetKeyDown (KeyCode.E)) 
-		{
-			advanceText ();
-		}
-	}
+	//void Update()
+	//{
+	//	if (GetComponent<Image> ().enabled && Input.GetKeyDown (KeyCode.E)) 
+	//	{
+	//		advanceText ();
+	//	}
+	//}
 
 	public void switchButton(bool on)
 	{
@@ -45,9 +45,7 @@ public class DialogueMessages : MonoBehaviour
 
         GameObject.FindGameObjectWithTag("Player").
         GetComponent<Movement>().stopMovement();
-
-        //and to add a bit that prevents the player from pressing e
-
+        
         textBoxes.Add(text);
 
         if (!GetComponent<Image>().enabled)
