@@ -8,11 +8,16 @@ public class ShowCurrentObjective : MonoBehaviour
     private Text t;
     private GameObject player;
     private Mission activeMission;
+
+    bool startOfGame;
+    bool description;
     
     void Start()
     {
+        startOfGame = true;
         t = GetComponent<Text>();
         t.text = " ";
+        description = (gameObject.name == "ObjectiveInfo");
     }
 
     void Update()
@@ -26,11 +31,20 @@ public class ShowCurrentObjective : MonoBehaviour
 
         if(activeMission != null)
         {
-            t.text = activeMission.GetComponent<Mission>().getActiveObjective().objectiveDiscription;
+            startOfGame = false;
+            t.text = description ? 
+                activeMission.GetComponent<Mission>().getActiveObjective().objectiveExtendedDescription :
+                activeMission.GetComponent<Mission>().getActiveObjective().objectiveDiscription;
+        }
+        else if(!startOfGame)
+        {
+            t.text = description ?
+                "People with exclamation marks above their heads have quests for you." : "Find a new quest";
         }
         else
         {
-            t.text = "Find a new quest";
+            t.text = description ?
+                "Move with the ARROW KEYS. Interact with the E key." : "Find a new quest";
         }
     }
 }
