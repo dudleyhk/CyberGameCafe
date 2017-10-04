@@ -26,12 +26,11 @@ public class StartMoving : MonoBehaviour {
             case "Player":
                 if (gameObject.tag == "CorrectLetter")
                 {
-                    Debug.Log("Pass");
                     GameObject.FindGameObjectWithTag("GameController").GetComponent<Spawn>().newLetter();
                 }
                 else
                 {
-                    Debug.Log("Fail");
+                    GameObject.FindGameObjectWithTag("Timer").GetComponent<Timer>().penalty(5f);
                     Destroy(gameObject);
                 }
                 break;

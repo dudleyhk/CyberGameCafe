@@ -26,7 +26,6 @@ public class Interact : MonoBehaviour {
 
 	public void toggleInteraction()
 	{
-        Debug.Log("Interaction should now be " + !activated);
 		activated = !activated;
 	}
 }
