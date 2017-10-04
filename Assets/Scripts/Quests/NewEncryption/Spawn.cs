@@ -78,8 +78,11 @@ public class Spawn : MonoBehaviour
             GameObject foreverController = GameObject.Find("EternalObject");
             if (foreverController)
             {
-                foreverController.GetComponent<EternalScript>().encryptionScore =
-                    GameObject.FindGameObjectWithTag("Timer").GetComponent<Timer>().getTime();
+                float score = GameObject.FindGameObjectWithTag("Timer").GetComponent<Timer>().getTime();
+
+                Debug.Log(foreverController.GetComponent<ConvertScore>().getRealScore(score, 20, 160, true));
+
+                foreverController.GetComponent<EternalScript>().encryptionScore = score;
                 Application.LoadLevel("SinglePlayer");
             }
             Debug.Log("You win");

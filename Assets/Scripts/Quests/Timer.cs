@@ -27,4 +27,9 @@ public class Timer : MonoBehaviour {
     {
         return timer;
     }
+
+    public void penalty(float amount)
+    {
+        timer += amount;
+    }
 }

@@ -48,7 +48,6 @@ public class LoadGame : MonoBehaviour
 
 		Vector3 playerLoc = new Vector3 (x, y, z);
 
-        Debug.Log(playerLoc);
 		GameObject.FindGameObjectWithTag ("Player").transform.position = playerLoc;
 
 		fileReader.Close ();
