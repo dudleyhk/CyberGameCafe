@@ -7,12 +7,12 @@ public class PauseGame : MonoBehaviour
 	[SerializeField]
 	GameObject pauseMenu;
 
-    GameObject currentObjectiveUI;
+    public GameObject currentObjectiveUI;
 
 	// Update is called once per frame
     void Start()
     {
-        currentObjectiveUI = GameObject.FindGameObjectWithTag("CurrentObjective");
+        // currentObjectiveUI = GameObject.FindGameObjectWithTag("CurrentObjective");
     }
 
 	void Update ()
@@ -25,6 +25,7 @@ public class PauseGame : MonoBehaviour
             if (currentObjectiveUI.activeInHierarchy) { currentObjectiveUI.SetActive(false); }
 
             pauseMenu.SetActive (true);
+
 
 		}
 	}
