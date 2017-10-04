@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class PauseButtons : MonoBehaviour
 {
+    public GameObject objectiveUI;
+
 	void Awake()
 	{
 		if (name == "Resume")
@@ -22,7 +24,9 @@ public class PauseButtons : MonoBehaviour
 		GameObject.FindGameObjectWithTag ("Player").
 		GetComponent<Movement>().startMovement();
 
-		transform.parent.gameObject.SetActive (false);
+        objectiveUI.SetActive(true);
+
+        transform.parent.gameObject.SetActive (false);
 	}
 
 	void quit()

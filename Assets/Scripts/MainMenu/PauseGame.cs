@@ -7,14 +7,26 @@ public class PauseGame : MonoBehaviour
 	[SerializeField]
 	GameObject pauseMenu;
 
+    public GameObject currentObjectiveUI;
+
 	// Update is called once per frame
+    void Start()
+    {
+        // currentObjectiveUI = GameObject.FindGameObjectWithTag("CurrentObjective");
+    }
+
 	void Update ()
 	{
 		if (Input.GetKey (KeyCode.P)) 
 		{
 			GameObject.FindGameObjectWithTag ("Player").
 			GetComponent<Movement>().stopMovement();
-			pauseMenu.SetActive (true);
+
+            if (currentObjectiveUI.activeInHierarchy) { currentObjectiveUI.SetActive(false); }
+
+            pauseMenu.SetActive (true);
+
+
 		}
 	}
 }

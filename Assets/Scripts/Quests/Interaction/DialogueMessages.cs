@@ -22,13 +22,13 @@ public class DialogueMessages : MonoBehaviour
         GetComponent<Button>().onClick.AddListener(advanceText);
     }
 
-	//void Update()
-	//{
-	//	if (GetComponent<Image> ().enabled && Input.GetKeyDown (KeyCode.E)) 
-	//	{
-	//		advanceText ();
-	//	}
-	//}
+	void Update()
+	{
+		if (GetComponent<Image> ().enabled && Input.GetKeyDown (KeyCode.E)) 
+		{
+			advanceText ();
+		}
+	}
 
 	public void switchButton(bool on)
 	{
