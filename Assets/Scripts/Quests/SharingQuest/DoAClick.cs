@@ -37,7 +37,11 @@ public class DoAClick : MonoBehaviour
         {
             d.spawnTextBox("No, it couldn't have been " + getName(accusation) + " he was with me at the time...", "Janet");
             d.spawnTextBox("I think you should speak to them all again. Remember, I'm certain that:"
-+ "\nONLY ONE of them is guilty\nand\nEach of them is telling ONE TRUTHFUL STATEMENT and ONE LIE", "Janet");
+                + "\nONLY ONE of them is guilty\nand\nEach of them is telling ONE TRUTHFUL STATEMENT and ONE LIE", "Janet");
+
+            //decrease score
+            janet.GetComponentInParent<ScorePasswordShare>().addAGuess();
+
         }
         else
         {

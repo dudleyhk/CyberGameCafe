@@ -80,8 +80,6 @@ public class Spawn : MonoBehaviour
             {
                 float score = GameObject.FindGameObjectWithTag("Timer").GetComponent<Timer>().getTime();
 
-                Debug.Log(foreverController.GetComponent<ConvertScore>().getRealScore(score, 20, 160, true));
-
                 foreverController.GetComponent<EternalScript>().encryptionScore = score;
                 Application.LoadLevel("SinglePlayer");
             }
