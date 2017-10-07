@@ -9,6 +9,7 @@ public class JanetDialogue : MonoBehaviour
 	private GameObject player;
 	private bool playerInBox;
 	private bool interacting;
+    int numberOfGuesses;
 
 	GameObject textBox;
 
@@ -57,7 +58,8 @@ public class JanetDialogue : MonoBehaviour
 		GameObject textBox = GameObject.FindGameObjectWithTag ("TextBox");
 
 		DialogueMessages d = textBox.GetComponent<DialogueMessages> ();
-		if (thisQuest.getActiveObjective () == null) {
+        //if it's the first time attempting the quest
+        if (thisQuest.getActiveObjective () == null) {
 			d.spawnTextBox ("Oh my goodness, this morning I woke up to find that someone had posted to my Facebook without my permission", "Janet");
 			d.spawnTextBox ("At first I thought it could only have been Marlon, as he was the only person I'd ever given my password to", "Janet");
 			d.spawnTextBox ("But then I found out that Marlon gave it to Tito and Michael, and Michael gave it to Jackie and Jermaine...", "Janet");
@@ -67,7 +69,18 @@ public class JanetDialogue : MonoBehaviour
 
 			player.GetComponent<QuestSystem> ().assignMission (thisQuest, gameObject);
 			thisQuest.startMission ();
-		} else {
+		}
+        //if the quest is over
+        else if(thisQuest.isCompleated())
+        {
+            GameObject eternal = GameObject.Find("EternalObject");
+            int guesses = GetComponentInParent<ScorePasswordShare>().getNumberOfGuesses();
+            string s = (eternal) ? "\nThat means you get a score of " + eternal.GetComponent<ConvertScore>().getRealScore(guesses, 0, 5, true) : "";
+
+            d.spawnTextBox("You are a very good detective. It only took you " + guesses + " guesses to figure it out." + s, "Janet");
+        }
+
+        else {
 			string thisTag = thisQuest.getActiveObjective ().objectiveTag;
 			if (thisTag == "questionSusps") {
 				d.spawnTextBox ("You should question all five of them before you make an accusation. Remember, I'm certain that:"

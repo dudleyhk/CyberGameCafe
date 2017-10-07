@@ -63,9 +63,12 @@ public class TonyDialogue : MonoBehaviour {
 		}
         else if(thisQuest.isCompleated())
         {
-            if (GameObject.Find("EternalObject"))
+            GameObject scoreHolder = GameObject.Find("EternalObject");
+            if (scoreHolder)
             {
-                d.spawnTextBox("Good work, it took you " + GameObject.Find("EternalObject").GetComponent<EternalScript>().encryptionScore + " to encrypt the E-Mail.");
+                float time = scoreHolder.GetComponent<EternalScript>().encryptionScore;
+                d.spawnTextBox("Good work, it took you " + time + " seconds to encrypt the E-Mail."
+                    + "\nThis means you scored " + scoreHolder.GetComponent<ConvertScore>().getRealScore(time, 20, 160, true) + " points" , name);
             }
             else
             {
