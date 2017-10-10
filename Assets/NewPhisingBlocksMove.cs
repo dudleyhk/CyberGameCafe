@@ -11,7 +11,7 @@ public class NewPhisingBlocksMove : MonoBehaviour
     void Start()
     {
         rotationSpeed = Random.Range(-5, 5);
-        fallSpeed = Random.Range(-1f, -3f) / 10f;
+        fallSpeed = Random.Range(-0.5f, -2f) / 10f;
     }
 
     // Update is called once per frame

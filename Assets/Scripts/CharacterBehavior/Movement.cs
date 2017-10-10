@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 
 public class Movement : MonoBehaviour {
-
+    
 	private float defaultSpeed;
     private float speed;
     public GameObject joystick;
@@ -52,6 +52,11 @@ public class Movement : MonoBehaviour {
     public void startMovement()
     {
         speed = defaultSpeed;
+    }
+
+    public void newPhishingQuestSpeed()
+    {
+        speed = 0.1f;
     }
 
     //private void TouchIsHappening()
