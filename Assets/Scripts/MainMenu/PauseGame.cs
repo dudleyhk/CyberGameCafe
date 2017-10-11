@@ -8,6 +8,7 @@ public class PauseGame : MonoBehaviour
 	GameObject pauseMenu;
 
     public GameObject currentObjectiveUI;
+    public GameObject questStatusUI;
 
 	// Update is called once per frame
     void Start()
@@ -25,7 +26,7 @@ public class PauseGame : MonoBehaviour
             if (currentObjectiveUI.activeInHierarchy) { currentObjectiveUI.SetActive(false); }
 
             pauseMenu.SetActive (true);
-
+            questStatusUI.SetActive(true);
 
 		}
 	}

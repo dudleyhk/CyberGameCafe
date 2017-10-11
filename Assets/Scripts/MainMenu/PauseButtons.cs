@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class PauseButtons : MonoBehaviour
 {
     public GameObject objectiveUI;
+    public GameObject questStatusUI;
 
 	void Awake()
 	{
@@ -26,6 +27,7 @@ public class PauseButtons : MonoBehaviour
 
         objectiveUI.SetActive(true);
 
+        questStatusUI.SetActive(false);
         transform.parent.gameObject.SetActive (false);
 	}
 
