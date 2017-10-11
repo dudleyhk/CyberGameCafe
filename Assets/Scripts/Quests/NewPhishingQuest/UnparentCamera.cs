@@ -5,6 +5,7 @@ using UnityEngine;
 public class UnparentCamera : MonoBehaviour {
 
     private GameObject camera;
+    private GameObject player;
 
 	// Use this for initialization
 	void Start ()
@@ -20,6 +21,9 @@ public class UnparentCamera : MonoBehaviour {
         {
             camera.transform.parent = null;
             camera.transform.Translate(10, 0, 0);
+
+            player = GameObject.FindGameObjectWithTag("Player");
+            player.GetComponent<Movement>().newPhishingQuestSpeed();
         }
-	}
+    }
 }

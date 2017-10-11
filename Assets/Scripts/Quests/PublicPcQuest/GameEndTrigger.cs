@@ -6,10 +6,10 @@ public class GameEndTrigger : MonoBehaviour
 {
 	public GameObject gameController;
 
-	void OnTriggerEnter2D()
+	void OnTriggerEnter2D(Collider2D col)
 	{
-		gameController.GetComponent<MazeTrigger> ().miniGameComplete ();
-        Application.LoadLevel("SinglePlayer");
+        gameController.GetComponent<MazeTrigger>().StartOrEndTriggered(col.gameObject);
+        Destroy(gameObject);
 	}
 
 }
