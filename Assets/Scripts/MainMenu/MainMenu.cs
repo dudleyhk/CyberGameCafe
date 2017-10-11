@@ -5,18 +5,36 @@ using System.IO;
 
 public class MainMenu : MonoBehaviour
 {
-	public void newGame()
+    public void action(int menuItem)
+    {
+        switch(menuItem)
+        {
+            case 0:
+                newGame();
+                break;
+            case 1:
+                openGame();
+                break;
+            case 2:
+                closeGame();
+                break;
+            default:
+                break;
+        }
+    }
+
+	void newGame()
 	{
 		clearGame ();
 		openGame();
 	}
 		
-	public void openGame()
+	void openGame()
 	{
 		Application.LoadLevel ("SinglePlayer");
 	}
 
-	public void closeGame()
+	void closeGame()
 	{
 		Application.Quit ();
 	}

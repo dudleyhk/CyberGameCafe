@@ -41,7 +41,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.P))
+        if(Input.GetKeyDown("Pause"))
         {
             LoggedIn = !LoggedIn;
         }

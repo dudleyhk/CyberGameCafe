@@ -19,7 +19,7 @@ public class DoAClick : MonoBehaviour
     {
         GameObject textBox = GameObject.FindGameObjectWithTag("TextBox");
         DialogueMessages d = textBox.GetComponent<DialogueMessages>();
-        accusation = (int)gameObject.name[3] - 48;
+        accusation = gameObject.name[3] - 48;
         transform.parent.gameObject.SetActive(false);
 
         d.switchButton(true);

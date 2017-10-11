@@ -14,7 +14,7 @@ public class Interact : MonoBehaviour {
 
 	void Update () 
 	{
-		if (activated && Input.GetKeyDown (KeyCode.E))
+		if (activated && (Input.GetButtonDown("Interact")))
         {
 			beingPressed = true;
 		}

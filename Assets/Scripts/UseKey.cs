@@ -22,7 +22,7 @@ public class UseKey : MonoBehaviour {
 	{
 		if (useKeyEnabled) 
 		{
-			useKeyDown = Input.GetKeyDown(KeyCode.E);
+			useKeyDown = (Input.GetButtonDown("Interact"));
 		} 
 		else 
 		{

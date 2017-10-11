@@ -17,7 +17,7 @@ public class PauseGame : MonoBehaviour
 
 	void Update ()
 	{
-		if (Input.GetKey (KeyCode.P)) 
+		if (Input.GetButtonDown("Pause")) 
 		{
 			GameObject.FindGameObjectWithTag ("Player").
 			GetComponent<Movement>().stopMovement();
