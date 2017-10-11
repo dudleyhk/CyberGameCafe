@@ -26,6 +26,7 @@ public class PasswordMinigameWindow : MonoBehaviour {
                if ((activeMission.getActiveObjective().getObjectiveTag() == "passwordCreate") && (!gameComplete)/* && Input.GetKey(KeyCode.E)*/)
                {
                     openMiniGameWindow();
+                    col.GetComponent<Movement>().stopMovement();
                }
             }
         }

@@ -18,7 +18,6 @@ public class QuestStatus : MonoBehaviour {
 	// Use this for initialization
 	void Awake()
     {
-        
         createQuestDisplay();
 	}
 

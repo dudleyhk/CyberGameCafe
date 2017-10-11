@@ -114,6 +114,7 @@ public class PasswordMinigame : MonoBehaviour {
     public void evaluatePassword()
     {
         GameObject windowToSpawn;
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
         // TODO - evaluate password score and then rispond accordigly.
         if (checkPasswordStrength() != PassphraseType.TYPE_STRONG)
         {
@@ -123,8 +124,9 @@ public class PasswordMinigame : MonoBehaviour {
         }
         else
         {
-            GameObject.FindGameObjectWithTag("Player").GetComponent<QuestSystem>()
+            player.GetComponent<QuestSystem>()
                 .updateMissionState(MissionObjectiveTypes.OBJ_EVENT, "passwordCreate");
+            player.GetComponent<Movement>().startMovement();
             passwordMiniGameCollider.GetComponent<PasswordMinigameWindow>().isGameComplete(true);
             Destroy(gameObject);
         }
