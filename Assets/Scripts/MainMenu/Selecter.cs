@@ -17,8 +17,8 @@ public class Selecter : MonoBehaviour {
     {
         rest = 0;
         currentParent = 0;
-        listItems = new GameObject[3];
-        for(int i = 0; i < 3; i++)
+        listItems = new GameObject[2];
+        for(int i = 0; i < 2; i++)
         {
             listItems[i] = transform.parent.parent.GetChild(i).gameObject;
         }
@@ -35,7 +35,7 @@ public class Selecter : MonoBehaviour {
                 currentParent--;
                 rest = 0.2f;
             }
-            if (verticalInput < 0 && currentParent != 2)
+            if (verticalInput < 0 && currentParent != 1)
             {
                 currentParent++;
                 rest = 0.2f;

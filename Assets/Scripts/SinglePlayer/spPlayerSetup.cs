@@ -27,19 +27,21 @@ public class spPlayerSetup : MonoBehaviour
         mainCam.transform.position = new Vector3
             (transform.position.x, transform.position.y, -10);
 
-		//if (Random.Range (0, 2) == 0) 
-		//{
-			Instantiate (demon, transform);			
-		//} 
-		//else
-		//{
-		//	Instantiate (panda, transform);			
-		//}
-		LoadGame lg = GameObject.FindGameObjectWithTag ("GameController").GetComponent<LoadGame> ();
-		if(lg)
+		if (Random.Range (0, 2) == 0) 
 		{
-			lg.loadGame ();
-		}
+			Instantiate (demon, transform);			
+		} 
+		else
+		{
+            //Instantiate (panda, transform);
+            Instantiate(demon, transform);
+        }
+
+		//LoadGame lg = GameObject.FindGameObjectWithTag ("GameController").GetComponent<LoadGame> ();
+		//if(lg)
+		//{
+		//	lg.loadGame ();
+		//}
 
     }
 
