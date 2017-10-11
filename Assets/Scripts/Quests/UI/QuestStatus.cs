@@ -8,21 +8,24 @@ public class QuestStatus : MonoBehaviour {
     private GameObject questStatusUI;
 
     public GameObject textBoxPrefab;
-    public GameObject incompleteIcon;
     public GameObject completeIcon;
 
     // Comprises a row in the panel. Displays the compleated quests in a list
     public List<QuestStatusInfo> QuestsTracked;
 
+    private Vector2[] textPos;
+
 	// Use this for initialization
 	void Awake()
     {
+        
         createQuestDisplay();
 	}
 
     void updateDisplay()
     {
-        // consider usign if display needs to be updated.
+        // Consider using if display needs to be updated.
+        // In this case the function should be called everytime the menu is opened. 
     }
 
     void createQuestDisplay()
