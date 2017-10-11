@@ -27,7 +27,11 @@ public class PauseButtons : MonoBehaviour
 
         objectiveUI.SetActive(true);
 
-        questStatusUI.SetActive(false);
+        if (questStatusUI)
+        {
+            questStatusUI.SetActive(false);
+        }
+
         transform.parent.gameObject.SetActive (false);
 	}
 

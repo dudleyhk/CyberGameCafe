@@ -20,6 +20,7 @@ public class EternalScript : MonoBehaviour {
 
     public float encryptionScore;
     public float publicPCScore;
+    public int sharingScore;
 
 	void Awake()
     {

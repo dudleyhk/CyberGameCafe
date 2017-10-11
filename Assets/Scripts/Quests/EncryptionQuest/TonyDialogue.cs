@@ -68,7 +68,7 @@ public class TonyDialogue : MonoBehaviour {
             {
                 float time = scoreHolder.GetComponent<EternalScript>().encryptionScore;
                 d.spawnTextBox("Good work, it took you " + time + " seconds to encrypt the E-Mail."
-                    + "\nThis means you scored " + scoreHolder.GetComponent<ConvertScore>().getRealScore(time, 20, 160, true) + " points" , name);
+                    + "\nThis means you scored " + scoreHolder.GetComponent<ConvertScore>().getRealScore(time, 15, 160, true) + " points" , name);
             }
             else
             {

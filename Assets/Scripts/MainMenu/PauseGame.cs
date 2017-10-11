@@ -26,7 +26,10 @@ public class PauseGame : MonoBehaviour
             if (currentObjectiveUI.activeInHierarchy) { currentObjectiveUI.SetActive(false); }
 
             pauseMenu.SetActive (true);
-            questStatusUI.SetActive(true);
+            if (questStatusUI)
+            {
+                questStatusUI.SetActive(true);
+            }
 
 		}
 	}
