@@ -7,10 +7,13 @@ public class SinglePlayerStartGame : MonoBehaviour
     [SerializeField]
     private GameObject player;
     private GameObject mainCam;
+    public GameObject questStatusUI;
 
     // Use this for initialization
     void Start()
     {
+        questStatusUI.SetActive(true);
+        questStatusUI.SetActive(false);
         mainCam = GameObject.FindGameObjectWithTag("MainCamera");
         Instantiate(player);
         player.GetComponent<Movement>().enabled = true;

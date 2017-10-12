@@ -7,6 +7,7 @@ using UnityEngine;
 public class PasswordMinigameWindow : MonoBehaviour {
 
     public GameObject MinigameWindow;
+    public GameObject questStatusWindow;
 
     private GameObject gameWindow;
     private bool gameComplete = false;
@@ -43,5 +44,6 @@ public class PasswordMinigameWindow : MonoBehaviour {
     public void isGameComplete(bool value)
     {
         gameComplete = value;
+        questStatusWindow.GetComponent<QuestStatus>().ToggleCompleationState("Quest 1");
     }
 }
