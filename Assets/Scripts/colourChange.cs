@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class colourChange : MonoBehaviour
 {
-    int[] uniqueNumber = new int[40];
+    int[] uniqueNumber = new int[9];
 
     [SerializeField]
     private GameObject head;
@@ -27,7 +27,17 @@ public class colourChange : MonoBehaviour
 
     void Start()
     {
-        uniqueIdentifierToNumber(SystemInfo.deviceUniqueIdentifier);        
+        GameObject forever = GameObject.Find("EternalObject");
+        if (forever)
+        {
+            string x = forever.GetComponent<EternalScript>()
+                .playerName.ToString().ToUpper();
+            nameToNumber(x);
+        }
+        else
+        {
+            uniqueIdentifierToNumber(SystemInfo.deviceUniqueIdentifier);
+        }
         //generate character appearance
         generate();
       
@@ -35,16 +45,16 @@ public class colourChange : MonoBehaviour
 
     public void generate()
     {
-        float[] uNum = new float[40];
-        for (int i = 6; i < 21; i++)
+        float[] uNum = new float[9];
+        for (int i = 0; i < 9; i++)
         {
             uniqueNumber[i] = (uniqueNumber[i] == 0) ? 10 : uniqueNumber[i];
             uNum[i] = 1.0f / uniqueNumber[i];
         }
 
-        skinC = new Color(uNum[6], uNum[7], uNum[8], 1);
-        topC = new Color(uNum[9], uNum[10], uNum[11], 1);
-        legsC = new Color(uNum[12], uNum[13], uNum[14], 1);
+        skinC = new Color(uNum[0], uNum[1], uNum[2], 1);
+        topC = new Color(uNum[3], uNum[4], uNum[5], 1);
+        legsC = new Color(uNum[6], uNum[7], uNum[8], 1);
 
         head.GetComponent<SpriteRenderer>().color = skinC;
         hands.GetComponent<SpriteRenderer>().color = skinC;
@@ -53,9 +63,36 @@ public class colourChange : MonoBehaviour
 
     }
 
+    void nameToNumber(string name)
+    {
+        int bigInt = 0;
+        for (int i = 0; i < 8; i++)
+        {
+            bigInt += (int)(getCharValue(name[i]) * Mathf.Pow(27, i));
+        }
+        for (int i = 0; i < 9; i++)
+        {
+            uniqueNumber[i] = bigInt % (int)Mathf.Pow(10, i + 1);
+            uniqueNumber[i] = uniqueNumber[i] / (int)Mathf.Pow(10, i);
+            
+        }
+    }
+
+    int getCharValue(char c)
+    {
+        if(c == ' ')
+        {
+            return 0;
+        }
+        else
+        {
+            return (c - 64);
+        }
+    }
+
     void uniqueIdentifierToNumber(string uniqueIdentifier)
     {
-        for (int i = 0; i < 40; i++)
+        for (int i = 0; i < 9; i++)
         {
             switch (uniqueIdentifier[i])
             {

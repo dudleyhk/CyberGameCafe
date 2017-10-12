@@ -13,9 +13,6 @@ public class MainMenu : MonoBehaviour
                 newGame();
                 break;
             case 1:
-                openGame();
-                break;
-            case 2:
                 closeGame();
                 break;
             default:
@@ -25,27 +22,11 @@ public class MainMenu : MonoBehaviour
 
 	void newGame()
 	{
-		clearGame ();
-		openGame();
-	}
-		
-	void openGame()
-	{
-		Application.LoadLevel ("SinglePlayer");
+		Application.LoadLevel ("NameInput");
 	}
 
 	void closeGame()
 	{
 		Application.Quit ();
-	}
-
-
-	void clearGame()
-	{
-		StreamWriter fileWriter = new StreamWriter ("assets\\scripts\\quests\\questprogress\\questprogress.txt");
-
-		fileWriter.WriteLine("");
-
-		fileWriter.Close ();
 	}
 }
