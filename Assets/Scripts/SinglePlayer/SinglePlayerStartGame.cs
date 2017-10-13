@@ -12,8 +12,8 @@ public class SinglePlayerStartGame : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        questStatusUI.SetActive(true);
-        questStatusUI.SetActive(false);
+        //questStatusUI.SetActive(true);
+        //questStatusUI.SetActive(false);
         mainCam = GameObject.FindGameObjectWithTag("MainCamera");
         Instantiate(player);
         player.GetComponent<Movement>().enabled = true;

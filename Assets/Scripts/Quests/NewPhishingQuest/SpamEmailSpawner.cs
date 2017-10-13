@@ -13,7 +13,7 @@ public class SpamEmailSpawner : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        howLong = Random.Range(1.5f, 2.5f);
+        howLong = Random.Range(2f, 3f);
     }
 	
 	// Update is called once per frame
@@ -26,7 +26,7 @@ public class SpamEmailSpawner : MonoBehaviour {
             spawnedObject.transform.rotation = new Quaternion(0, 0, Random.Range(0, 359), 0);
             delay = 0;
 
-            howLong = Random.Range(1.5f, 2.5f);
+            howLong = Random.Range(2f, 3f);
         }
 
         delay += Time.deltaTime;

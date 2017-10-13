@@ -28,13 +28,13 @@ public class NameSelecter : MonoBehaviour {
 
         if (rest <= 0)
         {
-            if (verticalInput > 0 && currentParent < 24)
+            if (verticalInput < 0 && currentParent < 24)
             {
                 currentParent += 6;
                 rest = 0.2f;
             }
 
-            if (verticalInput < 0 && currentParent > 5)
+            if (verticalInput > 0 && currentParent > 5)
             {
                 currentParent -= 6;
                 rest = 0.2f;
@@ -46,7 +46,7 @@ public class NameSelecter : MonoBehaviour {
                 rest = 0.2f;
             }
 
-            if(horizontalInput > 0 && currentParent % 6 != 0)
+            if(horizontalInput < 0 && currentParent % 6 != 0)
             {
                 currentParent--;
                 rest = 0.2f;

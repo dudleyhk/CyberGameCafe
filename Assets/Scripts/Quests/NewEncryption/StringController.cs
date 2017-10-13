@@ -11,7 +11,7 @@ public class StringController : MonoBehaviour
     [SerializeField]
     GameObject showMessage;
 
-    void Start()
+    void Awake()
     {
         //get a random message from the list
         setAllStrings();
@@ -21,8 +21,11 @@ public class StringController : MonoBehaviour
         GetComponent<Spawn>().setMessage(message.ToUpper());
         GetComponent<Spawn>().spawn();
 
-        //put the message in the text box
-        showMessage.GetComponent<Text>().text = message;
+        for(int i = 0; i < 8; i++)
+        {
+            //put the message into each text box
+            showMessage.transform.GetChild(i).GetComponent<Text>().text = message[i].ToString();
+        }
     }
 
     void setAllStrings()
@@ -30,7 +33,7 @@ public class StringController : MonoBehaviour
         allMessages.Add("Phishing");
         allMessages.Add("Wannacry");
         allMessages.Add("Security");
-        allMessages.Add("USB Stick");
+        allMessages.Add("USBStick");
         allMessages.Add("Password");
         allMessages.Add("Computer");
         allMessages.Add("Networks");

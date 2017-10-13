@@ -27,6 +27,7 @@ public class StartMoving : MonoBehaviour {
                 if (gameObject.tag == "CorrectLetter")
                 {
                     GameObject.FindGameObjectWithTag("GameController").GetComponent<Spawn>().newLetter();
+                    GameObject.FindGameObjectWithTag("GreenLetter").GetComponent<CorrectLetter>().advance();
                 }
                 else
                 {
