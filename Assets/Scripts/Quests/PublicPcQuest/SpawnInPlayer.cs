@@ -11,7 +11,8 @@ public class SpawnInPlayer : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-		Instantiate (player);
+		GameObject playerClone = Instantiate (player);
+        playerClone.transform.position = new Vector3(26, 26, 0);
 		camera = GameObject.FindGameObjectWithTag ("MainCamera");
 	}
 	
