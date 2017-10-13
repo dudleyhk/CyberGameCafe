@@ -7,6 +7,7 @@ public class PasswordSelecter : MonoBehaviour {
     GameObject[] listItems;
     int currentParent;
     float rest;
+    public bool thingOff;
 
     int getCurrentParent()
     {
@@ -15,6 +16,7 @@ public class PasswordSelecter : MonoBehaviour {
 
     void Start()
     {
+        thingOff = true;
         rest = 0;
         currentParent = 0;
         listItems = new GameObject[4];
@@ -45,9 +47,12 @@ public class PasswordSelecter : MonoBehaviour {
         }
         rest -= Time.deltaTime;
 
-        if (Input.GetButtonDown("Interact"))
+        if (Input.GetButtonDown("Interact") && thingOff)
         {
-            //GameObject.FindGameObjectWithTag("GameController").GetComponent<MainMenu>().action(currentParent);
+            GetComponentInParent<TextButton>().OnClick();
+            gameObject.transform.parent.parent.parent
+                .GetComponent<PasswordMinigame>().evaluatePassword();
+            thingOff = false;
         }
     }
 }

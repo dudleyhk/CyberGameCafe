@@ -18,10 +18,10 @@ public class TextButton : MonoBehaviour {
         passwordComponent = phraseToSet;
     }
 
-    void OnClick()
+    public void OnClick()
     {
         // Add text to the input field.
-        gameObject.transform.parent.GetComponent<PasswordMinigame>().addPassphraseToPassword(passwordComponent);
+        gameObject.transform.parent.parent.GetComponent<PasswordMinigame>().addPassphraseToPassword(passwordComponent);
         // gameObject.SetActive(false);
     }
 }

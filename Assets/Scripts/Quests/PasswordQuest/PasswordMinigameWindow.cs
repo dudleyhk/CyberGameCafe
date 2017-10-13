@@ -44,6 +44,6 @@ public class PasswordMinigameWindow : MonoBehaviour {
     public void isGameComplete(bool value)
     {
         gameComplete = value;
-        questStatusWindow.GetComponent<QuestStatus>().ToggleCompleationState("Quest 1");
+        //questStatusWindow.GetComponent<QuestStatus>().ToggleCompleationState("Quest 1");
     }
 }

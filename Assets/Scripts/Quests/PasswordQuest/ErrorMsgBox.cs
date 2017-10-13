@@ -10,8 +10,17 @@ public class ErrorMsgBox : MonoBehaviour {
     //    GetComponent<Button>().onClick.AddListener(OnClick);
     //}
 
+    void Update()
+    {
+        if(Input.GetButtonDown("Interact"))
+        {
+            OnClick();
+        }
+    }
+
     void OnClick()
     {
+        GameObject.FindGameObjectWithTag("PSelecter").GetComponent<PasswordSelecter>().thingOff = true;
         Destroy(gameObject.transform.parent.gameObject);
     }
 }

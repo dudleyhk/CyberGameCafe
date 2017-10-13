@@ -23,7 +23,7 @@ public class testingScript : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            questMenu.GetComponent<QuestStatus>().ToggleCompleationState("Quest 1");
+            //questMenu.GetComponent<QuestStatus>().ToggleCompleationState("Quest 1");
         }
     }
 }
