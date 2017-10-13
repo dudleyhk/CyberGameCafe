@@ -22,7 +22,7 @@ public class SpawnInPlayer : MonoBehaviour {
 		if (camera.transform.parent != null) 
 		{
 			camera.transform.parent = null;
-			camera.transform.Translate (12, 5, 0);
+			camera.transform.Translate (12, 4.857f, 0);
 			
 		}
 	}
