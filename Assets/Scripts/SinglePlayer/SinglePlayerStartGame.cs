@@ -8,6 +8,7 @@ public class SinglePlayerStartGame : MonoBehaviour
     private GameObject player;
     private GameObject mainCam;
     public GameObject questStatusUI;
+    public GameObject audioSource;
 
     // Use this for initialization
     void Start()
@@ -19,6 +20,11 @@ public class SinglePlayerStartGame : MonoBehaviour
         player.GetComponent<Movement>().enabled = true;
         mainCam.GetComponent<Camera>().orthographicSize = 5;
         FindObjectOfType<Canvas>().enabled = true;
+
+        if  (!GameObject.FindGameObjectWithTag("AudioSource"))
+        {
+            Instantiate(audioSource);
+        }
     }
 
 }
