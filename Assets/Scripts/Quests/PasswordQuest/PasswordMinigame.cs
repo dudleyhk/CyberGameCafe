@@ -7,6 +7,7 @@ using UnityEngine.UI;
 // Set of password constants that the game will choose from using RNG as the selection for the users passwords.
 // Bad and good phrases should be included in here.
 // When password options are available we shopuld also be able to choose one of the previous passwords we created. (Doing so causes the quest to fail.)
+
 public enum PassphraseType
 {
     TYPE_NULL = 0,
@@ -68,6 +69,9 @@ public class PasswordPhrases
 
 public class PasswordMinigame : MonoBehaviour {
 
+    [SerializeField]
+    GameObject selecter;
+
     public GameObject textButtonToSpawn;
     public GameObject notificationWindow;
     public const int numberOfPassphraseOptions = 4;
@@ -92,13 +96,22 @@ public class PasswordMinigame : MonoBehaviour {
         passphrase[] passwordPhrases = new passphrase[numberOfPassphraseOptions];
         setPasswordPhrases(passwordPhrases);
 
+        GameObject x = null;
         for(int i = 0; i < numberOfPassphraseOptions; i++)
         {
-            buttonToSpawn = Instantiate(textButtonToSpawn, gameObject.transform);
+            buttonToSpawn = Instantiate(textButtonToSpawn, gameObject.transform.GetChild(2));
+            if(i == 0)
+            {
+                x = buttonToSpawn;
+            }
             phraseToSet = passwordPhrases[i]; // TODO - make this a function to ensure the phrase choices are diverse.
             buttonToSpawn.GetComponent<Text>().text = phraseToSet.phrase;
             buttonToSpawn.GetComponent<TextButton>().setPassphrase(phraseToSet);
-            buttonToSpawn.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(30 + (200 * i), -54, 0);
+            buttonToSpawn.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(-300 + (200 * i), 10, 0);
+        }
+        if (x)
+        {
+            GameObject s = Instantiate(selecter, x.transform);
         }
     }
 	

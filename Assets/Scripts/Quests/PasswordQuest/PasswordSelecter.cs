@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Selecter : MonoBehaviour {
+public class PasswordSelecter : MonoBehaviour {
 
     GameObject[] listItems;
     int currentParent;
@@ -17,8 +17,8 @@ public class Selecter : MonoBehaviour {
     {
         rest = 0;
         currentParent = 0;
-        listItems = new GameObject[2];
-        for(int i = 0; i < 2; i++)
+        listItems = new GameObject[4];
+        for (int i = 0; i < 4; i++)
         {
             listItems[i] = transform.parent.parent.GetChild(i).gameObject;
         }
@@ -26,16 +26,16 @@ public class Selecter : MonoBehaviour {
 
     void Update()
     {
-        float verticalInput = Input.GetAxis("Vertical");
+        float verticalInput = Input.GetAxis("Horizontal");
 
         if (rest <= 0)
         {
-            if (verticalInput > 0 && currentParent != 0)
+            if (verticalInput < 0 && currentParent != 0)
             {
                 currentParent--;
                 rest = 0.2f;
             }
-            if (verticalInput < 0 && currentParent != 1)
+            if (verticalInput > 0 && currentParent != 3)
             {
                 currentParent++;
                 rest = 0.2f;
@@ -45,9 +45,9 @@ public class Selecter : MonoBehaviour {
         }
         rest -= Time.deltaTime;
 
-        if(Input.GetButtonDown("Interact"))
+        if (Input.GetButtonDown("Interact"))
         {
-            GameObject.FindGameObjectWithTag("GameController").GetComponent<MainMenu>().action(currentParent);
+            //GameObject.FindGameObjectWithTag("GameController").GetComponent<MainMenu>().action(currentParent);
         }
     }
 }
