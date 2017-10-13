@@ -24,7 +24,6 @@ public class Movement : MonoBehaviour {
     
 	void FixedUpdate ()
     {
-
 #if UNITY_ANDROID
         if (movementStick.InputDirection.x * movementStick.InputDirection.x >
             movementStick.InputDirection.z * movementStick.InputDirection.z)
