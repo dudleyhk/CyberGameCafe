@@ -33,6 +33,7 @@ public class QuestSystem : MonoBehaviour
     {
         // TODO - add more code to check and make sure that the mission is complete. 
         currentMissions.RemoveAt(missionToHandIn);
+
     }
 
 	public void updateMissionState(MissionObjectiveTypes missionType, string missionTag, bool skip = false)

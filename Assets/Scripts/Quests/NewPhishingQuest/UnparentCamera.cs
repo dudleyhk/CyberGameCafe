@@ -10,20 +10,14 @@ public class UnparentCamera : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
-		
-	}
-	
-	// Update is called once per frame
-	void Update ()
-    {
-        camera = GameObject.FindGameObjectWithTag("MainCamera");
-        if (camera.transform.parent != null)
-        {
-            camera.transform.parent = null;
-            camera.transform.Translate(10, 0, 0);
+        //camera = GameObject.FindGameObjectWithTag("MainCamera");
+        //if (camera.transform.parent != null)
+        //{
+        //    camera.transform.parent = null;
+        //    camera.transform.Translate(10, 0, 0);
 
             player = GameObject.FindGameObjectWithTag("Player");
             player.GetComponent<Movement>().newPhishingQuestSpeed();
-        }
+    //    }
     }
 }

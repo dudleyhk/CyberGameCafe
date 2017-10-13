@@ -55,7 +55,7 @@ public class Movement : MonoBehaviour {
 
     public void newPhishingQuestSpeed()
     {
-        speed = 0.1f;
+        speed = 0.12f;
     }
 
     //private void TouchIsHappening()

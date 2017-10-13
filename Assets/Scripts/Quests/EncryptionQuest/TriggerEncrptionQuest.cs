@@ -22,8 +22,8 @@ public class TriggerEncrptionQuest : MonoBehaviour
         if (playerInBox == true && speak.beingPressed)
         {
 			player.GetComponent<QuestSystem> ().updateMissionState (MissionObjectiveTypes.OBJ_EVENT, "encrypt");
-			GameObject.FindGameObjectWithTag ("GameController").
-			GetComponent<LoadGame>().writeToTextFile();
+			//GameObject.FindGameObjectWithTag ("GameController").
+			//GetComponent<LoadGame>().writeToTextFile();
             Application.LoadLevel("NewEncryptionScene");
         }
 	}

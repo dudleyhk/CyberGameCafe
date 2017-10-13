@@ -13,7 +13,6 @@ public class PauseGame : MonoBehaviour
 	// Update is called once per frame
     void Start()
     {
-        // currentObjectiveUI = GameObject.FindGameObjectWithTag("CurrentObjective");
     }
 
 	void Update ()

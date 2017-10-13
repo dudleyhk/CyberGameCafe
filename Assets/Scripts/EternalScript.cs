@@ -30,6 +30,5 @@ public class EternalScript : MonoBehaviour {
         {
             playerName[i] = ' ';
         }
-        DontDestroyOnLoad(gameObject);
     }
 }

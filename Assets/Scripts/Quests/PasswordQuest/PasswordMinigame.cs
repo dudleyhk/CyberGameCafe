@@ -70,10 +70,11 @@ public class PasswordMinigame : MonoBehaviour {
 
     public GameObject textButtonToSpawn;
     public GameObject notificationWindow;
-    public int numberOfPassphraseOptions = 5;
+    public const int numberOfPassphraseOptions = 4;
 
-	private List<List<passphrase>> passphraseHeaps; 
 	private passphrase thePassword;
+    passphrase[] passwordPhrases;
+    int passwordSelection = 0;
 
     private string passwordHints = "\0";
 
@@ -83,7 +84,6 @@ public class PasswordMinigame : MonoBehaviour {
 	{
 		
 	}
-
 
     void Awake()
     {
@@ -98,7 +98,7 @@ public class PasswordMinigame : MonoBehaviour {
             phraseToSet = passwordPhrases[i]; // TODO - make this a function to ensure the phrase choices are diverse.
             buttonToSpawn.GetComponent<Text>().text = phraseToSet.phrase;
             buttonToSpawn.GetComponent<TextButton>().setPassphrase(phraseToSet);
-            buttonToSpawn.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(30 + (200 * i), -54, 0); // TODO - refine text layout system.
+            buttonToSpawn.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(30 + (200 * i), -54, 0);
         }
     }
 	
@@ -114,6 +114,7 @@ public class PasswordMinigame : MonoBehaviour {
     public void evaluatePassword()
     {
         GameObject windowToSpawn;
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
         // TODO - evaluate password score and then rispond accordigly.
         if (checkPasswordStrength() != PassphraseType.TYPE_STRONG)
         {
@@ -123,8 +124,9 @@ public class PasswordMinigame : MonoBehaviour {
         }
         else
         {
-            GameObject.FindGameObjectWithTag("Player").GetComponent<QuestSystem>()
+            player.GetComponent<QuestSystem>()
                 .updateMissionState(MissionObjectiveTypes.OBJ_EVENT, "passwordCreate");
+            player.GetComponent<Movement>().startMovement();
             passwordMiniGameCollider.GetComponent<PasswordMinigameWindow>().isGameComplete(true);
             Destroy(gameObject);
         }
@@ -172,7 +174,6 @@ public class PasswordMinigame : MonoBehaviour {
 
     void setPasswordPhrases(passphrase[] phraseBuffer)
     {
-		int phraseHeap = 0;
 		for(int i = 0; i < phraseBuffer.Length; i++)
 		{
 			// phraseHeap = Random.Range(1,4);
