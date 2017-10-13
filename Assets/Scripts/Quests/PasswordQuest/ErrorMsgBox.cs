@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class ErrorMsgBox : MonoBehaviour {
 
-    void Awake()
-    {
-        GetComponent<Button>().onClick.AddListener(OnClick);
-    }
+    //void Awake()
+    //{
+    //    GetComponent<Button>().onClick.AddListener(OnClick);
+    //}
 
     void OnClick()
     {

@@ -6,12 +6,6 @@ public class usbQuest : MonoBehaviour
 {
 	[SerializeField]
 	private Mission usbMission;
-	[SerializeField]
-	private MissionObjective usbPickupObjective;
-	[SerializeField]
-	private MissionObjective usbSortObjective;
-    [SerializeField]
-    GameObject USBHolder;
 
 	private bool playerEnter;
 	private GameObject player;
@@ -33,19 +27,39 @@ public class usbQuest : MonoBehaviour
 	{		
 		if(playerEnter && speak.beingPressed)
 		{
-
-			player.GetComponent<QuestSystem> ().assignMission (usbMission, this.gameObject);
-			DialogueMessages d = controller.GetComponent<DialogueMessages> ();
-			d.spawnTextBox ("Hello! I am Dov, I'm here for your Cyber Security week USB safety awareness seminar."
-				+"\nYou're going to be with me to learn about USB safety. Exciting stuff!", "Dov");
-			d.spawnTextBox ("I'm going to give you some USBs, and you're going to sort through them for me."
-			+"\nIf you think they're safe to use, please plug them into the computer and see what's on it."
-			+"\nOtherwise through them into the rubbish bin over there!", "Dov");
-            
-                Instantiate(USBHolder);
-            
+            DialogueMessages d = controller.GetComponent<DialogueMessages>();
+            if (usbMission.getActiveObjective() == null)
+            {
+                d.spawnTextBox("Hi, I am Dov.\nDid you know that you should never insert a suspicious USB stick into a PC?", gameObject.name);
+                d.spawnTextBox("Someone obviously doesn't, because they keep trying to insert USB sticks that they found lying around into my computer.", gameObject.name);
+                d.spawnTextBox("Please can you help me by moving my computer out of the way so they can't get their sticks in?", gameObject.name);
+                d.spawnTextBox("Talk to me agian when you're ready.", gameObject.name);
+                player.GetComponent<QuestSystem>().assignMission(usbMission, gameObject);
+            }
+            else if(usbMission.isCompleated())
+            {
+                GameObject scoreController = GameObject.Find("EternalObject");
+                if (scoreController)
+                {
+                    float score = scoreController.GetComponent<EternalScript>().USBScore;
+                    int convertedScore = scoreController.GetComponent<ConvertScore>().getRealScore(score, 5, 90);
+                    
+                    d.spawnTextBox("Good work", gameObject.name);
+                    d.spawnTextBox("You did it, you survived for " + score + " seconds. So your score is " + convertedScore + ".", gameObject.name);
+                    //d.spawnTextBox("There is a score controller");
+                }
+                else
+                {
+                    d.spawnTextBox("Good work.", gameObject.name);
+                    //Debug.Log("There is not a score controller");
+                }
+            }
+            else
+            {
+                player.GetComponent<QuestSystem>().updateMissionState(MissionObjectiveTypes.OBJ_EVENT, "dovTalk");
+                Application.LoadLevel("USBQuest");
+            }
 		}
-			
 	}
 
 	void OnTriggerEnter2D(Collider2D coll)

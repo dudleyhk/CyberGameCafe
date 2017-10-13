@@ -20,12 +20,26 @@ public class EternalScript : MonoBehaviour {
 
     public float encryptionScore;
     public float publicPCScore;
+    public float USBScore;
+
+    public int passwordScore;
+    public int phishingScore;
     public int sharingScore;
+    
     public char[] playerName;
 
 	void Awake()
     {
-        playerName = new char[8];
+        encryptionScore = -1f;
+        publicPCScore = -1f;
+        USBScore = -1f;
+
+        passwordScore = -1;
+        phishingScore = -1;
+        sharingScore = -1;
+
+
+    playerName = new char[8];
         for (int i = 0; i < 8; i++)
         {
             playerName[i] = ' ';

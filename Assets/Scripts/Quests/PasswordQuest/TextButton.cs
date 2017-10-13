@@ -8,10 +8,10 @@ public class TextButton : MonoBehaviour {
     private passphrase passwordComponent;
     private bool mouseDown = false;
 
-    void Awake()
-    {
-        gameObject.GetComponent<Button>().onClick.AddListener(OnClick);
-    }
+    //void Awake()
+    //{
+    //    gameObject.GetComponent<Button>().onClick.AddListener(OnClick);
+    //}
 
     public void setPassphrase(passphrase phraseToSet)
     {

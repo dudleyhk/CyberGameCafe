@@ -16,6 +16,7 @@ public class spPlayerSetup : MonoBehaviour
 
     void Start()
     {
+        GameObject.FindGameObjectWithTag("GameController").GetComponent<LoadGame>().loadUp();
         mainCam = FindObjectOfType<Camera>();
         //generate character appearance
 

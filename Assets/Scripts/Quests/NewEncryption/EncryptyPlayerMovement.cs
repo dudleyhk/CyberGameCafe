@@ -13,7 +13,7 @@ public class EncryptyPlayerMovement : MonoBehaviour {
         speed = defaultSpeed;
     }
 
-	void Update ()
+	void FixedUpdate ()
     {
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");

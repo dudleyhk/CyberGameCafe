@@ -42,7 +42,8 @@ public class InteractWithComputer : MonoBehaviour {
     {
         if (speak.beingPressed && playerInBox
             && (thisQuest.getActiveObjective().objectiveTag == "checkCom"
-            || thisQuest.getActiveObjective().objectiveTag == "findSpam"))
+            || thisQuest.getActiveObjective().objectiveTag == "findSpam")
+            && !GameObject.Find("E-Mail"))
         {
             interact();
         }

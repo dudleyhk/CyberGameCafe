@@ -39,10 +39,7 @@ public class Questions : MonoBehaviour
     void Awake()
     {
         resetScore();
-
-        button = eMailBox.GetComponentInChildren<Button>();
-        button.onClick.AddListener(checkForFlag);
-
+        
         StreamReader emailReader;
         emailReader = new StreamReader("Assets\\Scripts\\Quests\\SpamQuest\\emails.txt");
         
@@ -69,6 +66,14 @@ public class Questions : MonoBehaviour
             {
                 caught[i] = true;
             }
+        }
+    }
+
+    void Update()
+    {
+        if (Input.GetButtonDown("Interact"))
+        {
+            checkForFlag();
         }
     }
 

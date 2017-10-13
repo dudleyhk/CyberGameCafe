@@ -32,6 +32,13 @@ public class Accuse : MonoBehaviour
         }
         else
         {
+            GameObject scorer = GameObject.Find("EternalObject");
+            if(scorer)
+            {
+                scorer.GetComponent<EternalScript>().sharingScore =
+                    GetComponentInParent<ScorePasswordShare>().getNumberOfGuesses();
+            }
+
             d.spawnTextBox("Yes, it must have been Jackie, of course, thank you so much for your help!", "Janet");
             d.spawnTextBox("QUEST COMPLETE!");
 

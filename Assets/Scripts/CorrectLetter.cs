@@ -19,7 +19,7 @@ public class CorrectLetter : MonoBehaviour {
 	void getDaddy ()
     {
         objectParent = transform.parent.gameObject;
-        t.text = ((char)(objectParent.GetComponent<Text>().text[0] + 1)).ToString();
+        t.text = ((char)(objectParent.GetComponent<Text>().text[0] + 1)).ToString().ToUpper();
     }
 
     public void advance()

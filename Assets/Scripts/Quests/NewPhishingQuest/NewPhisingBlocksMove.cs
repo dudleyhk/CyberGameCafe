@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NewPhisingBlocksMove : MonoBehaviour
 {
@@ -25,8 +26,19 @@ public class NewPhisingBlocksMove : MonoBehaviour
     {
         if (col.gameObject.tag == "Player")
         {
-            Debug.Log("Destroying the boy");
+            //send them to the shadow realm
             Destroy(col.gameObject);
+
+            GameObject timer = GameObject.FindGameObjectWithTag("Timer");
+            float score = float.Parse(timer.GetComponent<Text>().text);
+
+            GameObject scorer = GameObject.Find("EternalObject");
+            if(scorer)
+            {
+                scorer.GetComponent<EternalScript>().USBScore = score;
+            }
+
+            Application.LoadLevel("SinglePlayer");
         }
     }
 }
