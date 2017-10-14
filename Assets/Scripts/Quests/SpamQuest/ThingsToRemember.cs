@@ -87,7 +87,7 @@ public class ThingsToRemember : MonoBehaviour {
         if (missedAnswers.Count > 0)
         {
             //get a random number from the missed answers
-            int x = Random.Range(0, missedAnswers.Count);
+            int x = 0;
             
             //return that as a thing to tell the player
             retString = theThings[missedAnswers[x]];

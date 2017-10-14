@@ -4,8 +4,8 @@ using UnityEngine;
 using System.IO;
 using UnityEngine.UI;
 
-public class ReadHighScoreFile : MonoBehaviour {
-
+public class ReadHighScoreFile : MonoBehaviour
+{ 
     StreamReader fileReader;
 
     // Use this for initialization
@@ -19,5 +19,6 @@ public class ReadHighScoreFile : MonoBehaviour {
             Text t = GetComponent<Text>();
             t.text = t.text + "\n" + playerName + "\t" + playerScore;
         }
+        fileReader.Close();
     }
 }

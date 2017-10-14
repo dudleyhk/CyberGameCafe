@@ -12,7 +12,7 @@ public class SpawnInPlayer : MonoBehaviour {
 	void Start () 
 	{
 		GameObject playerClone = Instantiate (player);
-        playerClone.transform.position = new Vector3(26, 26, 0);
+        playerClone.transform.position = new Vector3(29, 26, 0);
 		camera = GameObject.FindGameObjectWithTag ("MainCamera");
 	}
 	
@@ -22,7 +22,7 @@ public class SpawnInPlayer : MonoBehaviour {
 		if (camera.transform.parent != null) 
 		{
 			camera.transform.parent = null;
-			camera.transform.Translate (12, 4.857f, 0);
+			camera.transform.Translate (9, 4.857f, 0);
 			
 		}
 	}

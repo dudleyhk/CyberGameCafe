@@ -87,6 +87,7 @@ public class CheckTheEmails : MonoBehaviour
                     int maxScore = GetComponentInParent<Questions>().getMaxScore();
                     d.spawnTextBox("Your score of " + score + " means you get a score for this quest of "
                         + scorer.GetComponent<ConvertScore>().getRealScore(score, 0, maxScore), "Martin");
+                    scorer.GetComponent<EternalScript>().phishingMax = maxScore;
                 }
             }
             else if (thisQuest.getActiveObjective().getObjectiveTag() == "checkAnswers")

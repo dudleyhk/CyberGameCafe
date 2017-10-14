@@ -137,19 +137,20 @@ public class PasswordMinigame : MonoBehaviour {
         }
         else
         {
-            GameObject scorer = GameObject.Find("EternalObject");
-            if(scorer)
-            {
-                scorer.GetComponent<EternalScript>().passwordScore =
-                    GameObject.Find("SecurePasswordQuest").
-                    GetComponent<SecurePasswordScore>().getScore();
-            }
-
             player.GetComponent<QuestSystem>()
                 .updateMissionState(MissionObjectiveTypes.OBJ_EVENT, "passwordCreate");
             player.GetComponent<Movement>().startMovement();
             passwordMiniGameCollider.GetComponent<PasswordMinigameWindow>().isGameComplete(true);
             Destroy(gameObject);
+
+            GameObject scorer = GameObject.Find("EternalObject");
+            if (scorer)
+            {
+                EternalScript e = scorer.GetComponent<EternalScript>();
+                e.passwordScore = GameObject.Find("SecurePasswordQuest").
+                    GetComponent<SecurePasswordScore>().getScore();
+                e.passwords += 1;
+            }
         }
     }
 
