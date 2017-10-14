@@ -16,7 +16,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EternalScript : MonoBehaviour {
+public class EternalScript : MonoBehaviour
+{
 
     public float encryptionScore;
     public float publicPCScore;
@@ -25,10 +26,10 @@ public class EternalScript : MonoBehaviour {
     public int passwordScore;
     public int phishingScore;
     public int sharingScore;
-    
+
     public char[] playerName;
 
-	void Awake()
+    public void restart()
     {
         encryptionScore = -1f;
         publicPCScore = -1f;
@@ -39,10 +40,19 @@ public class EternalScript : MonoBehaviour {
         sharingScore = -1;
 
 
-    playerName = new char[8];
+        playerName = new char[8];
         for (int i = 0; i < 8; i++)
         {
             playerName[i] = ' ';
+        }
+    }
+
+    void Update()
+    {
+        if (encryptionScore != -1f && publicPCScore != -1f && USBScore != -1f &&
+            passwordScore != -1 && phishingScore != -1 && sharingScore != -1)
+        {
+            //game won show the score
         }
     }
 }

@@ -20,6 +20,7 @@ public class ErrorMsgBox : MonoBehaviour {
 
     void OnClick()
     {
+        GameObject.Find("SecurePasswordQuest").GetComponent<SecurePasswordScore>().increaseScore();
         GameObject.FindGameObjectWithTag("PSelecter").GetComponent<PasswordSelecter>().thingOff = true;
         Destroy(gameObject.transform.parent.gameObject);
     }

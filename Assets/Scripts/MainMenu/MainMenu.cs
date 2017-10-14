@@ -22,6 +22,7 @@ public class MainMenu : MonoBehaviour
 
 	void newGame()
 	{
+        GameObject.Find("EternalObject").GetComponent<EternalScript>().restart();
 		Application.LoadLevel ("NameInput");
 	}
 
