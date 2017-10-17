@@ -26,16 +26,18 @@ public class Selecter : MonoBehaviour {
 
     void Update()
     {
-        float verticalInput = Input.GetAxis("Vertical");
+        float verticalInput = Input.GetAxis("Vertical") + Input.GetAxis("StickVertical");
 
         if (rest <= 0)
         {
-            if (verticalInput > 0 && currentParent != 0)
+            if (verticalInput > 0 && currentParent != 0
+                && listItems[currentParent - 1].activeInHierarchy)
             {
                 currentParent--;
                 rest = 0.2f;
             }
-            if (verticalInput < 0 && currentParent != 1)
+            if (verticalInput < 0 && currentParent != transform.parent.parent.childCount - 1
+                && listItems[currentParent + 1].activeInHierarchy)
             {
                 currentParent++;
                 rest = 0.2f;

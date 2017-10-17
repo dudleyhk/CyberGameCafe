@@ -12,28 +12,23 @@ public class PasswordMinigameWindow : MonoBehaviour {
     private GameObject gameWindow;
     private bool gameComplete = false;
 
+    [SerializeField]
     private Mission activeMission;
 
     // Starts the Password Minigame Freezing the player and starting the minigame.
     // Check that the quest is active.
     void OnTriggerEnter2D(Collider2D col)
     {
-        if(col.gameObject.tag == "Player")
+        if (col.gameObject.tag == "Player")
         {
-            activeMission = col.gameObject.GetComponent<QuestSystem>().getActiveMission();
-
-            if (activeMission != null)
+            if ((activeMission.getActiveObjective().getObjectiveTag() == "passwordCreate") && (!gameComplete)/* && Input.GetKey(KeyCode.E)*/)
             {
-               if ((activeMission.getActiveObjective().getObjectiveTag() == "passwordCreate") && (!gameComplete)/* && Input.GetKey(KeyCode.E)*/)
-               {
-                    openMiniGameWindow();
-                    col.GetComponent<Movement>().stopMovement();
-               }
+                openMiniGameWindow();
+                col.GetComponent<Movement>().stopMovement();
             }
         }
     }
-
-
+    
     void openMiniGameWindow()
     {
         GameObject uiCanvas = GameObject.FindGameObjectWithTag("UI");

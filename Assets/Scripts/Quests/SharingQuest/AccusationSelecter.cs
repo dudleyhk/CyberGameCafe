@@ -29,8 +29,8 @@ public class AccusationSelecter : MonoBehaviour
 
     void Update()
     {
-        float verticalInput = Input.GetAxis("Vertical");
-        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical") + Input.GetAxis("StickVertical");
+        float horizontalInput = Input.GetAxis("Horizontal") + Input.GetAxis("StickHorizontal");
 
         if (rest <= 0)
         {

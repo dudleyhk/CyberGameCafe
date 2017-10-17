@@ -15,8 +15,8 @@ public class EncryptyPlayerMovement : MonoBehaviour {
 
 	void FixedUpdate ()
     {
-        float x = Input.GetAxis("Horizontal");
-        float y = Input.GetAxis("Vertical");
+        float x = Input.GetAxis("Horizontal") + Input.GetAxis("StickHorizontal");
+        float y = Input.GetAxis("Vertical") + Input.GetAxis("StickVertical");
 
         Vector3 movement = new Vector3(x, y, 0) * speed;
 

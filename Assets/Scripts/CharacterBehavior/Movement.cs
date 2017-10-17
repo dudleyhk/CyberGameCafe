@@ -17,7 +17,7 @@ public class Movement : MonoBehaviour {
         joystick = GameObject.FindGameObjectWithTag("Joystick");
         if(joystick != null)
             movementStick = joystick.GetComponent<VirtualJoysticks>();
-        defaultSpeed = 0.06f;
+        defaultSpeed = 0.08f;
 		speed = defaultSpeed;
         //Events.Listen(EVENT_ACHEIVEMENT, TouchIsHappening);
     }
@@ -36,8 +36,11 @@ public class Movement : MonoBehaviour {
         }
 
 #else
-        int h = Input.GetAxis("Horizontal") > 0 ? 1 : Input.GetAxis("Horizontal") < 0 ? -1 : 0;
-        int v = Input.GetAxis("Vertical") > 0 ? 1 : Input.GetAxis("Vertical") < 0 ? -1 : 0;
+        float h = Input.GetAxis("Horizontal") + Input.GetAxis("StickHorizontal");
+        float v = Input.GetAxis("Vertical") + Input.GetAxis("StickVertical");
+        h = (h > 0) ? 1f : (h < 0) ? -1 : 0;
+        v = (v > 0) ? 1f : (v < 0) ? -1 : 0;
+
         transform.Translate(h * speed, v * speed, 0);
 #endif
 
