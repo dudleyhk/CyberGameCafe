@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MazeTrigger : MonoBehaviour
 {
@@ -55,6 +56,14 @@ public class MazeTrigger : MonoBehaviour
     {
         if (atEnd == true)
         {
+            GameObject scorer = GameObject.Find("EternalObject");
+            if (scorer)
+            {
+                EternalScript e = scorer.GetComponent<EternalScript>();
+                e.publicPCScore = float.Parse(GameObject.FindGameObjectWithTag("Timer")
+                    .GetComponent<Text>().text);
+            }
+
             Application.LoadLevel("SinglePlayer");
         }
         if (atEnd == false)

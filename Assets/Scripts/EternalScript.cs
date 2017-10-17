@@ -31,6 +31,7 @@ public class EternalScript : MonoBehaviour
     public int phishingScore;
     public int phishingMax;
     public int sharingScore;
+    int mazes;
 
     public char[] playerName;
 
@@ -58,7 +59,7 @@ public class EternalScript : MonoBehaviour
 
     void Update()
     {
-        if (encryptionScore != -1f && publicPCScore != -1f && USBScore != -1f &&
+        if (encryptionScore != -1f && publicPCScore !=-1 && USBScore != -1f &&
             passwords == 3 && phishingScore != -1 && sharingScore != -1 &&
             !onWinScreen)
         {
