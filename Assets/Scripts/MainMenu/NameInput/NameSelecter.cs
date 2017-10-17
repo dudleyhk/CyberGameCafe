@@ -70,7 +70,10 @@ public class NameSelecter : MonoBehaviour {
             }
             else if(currentParent == 26)
             {
-                currentindex--;
+                if (currentindex != 0)
+                {
+                    currentindex--;
+                }
                 e.playerName[currentindex] = ' ';
             }
             else if(currentParent == 27)
