@@ -16,8 +16,8 @@ public class SpamEmailSpawner : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        howLongMax = 10f;
         howLongMin = 4f;
+        howLongMax = 10f;
         howLong = Random.Range(2f, 10f);
     }
 	
@@ -32,8 +32,8 @@ public class SpamEmailSpawner : MonoBehaviour {
             delay = 0;
 
             howLongMin = (howLongMin > 1f) ? howLongMin * 0.95f : 1f;
-            howLongMax = (howLongMax > 2f) ? howLongMax * 0.9f : 2f;
-            howLong = Random.Range(howLongMin, howLongMax);
+            howLongMax = (howLongMax > 1.5f) ? howLongMax * 0.9f : 1.5f;
+            howLong = Random.Range(1f, howLongMax);
         }
 
         delay += Time.deltaTime;
