@@ -8,12 +8,17 @@ public class SpamEmailSpawner : MonoBehaviour {
     public GameObject[] thingsToDodge = new GameObject[3];
     private GameObject spawnedObject;
     float delay = 0.0f;
-    float howLong = 0; 
+    float howLong = 0;
+
+    float howLongMax;
+    float howLongMin;
 
     // Use this for initialization
     void Start ()
     {
-        howLong = Random.Range(2f, 3f);
+        howLongMax = 10f;
+        howLongMin = 4f;
+        howLong = Random.Range(2f, 10f);
     }
 	
 	// Update is called once per frame
@@ -26,7 +31,9 @@ public class SpamEmailSpawner : MonoBehaviour {
             spawnedObject.transform.rotation = new Quaternion(0, 0, Random.Range(0, 359), 0);
             delay = 0;
 
-            howLong = Random.Range(2f, 3f);
+            howLongMin = (howLongMin > 1f) ? howLongMin * 0.95f : 1f;
+            howLongMax = (howLongMax > 2f) ? howLongMax * 0.9f : 2f;
+            howLong = Random.Range(howLongMin, howLongMax);
         }
 
         delay += Time.deltaTime;

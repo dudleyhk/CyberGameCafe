@@ -61,9 +61,24 @@ public class MarkDialog : MonoBehaviour
             d.spawnTextBox("Talk to me again once you're ready to go in!", name);
             player.GetComponent<QuestSystem>().assignMission(thisQuest, gameObject);
         }
-        else if (!d.gameObject.GetComponent<Image>().IsActive())
+        else if (!d.gameObject.GetComponent<Image>().IsActive() && !thisQuest.isCompleated())
         {
             Application.LoadLevel("PublicPCQuest");
+        }
+        else
+        {
+            float score;
+            GameObject eo = GameObject.Find("EternalObject");
+            if(eo)
+            {
+                score = eo.GetComponent<EternalScript>().publicPCScore;
+
+                d.spawnTextBox("Good work, you took " + score + " seconds to log out of all computers", name);
+            }
+            else
+            {
+                d.spawnTextBox("You beat this quest.", name);
+            }
         }
     }
 }
