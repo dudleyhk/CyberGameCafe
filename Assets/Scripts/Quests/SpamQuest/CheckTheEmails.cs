@@ -64,7 +64,7 @@ public class CheckTheEmails : MonoBehaviour
                 d.spawnTextBox("We are developping a new spam filter AI to use on these computers."
                     + "\nWe need to teach it how to recognise potentially suspicious E-Mails.", "Martin");
                 d.spawnTextBox("Please go onto the computer above me and read the E-Mails. For each thing"
-                    + " you see that could be an indiation that the E-Mail is phishing spam,"
+                    + " you see that could be an indication that the E-Mail is phishing spam,"
                     + " click the 'Suspicion' button when it appears.", "Martin");
 
                 player.GetComponent<QuestSystem>().assignMission(thisQuest, gameObject);

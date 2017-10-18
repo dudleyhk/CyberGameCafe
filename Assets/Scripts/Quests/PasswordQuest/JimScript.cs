@@ -11,6 +11,8 @@ public class JimScript : MonoBehaviour
 
     GameObject textBox;
 
+    DialogueMessages d;
+
     void Start()
     {
         textBox = GameObject.FindGameObjectWithTag("TextBox");
@@ -19,6 +21,17 @@ public class JimScript : MonoBehaviour
     void Awake()
     {
         playerInBox = false;
+    }
+
+    void assignMission()
+    {
+        DialogueMessages d = textBox.GetComponent<DialogueMessages>();
+
+        d.spawnTextBox("Hello there, Just to let you know we have some new computers here today.", "Jim");
+        d.spawnTextBox("We need some new passwords for these systems,\n so could you sort out some new passwords for these computers thanks.", "Jim");
+
+        player.GetComponent<QuestSystem>().assignMission(thisQuest, gameObject);
+        thisQuest.startMission();
     }
 
     void OnTriggerEnter2D(Collider2D col)
@@ -50,19 +63,17 @@ public class JimScript : MonoBehaviour
     void dialogue()
     {
         GameObject textBox = GameObject.FindGameObjectWithTag("TextBox");
-        DialogueMessages d = textBox.GetComponent<DialogueMessages>();
         GameObject.FindGameObjectWithTag("GameController").GetComponent<UseKey>().toggleUseKey(false);
 
 
-        // consider implimenting a mission search.
-        if (player.GetComponent<QuestSystem>().getActiveMission().missionName != "Setting Passwords"
-            || player.GetComponent<QuestSystem>().getActiveMission() == null)
+        if (player.GetComponent<QuestSystem>().getActiveMission() == null)
         {
-            d.spawnTextBox("Hello there, Just to let you know we have some new computers here today.", "Jim");
-            d.spawnTextBox("We need some new passwords for these systems,\n so could you sort out some new passwords for these computers thanks.", "Jim");
-
-            player.GetComponent<QuestSystem>().assignMission(thisQuest, gameObject);
-            thisQuest.startMission();
+            assignMission();
+        }
+        // consider implimenting a mission search.
+        else if (player.GetComponent<QuestSystem>().getActiveMission().missionName != "Setting Passwords")
+        {
+            assignMission();
         }
     }
 }

@@ -33,7 +33,7 @@ public class usbQuest : MonoBehaviour
                 d.spawnTextBox("Hi, I am Dov.\nDid you know that you should never insert a suspicious USB stick into a PC?", gameObject.name);
                 d.spawnTextBox("Someone obviously doesn't, because they keep trying to insert USB sticks that they found lying around into my computer.", gameObject.name);
                 d.spawnTextBox("Please can you help me by moving my computer out of the way so they can't get their sticks in?", gameObject.name);
-                d.spawnTextBox("Talk to me agian when you're ready.", gameObject.name);
+                d.spawnTextBox("Talk to me again when you're ready.", gameObject.name);
                 player.GetComponent<QuestSystem>().assignMission(usbMission, gameObject);
             }
             else if(usbMission.isCompleated())
@@ -42,16 +42,14 @@ public class usbQuest : MonoBehaviour
                 if (scoreController)
                 {
                     float score = scoreController.GetComponent<EternalScript>().USBScore;
-                    int convertedScore = scoreController.GetComponent<ConvertScore>().getRealScore(score, 5, 90);
+                    int convertedScore = scoreController.GetComponent<ConvertScore>().getRealScore(score, 30, 90);
                     
                     d.spawnTextBox("Good work", gameObject.name);
                     d.spawnTextBox("You did it, you survived for " + score + " seconds. So your score is " + convertedScore + ".", gameObject.name);
-                    //d.spawnTextBox("There is a score controller");
                 }
                 else
                 {
                     d.spawnTextBox("Good work.", gameObject.name);
-                    //Debug.Log("There is not a score controller");
                 }
             }
             else

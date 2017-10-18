@@ -13,7 +13,6 @@ public class SpawnObjectInVolume : MonoBehaviour {
         if (col.gameObject.tag == "Player")
         {
             // Instantiate(objectToSpawn, positionToSpawn, Quaternion.Euler(Vector3.zero));
-            Debug.Log("collision Occurs");
             col.gameObject.GetComponent<QuestSystem>().updateMissionState(MissionObjectiveTypes.OBJ_EVENT, "passwordGetToComputerLab");
         }
     }

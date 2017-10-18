@@ -28,7 +28,7 @@ public class PasswordSelecter : MonoBehaviour {
 
     void Update()
     {
-        float verticalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Horizontal") + Input.GetAxis("StickHorizontal");
 
         if (rest <= 0)
         {
