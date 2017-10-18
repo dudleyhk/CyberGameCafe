@@ -77,7 +77,7 @@ public class TonyDialogue : MonoBehaviour {
         }
 		else if(thisQuest.getActiveObjective().objectiveTag == "encrypt")
 		{
-			d.spawnTextBox ("I really appreciate your help.", name);
+			d.spawnTextBox ("Go into this room and interact with my computer.", name);
 		}
 	}
 }

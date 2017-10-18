@@ -28,7 +28,7 @@ public class ShowScores : MonoBehaviour
             score[1] = (s.passwordScore == -1) ? 0 : c.getRealScore(s.passwordScore, 0, 9, true);
             score[2] = (s.encryptionScore == -1) ? 0 : c.getRealScore(s.encryptionScore, 15, 160, true);
             score[3] = (s.sharingScore == -1) ? 0 : c.getRealScore(s.sharingScore, 0, 5, true);
-            score[4] = (s.publicPCScore == -1) ? 0 : c.getRealScore(s.publicPCScore, 60, 180, true);
+            score[4] = (s.publicPCScore == -1) ? 0 : c.getRealScore(s.publicPCScore, 40, 120, true);
             score[5] = (s.USBScore == -1) ? 0 : c.getRealScore(s.USBScore, 15, 90);
 
             for (int i = 0; i < 6; i++)
